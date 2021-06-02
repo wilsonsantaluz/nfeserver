@@ -1,0 +1,14 @@
+program teste_units;
+
+uses
+  Vcl.Forms,
+  utester in 'utester.pas' {fteste};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(Tfteste, fteste);
+  Application.Run;
+end.

@@ -1,0 +1,1939 @@
+{ ###############################################################################
+  _ _              ____                _ _
+
+  ############################################################################### }
+unit defe.service.sefazCore;
+
+interface
+
+uses
+  pcnEventoNFe,
+  dateUtils,
+  SysUtils,
+  inifiles,
+  math,
+
+  windows,
+  Classes,
+  XSBuiltIns,
+  Variants,
+  activex,
+  ACBrNFe,
+  ACBrEAD,
+  pcnConversao,
+  pcnConversaoNFe,
+  ACBrUtil,
+  pcnNFeW,
+  pcnNFeRTXT,
+  pcnAuxiliar,
+  ACBrDFeUtil,
+  XMLIntf,
+  syncobjs,
+  nfe.painelnfe.lib.acbrconfig,
+  nfe.painelnfe.lib.funcoes,
+  nfe.painelnfe.lib.bancolocal,
+  nfe.painelnfe.lib.thdbasica,
+  nfe.painelnfe.lib.dataInstance,
+
+  ACBrCAPICOM_TLB,
+  XMLDoc;
+
+type
+  TdadosConsulta = record
+    nProt: string;
+    chave: string;
+    versao: string;
+    digito: string;
+    data: tdatetime;
+    xmotivo: string;
+    cstat: Integer;
+    xml: string;
+  end;
+
+type
+  TSefazCore = class
+  Public
+
+  var
+    Flog: TstringList;
+
+    Procedure ValidarXml(var FACBrNFe: TACBrNFe);
+    function inutilizar(Var Facbr: TACBrNFe): string;
+    function cancelar(Var Facbr: TACBrNFe): string;
+    destructor Destroy; override;
+    constructor create;
+    Procedure LimparVariaveis;
+
+  private
+    FxmlOriginal: string;
+    Finutilizado: Boolean;
+    FxlPreenvio: string;
+    FchaveOriginal: String;
+    FchaveAutorizada: string;
+    FxmlProcessado: String;
+    FAutorizado: Boolean;
+    Fautorizacao: String;
+    Fnr_ecf: String;
+    FcStat: Integer;
+    Fmotivo: string;
+    Fserie: string;
+    sMsg: string;
+    Fstatus: string;
+    Fdt_vd: String;
+    Fnr_nota: String;
+    FufFilial: string;
+    Ferro: string;
+    Fcd_filial: String;
+    Fcd_nf: string;
+    FSerieCupon: Integer;
+    VInicio: TTime;
+    FPreValidar: Boolean;
+    FCnpjFilial: string;
+    FtipoOperacao: Integer;
+    FchaveNfe: String;
+    FnrProtocolo: string;
+    FverificarJaValidado: Boolean;
+    FatalError: Boolean;
+    FdadosConsulta: TdadosConsulta;
+    FignorarDataRecibo: Boolean;
+
+    FnfceCancelada: Boolean;
+    procedure mydebug(msg: string; akind: Integer = 1);
+    procedure trataDuplicadade(var FACBrNFe: TACBrNFe; Astatus: String);
+    procedure validarDestinatario(var FACBrNFe: TACBrNFe);
+    procedure validarCfop(var FACBrNFe: TACBrNFe);
+
+    procedure validarIcms(var FACBrNFe: TACBrNFe);
+    procedure validarPagamentos(var FACBrNFe: TACBrNFe);
+    procedure validarTipoEmissaoSp(var FACBrNFe: TACBrNFe);
+    Procedure validarGrupoTributacao(var FACBrNFe: TACBrNFe);
+    Procedure validarPaisUf51(var FACBrNFe: TACBrNFe);
+    Procedure validarUFDest(var FACBrNFe: TACBrNFe);
+    Procedure validarDadosContigencia(var FACBrNFe: TACBrNFe);
+    procedure corrigirCodigoNumerico(var FACBrNFe: TACBrNFe);
+    function GeraNumeroValidoCNf(var FACBrNFe: TACBrNFe): Integer;
+
+    procedure checarTagsProtocolo(var FACBrNFe: TACBrNFe);
+    Procedure validarNcm(var FACBrNFe: TACBrNFe);
+    procedure validarBc(var FACBrNFe: TACBrNFe);
+    procedure validarTotpPis(var FACBrNFe: TACBrNFe);
+    procedure validarCbnef(var FACBrNFe: TACBrNFe);
+
+    procedure enviarNota(var FACBrNFe: TACBrNFe);
+    procedure regerarXMLnota(var FACBrNFe: TACBrNFe);
+
+    procedure limparComponente(var FACBrNFe: TACBrNFe);
+    procedure ValidarDataRecibo(var FACBrNFe: TACBrNFe; pdatarecibo: tdatetime);
+    procedure validaGtin(var FACBrNFe: TACBrNFe);
+
+    Function testaChave(ChaveOriginal, ChaveSefaz: string): Boolean;
+    procedure setIndicadores;
+    procedure ValidarProtocolo(var FACBrNFe: TACBrNFe);
+    procedure validarRastro(var FACBrNFe: TACBrNFe);
+    function validaxmlvenda(var FACBrNFe: TACBrNFe): Boolean;
+  public
+
+    function consultachave(ochave: string): string;
+    function cuponJaValidado(var FACBrNFe: TACBrNFe): Boolean;
+  published
+    property xmlProcessado: string read FxmlProcessado write FxmlProcessado;
+    property xmotivo: string read Fmotivo write Fmotivo;
+    property cstat: Integer read FcStat write FcStat;
+    property autorizado: Boolean read FAutorizado write FAutorizado;
+    property codigoErro: Integer read FcStat Write FcStat;
+    property mensagemErro: string read Ferro Write Ferro;
+    property cd_filial: string read Fcd_filial Write Fcd_filial;
+    property cd_nf: string read Fcd_nf Write Fcd_nf;
+    property serieCupon: Integer read FSerieCupon Write FSerieCupon;
+    property nr_ecf: string read Fnr_ecf Write Fnr_ecf;
+    property preValidar: Boolean Read FPreValidar Write FPreValidar;
+    property tipoOperacao: Integer Read FtipoOperacao Write FtipoOperacao;
+    property cnpjFilial: string Read FCnpjFilial Write FCnpjFilial;
+    property dt_vd: string Read Fdt_vd Write Fdt_vd;
+    property ufFilial: string Read FufFilial Write FufFilial;
+    property serie: string read Fserie write Fserie;
+    property chaveNfe: string read FchaveNfe write FchaveNfe;
+    property nrProtocolo: string read FnrProtocolo write FnrProtocolo;
+    property nfceCancelada: Boolean read FnfceCancelada write FnfceCancelada;
+    property dadosConsulta: TdadosConsulta read FdadosConsulta
+      write FdadosConsulta;
+
+    property Inutilizado: Boolean read Finutilizado Write Finutilizado;
+    property ignorarDataRecibo: Boolean read FignorarDataRecibo
+      write FignorarDataRecibo;
+  end;
+
+implementation
+
+
+
+
+function TSefazCore.cancelar(var Facbr: TACBrNFe): string;
+
+var
+
+  Justificativa: string;
+  str: string;
+  ochave: string;
+begin
+  FcStat := 5001;
+  codigoErro := 5001;
+  result := '';
+  try
+    FnfceCancelada := false;
+    Justificativa := 'ERRO NA GERAÇÃO DO CUPON';
+    // 1- PRODUCAO
+    // 2-HOMOLOGACAO
+    if Fdt_vd = '' then
+      Fdt_vd := Datetostr(date);
+    if (Facbr.NotasFiscais.Count > 0) then
+    begin
+
+      TAcbrConfig.SetAcbrObj(Facbr, FCnpjFilial);
+      try
+        ochave := Facbr.NotasFiscais[0].nfe.procNFe.chNFe;
+      except
+
+      end;
+
+      Facbr.Configuracoes.Geral.ModeloDF := moNFCe;
+      Facbr.Configuracoes.WebServices.Ambiente := taProducao;
+      // Facbr.Configuracoes.WebServices.Ambiente := taHomologacao;
+      Facbr.Configuracoes.WebServices.UF := FufFilial;
+      Facbr.EventoNFe.Evento.Clear;
+      with Facbr.EventoNFe.Evento.Add do
+      begin
+        if ochave <> '' then
+          infEvento.chNFe := ochave
+        else
+          infEvento.chNFe := FchaveNfe;
+        infEvento.cnpj := FCnpjFilial;
+        if Facbr.NotasFiscais.Count > 0 then
+          infEvento.dhEvento := Facbr.NotasFiscais[0].nfe.Ide.dEmi
+        Else
+          infEvento.dhEvento := now;
+        infEvento.tpEvento := teCancelamento;
+        infEvento.detEvento.xJust := Justificativa;
+        infEvento.detEvento.nProt := FnrProtocolo;
+      end;
+      try
+        Facbr.EnviarEvento(1);
+      except
+        on e: EXCEPTION do
+        begin
+          Fmotivo := e.Message;
+        end;
+      end;
+      if Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Count > 0 then
+      begin
+
+        FcStat := Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+          .RetInfEvento.cstat;
+        Fmotivo := Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+          .RetInfEvento.xmotivo;
+      end;
+
+      // SE DER ERRO DE DATA TENTA NOVAMENTE
+      If (FcStat = 577) then
+      begin
+        try
+          Facbr.EventoNFe.Evento[0].infEvento.dhEvento := now;
+          Facbr.EnviarEvento(1);
+        except
+          on e: EXCEPTION do
+          begin
+            Fmotivo := e.Message;
+          end;
+        end;
+        FcStat := Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+          .RetInfEvento.cstat;
+        Fmotivo := Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+          .RetInfEvento.xmotivo;
+
+      end;
+      If (FcStat = 135) or (FcStat = 155) then
+      begin
+        FnfceCancelada := true;
+        result := '<nfeCanc>' + Facbr.WebServices.EnvEvento.DadosMsg + #13#10 +
+          Facbr.WebServices.EnvEvento.RetWS + '</nfeCanc>';
+        FAutorizado := true;
+        if Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+          .RetInfEvento.nProt = '' Then
+          Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+            .RetInfEvento.nProt := FormatDateTime('yymmddhhmmsszz', now);
+
+      end;
+    end;
+  except
+    on e: EXCEPTION do
+    begin
+      mydebug('[CANELAMENTO] ' + e.Message);
+      mensagemErro := e.Message;
+    end;
+  end;
+end;
+
+procedure TSefazCore.checarTagsProtocolo(var FACBrNFe: TACBrNFe);
+begin
+  if FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.dhRecbto < 100 then
+    FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.dhRecbto :=
+      FACBrNFe.NotasFiscais.Items[0].nfe.Ide.dEmi + FACBrNFe.NotasFiscais.Items
+      [0].nfe.Ide.hSaiEnt;
+
+  if FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.verAplic = '' then
+    FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.verAplic := 'SV_3_1';
+
+  if FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.cstat = 0 then
+  Begin
+    FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.cstat := 100;
+  End;
+  if FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.xmotivo = '' then
+  Begin
+    FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.xmotivo :=
+      'Autorizado o uso  da nfe';
+  end;
+end;
+
+procedure TSefazCore.regerarXMLnota(var FACBrNFe: TACBrNFe);
+var
+  xmlProcessado: string;
+Begin
+  Try
+    FACBrNFe.Configuracoes.WebServices.UF :=
+      CodigoParaUF(FACBrNFe.NotasFiscais[0].nfe.Ide.cUF);
+    FACBrNFe.NotasFiscais[0].nfe.infNFeSupl.qrCode := '';
+    FACBrNFe.NotasFiscais[0].nfe.signature.Clear;
+    try
+      FACBrNFe.NotasFiscais.Assinar;
+    except
+
+    end;
+    xmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+    FACBrNFe.NotasFiscais.Clear;
+    FACBrNFe.NotasFiscais.LoadFromString(xmlProcessado);
+    FxmlOriginal := xmlProcessado;
+    xmlProcessado := '';
+  except
+    on e: EXCEPTION do
+    begin
+      gravalog('[SEFAZ CORE] 177 ERRO NA REGERAÇÃO DE XML ' + e.Message);
+    end;
+  End;
+
+end;
+
+procedure TSefazCore.setIndicadores;
+begin
+  if assigned(FTdataLocal) then
+  begin
+    FTdataLocal.FIndicadores.tempoConsulta :=
+      FTdataLocal.FIndicadores.tempoConsulta + SecondsBetween(Time, VInicio);
+    if FTdataLocal.FIndicadores.qtEnviosefaz < 1 then
+      FTdataLocal.FIndicadores.qtEnviosefaz := 1;
+
+    FTdataLocal.FIndicadores.qtEnviosefaz :=
+      FTdataLocal.FIndicadores.qtEnviosefaz + 1;
+
+    gravalog('[SEFAZ CORE] SEGUNDOS DE ACESSO AO SERVIDOR  -> ' +
+      inttostr(SecondsBetween(Time, VInicio)));
+
+    if FTdataLocal.FIndicadores.qtEnviosefaz > 10 then
+    begin
+      FTdataLocal.FIndicadores.qtEnviosefaz := 1;
+
+      if SecondsBetween(Time, VInicio) > 0 then
+        FTdataLocal.FIndicadores.tempoConsulta := SecondsBetween(Time, VInicio)
+      else
+        FTdataLocal.FIndicadores.tempoConsulta := 2;
+    end;
+    FTdataLocal.FIndicadores.MediaConsultaSefaz :=
+      RoundTo(FTdataLocal.FIndicadores.tempoConsulta /
+      FTdataLocal.FIndicadores.qtEnviosefaz, -2);
+
+  end;
+end;
+
+function TextoEntre(Texto, Delimitador1, Delimitador2: String;
+  CaseSensitive: Boolean = false): string;
+var
+  Inicio, Fim: Integer;
+  Saida: string;
+begin
+  // Passar o texto para variável temporária
+  Saida := Texto;
+  // Verificar se é sensível ao caso
+  // Pegar o início
+  if CaseSensitive then
+    Inicio := Pos(Delimitador1, Saida)
+  else
+    Inicio := Pos(ansiUpperCase(Delimitador1), ansiLowerCase(Saida));
+  // Verificar se localizou
+  if Inicio > 0 then
+    Saida := Copy(Saida, Inicio + Length(Delimitador1), Length(Saida));
+
+  // Pegar o fim
+  if CaseSensitive then
+    Fim := Pos(Delimitador2, Saida)
+  else
+    Fim := Pos(ansiUpperCase(Delimitador2), ansiUpperCase(Saida));
+
+  // Verificar se localizou
+  if Fim > 0 then
+    Saida := Copy(Saida, 1, Fim - 1);
+
+  // retornar o resultado
+  result := Saida;
+end;
+
+function TSefazCore.consultachave(ochave: string): string;
+var
+  ocomp: TACBrNFe;
+  ox: string;
+  j, l: Integer;
+  ievento: TRetInfEvento;
+begin
+  result := '';
+  ocomp := TACBrNFe.create(Nil);
+  FdadosConsulta.nProt := '';
+  FdadosConsulta.chave := '';
+  FdadosConsulta.versao := '';
+  FdadosConsulta.data := 0;
+  FdadosConsulta.digito := '';
+  FdadosConsulta.xmotivo := '';
+  FdadosConsulta.cstat := -1;
+  FdadosConsulta.xml := '';
+  TAcbrConfig.SetAcbrObj(ocomp, FCnpjFilial);
+  nfceCancelada := false;
+  try
+    ocomp.WebServices.Consulta.NFeChave := ochave;
+    Try
+      ocomp.WebServices.Consulta.Executar;
+
+      if ocomp.WebServices.Consulta.msg <> '' then
+        sMsg := ocomp.WebServices.Consulta.msg;
+      if Pos(ansiUpperCase('Código numérico'), ansiUpperCase(sMsg)) > 0 then
+      begin
+        mydebug('    [CONSULTA CHAVE] CHAVE GERADA COM CODIGO NUMERICO DIFERENTE'
+          + 'TENTANDO ENCONTAR CHAVE NA MENSAGEM ' + sMsg);
+        j := 0;
+        j := Pos('[', sMsg);
+        if j > 0 then
+        begin
+          ox := Copy(sMsg, j + 1, Length(sMsg));
+          ox := Copy(ox, 0, Pos(']', ox) - 1);
+          if Length(Sonumeros(ox)) > 40 then
+          begin
+            mydebug('    [CONSULTA CHAVE] CHAVE DIVERGENTE ENCONTRADA ' + ox);
+            ochave := Sonumeros(ox);
+            ocomp.WebServices.Consulta.NFeChave := ochave;
+            ocomp.WebServices.Consulta.Executar;
+          end;
+        end;
+      end;
+
+      FdadosConsulta.xmotivo := ocomp.WebServices.Consulta.xmotivo;
+      FdadosConsulta.cstat := ocomp.WebServices.Consulta.cstat;
+      FcStat := ocomp.WebServices.Consulta.cstat;
+      Fmotivo := ocomp.WebServices.Consulta.xmotivo;
+      if FdadosConsulta.cstat = 100 then
+        FAutorizado := true;
+      if ocomp.WebServices.Consulta.protNFe.nProt <> '' then
+      begin
+        FdadosConsulta.nProt := ocomp.WebServices.Consulta.protNFe.nProt;
+        FdadosConsulta.chave := ocomp.WebServices.Consulta.protNFe.chNFe;
+        FdadosConsulta.versao := ocomp.WebServices.Consulta.protNFe.verAplic;
+
+        FdadosConsulta.data := ocomp.WebServices.Consulta.protNFe.dhRecbto;
+        mydebug('    [CONSULTA CHAVE] CONSULTA CHAVE ' +
+          ocomp.WebServices.Consulta.protNFe.chNFe + '  DataRetornada ' +
+          datetimetostr(FdadosConsulta.data) + ' EVENTOS RETORNADOS ' +
+          inttostr(ocomp.WebServices.Consulta.procEventoNFe.Count));
+        FdadosConsulta.xmotivo := ocomp.WebServices.Consulta.protNFe.xmotivo;
+        FdadosConsulta.cstat := ocomp.WebServices.Consulta.protNFe.cstat;
+        FdadosConsulta.digito := ocomp.WebServices.Consulta.protNFe.digVal;
+        FdadosConsulta.xml := ocomp.WebServices.Consulta.protNFe.XML_NFe;
+      end;
+
+      if (ocomp.WebServices.Consulta.procEventoNFe.Count > 0) and
+        (ocomp.WebServices.Consulta.procEventoNFe[0]
+        .RetEventoNFe.retEvento.Count > 0) then
+      begin
+        with ocomp.WebServices.Consulta.procEventoNFe[0].RetEventoNFe.retEvento
+          [0].RetInfEvento do
+        begin
+          mydebug('    [CONSULTA CHAVE] EVENTO  [0] INFORMADO  ' +
+            TpEventoToStr(tpEvento));
+          nfceCancelada := TpEventoToStr(tpEvento) = '110111';
+          FdadosConsulta.nProt := nProt;
+          FdadosConsulta.chave := chNFe;
+          FdadosConsulta.versao := verAplic;
+          FdadosConsulta.data := dhRegEvento;
+          FdadosConsulta.digito := '';
+          FdadosConsulta.xmotivo := xmotivo;
+          FdadosConsulta.cstat := cstat;
+          FdadosConsulta.xml := xml;
+          if nfceCancelada then
+            mydebug('    [CONSULTA CHAVE 592] A NFCE ESTA CANCELADA PROTOCOLO  '
+              + nProt);
+        end;
+      end;
+      if ocomp.WebServices.Consulta.retCancNFe.nProt <> '' then
+      begin
+
+        nfceCancelada := true;
+        FdadosConsulta.nProt := ocomp.WebServices.Consulta.retCancNFe.nProt;
+        FdadosConsulta.chave := ocomp.WebServices.Consulta.retCancNFe.chNFe;
+        FdadosConsulta.versao := ocomp.WebServices.Consulta.retCancNFe.versao;
+        FdadosConsulta.data := ocomp.WebServices.Consulta.retCancNFe.dhRecbto;
+        FdadosConsulta.digito := '';
+        FdadosConsulta.xmotivo := ocomp.WebServices.Consulta.retCancNFe.xmotivo;
+        FdadosConsulta.cstat := ocomp.WebServices.Consulta.retCancNFe.cstat;
+        FdadosConsulta.xml := ocomp.WebServices.Consulta.RetWS;
+        if Pos('procEventoNFe', ocomp.WebServices.Consulta.RetWS) > 0 then
+        begin
+          with TstringList.create do
+          begin
+            text := FdadosConsulta.xml;
+            // SaveToFile(ExtractFilePath(GetModuleName(HInstance))+'BODYMANCA.XML');
+            Free;
+          end;
+
+        end;
+
+        if nfceCancelada then
+          mydebug('    [CONSULTA CHAVE 609] A NFCE ESTA CANCELADA PROTOCOLO  ' +
+            ocomp.WebServices.Consulta.retCancNFe.nProt + ' - ' +
+            ocomp.WebServices.Consulta.RetNFeDFe);
+        sMsg := ocomp.WebServices.Consulta.retCancNFe.xmotivo;
+
+      end;
+
+      // CANCELAMENTO NO ESTADO DOS ESPERTOES DE SÃO PAULO RETORNA INVALIDO
+      if (nfceCancelada = false) and
+        (Pos('<tpEvento>110111</tpEvento>',
+        ocomp.WebServices.Consulta.RetWS) > 0) then
+      begin
+
+        nfceCancelada := true;
+        FdadosConsulta.nProt := ocomp.WebServices.Consulta.Protocolo;
+        FdadosConsulta.chave := ocomp.WebServices.Consulta.NFeChave;
+        FdadosConsulta.versao := ocomp.WebServices.Consulta.versao;
+        FdadosConsulta.data := ocomp.WebServices.Consulta.dhRecbto;
+        FdadosConsulta.digito := '';
+        FdadosConsulta.xmotivo := ocomp.WebServices.Consulta.xmotivo;
+        FdadosConsulta.cstat := ocomp.WebServices.Consulta.cstat;
+        FdadosConsulta.xml := ocomp.WebServices.Consulta.RetWS;
+        if nfceCancelada then
+          mydebug('    [CONSULTA CHAVE 630] A NFCE ESTA CANCELADA PROTOCOLO  ' +
+            ocomp.WebServices.Consulta.retCancNFe.nProt);
+        sMsg := ocomp.WebServices.Consulta.xmotivo;
+      end;
+      // SEFAZ  BAHIA
+      if (nfceCancelada = false) and
+        (ocomp.WebServices.Consulta.procEventoNFe.Count > 0) and
+        (ocomp.WebServices.Consulta.procEventoNFe[0]
+        .RetEventoNFe.retEvento.Count > 0) then
+      begin
+        ievento := ocomp.WebServices.Consulta.procEventoNFe[0]
+          .RetEventoNFe.retEvento[0].RetInfEvento;
+
+        nfceCancelada := TpEventoToStr(ievento.tpEvento) = '110111';
+
+        FdadosConsulta.nProt := ievento.nProt;
+        FdadosConsulta.chave := ievento.chNFe;
+        FdadosConsulta.versao := ievento.verAplic;
+        FdadosConsulta.data := ievento.dhRegEvento;
+        FdadosConsulta.digito := '';
+        FdadosConsulta.xmotivo := ievento.xmotivo;
+        FdadosConsulta.cstat := ievento.cstat;
+        FdadosConsulta.xml := ievento.xml;
+        if nfceCancelada then
+          mydebug('    [CONSULTA CHAVE 654] A NFCE ESTA CANCELADA PROTOCOLO  ' +
+            ievento.nProt);
+
+      end;
+
+    except
+      on e: EXCEPTION do
+      begin
+        sMsg := e.Message;
+
+      end;
+    End;
+  Finally
+    FreeAndNil(ocomp);
+    mydebug('     [CONSULTA CHAVE] RESULTADO CONSULTA ' + sMsg);
+    result := sMsg
+  end;
+end;
+
+{ ------------------------------------------------------------------------------ }
+function TSefazCore.GeraNumeroValidoCNf(var FACBrNFe: TACBrNFe): Integer;
+
+var
+  data: string;
+  diaMes: string;
+  nrSugerida: Integer;
+  function padLeftzero(value: string; op: Integer): string;
+  begin
+    result := Copy(value, 0, op);
+    while Length(result) < op do
+    begin
+      result := '0' + result;
+    end;
+  end;
+  function ehvavalido(value: Integer): Boolean;
+  begin
+    result := true;
+    case value of
+      0:
+        result := false;
+      11111111:
+        result := false;
+      22222222:
+        result := false;
+      33333333:
+        result := false;
+      44444444:
+        result := false;
+      55555555:
+        result := false;
+      66666666:
+        result := false;
+      77777777:
+        result := false;
+      88888888:
+        result := false;
+      99999999:
+        result := false;
+      12345678:
+        result := false;
+    end;
+  end;
+
+begin
+  diaMes := FormatDateTime('ddMM', FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi);
+  if Fcd_nf = '' then
+  begin
+    Fcd_nf := inttostr(FACBrNFe.NotasFiscais[0].nfe.Ide.nNF);
+  end;
+  nrSugerida := strtoint(padLeftzero((diaMes + Fcd_filial + Fcd_nf), 8));
+  while not ehvavalido(nrSugerida) do
+    nrSugerida := nrSugerida + 1;
+
+  result := nrSugerida;
+end;
+
+{ ------------------------------------------------------------------------------ }
+procedure TSefazCore.corrigirCodigoNumerico(var FACBrNFe: TACBrNFe);
+begin
+  if FACBrNFe.NotasFiscais[0].nfe.Ide.cNF = FACBrNFe.NotasFiscais[0].nfe.Ide.nNF
+  then
+  begin
+    FACBrNFe.NotasFiscais[0].nfe.Ide.cNF := GeraNumeroValidoCNf(FACBrNFe);
+  end;
+end;
+
+{ ------------------------------------------------------------------------------ }
+
+{ ------------------------------------------------------------------------------ }
+constructor TSefazCore.create;
+
+begin
+
+  LimparVariaveis;
+
+  serieCupon := 0;
+  FignorarDataRecibo := true;
+end;
+
+{ ------------------------------------------------------------------------------ }
+destructor TSefazCore.Destroy;
+begin
+  LimparVariaveis;
+end;
+
+{ ------------------------------------------------------------------------------ }
+procedure TSefazCore.LimparVariaveis;
+begin
+  FxmlOriginal := '';
+  FxlPreenvio := '';
+  FchaveOriginal := '';
+  FxmlProcessado := '';
+  Fautorizacao := '';
+  Fnr_ecf := '';
+  sMsg := '';
+  Fstatus := '';
+  Ferro := '';
+
+end;
+
+{ ------------------------------------------------------------------------------ }
+procedure TSefazCore.mydebug(msg: string; akind: Integer = 1);
+begin
+  gravalog(msg);
+  try
+    if assigned(Flog) then
+      Flog.Add(msg);
+  except
+  end;
+end;
+
+
+
+
+{ ----------------------------------------------------------------------------- }
+procedure TSefazCore.validarCfop(var FACBrNFe: TACBrNFe);
+var
+  ax: Integer;
+begin
+  for ax := 0 to FACBrNFe.NotasFiscais[0].nfe.Det.Count - 1 do
+  begin
+    if FACBrNFe.NotasFiscais[0].nfe.Det[ax].Prod.CFOP = '5403' then
+      FACBrNFe.NotasFiscais[0].nfe.Det[ax].Prod.CFOP := '5405';
+  end;
+end;
+
+{ ----------------------------------------------------------------------------- }
+procedure TSefazCore.trataDuplicadade(var FACBrNFe: TACBrNFe; Astatus: String);
+var
+  cstat: Integer;
+  verAplic: String;
+  chNFe: string;
+  nProt: string;
+  srecibo: String;
+  digVal: string;
+  xmotivo: string;
+  versao: string;
+  dhRecbto: tdatetime;
+  novachave: AnsiString;
+  ACBrNFe1: TACBrNFe;
+  procedure setXmlProtocoloDist;
+  begin
+    IF nProt <> '' Then
+    begin
+      FACBrNFe.NotasFiscais[0].nfe.infNFe.ID := 'NFe' + chNFe;
+      if Copy(chNFe, 35, 1) = '1' then
+      begin
+        FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis := teNormal;
+        FACBrNFe.NotasFiscais[0].nfe.Ide.xJust := '';
+        FACBrNFe.NotasFiscais[0].nfe.Ide.dhCont := 0;
+      end;
+
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.cstat := cstat;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.verAplic := verAplic;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.chNFe := chNFe;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.dhRecbto := dhRecbto;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.nProt := nProt;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.digVal := digVal;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.xmotivo := xmotivo;
+      FACBrNFe.NotasFiscais[0].nfe.signature.DigestValue := digVal;
+      sMsg := xmotivo;
+      FACBrNFe.NotasFiscais[0].nfe.procNFe.versao := versao;
+      checarTagsProtocolo(FACBrNFe);
+    end
+    else
+      mydebug('     > >PROTOCOLO NÃO ENCONTRADO NA CONSULTA ');
+
+  end;
+  procedure setprotocoloConsulta;
+  begin
+    try
+      if assigned(ACBrNFe1) then
+      begin
+        cstat := ACBrNFe1.WebServices.Consulta.protNFe.cstat;
+        verAplic := ACBrNFe1.WebServices.Consulta.protNFe.verAplic;
+        chNFe := ACBrNFe1.WebServices.Consulta.protNFe.chNFe;
+        dhRecbto := ACBrNFe1.WebServices.Consulta.protNFe.dhRecbto;
+        nProt := ACBrNFe1.WebServices.Consulta.protNFe.nProt;
+        digVal := ACBrNFe1.WebServices.Consulta.protNFe.digVal;
+        xmotivo := ACBrNFe1.WebServices.Consulta.protNFe.xmotivo;
+        versao := ACBrNFe1.WebServices.Consulta.protNFe.versao;
+      end
+      else
+      begin
+        cstat := FACBrNFe.WebServices.Consulta.protNFe.cstat;
+        verAplic := FACBrNFe.WebServices.Consulta.protNFe.verAplic;
+        chNFe := FACBrNFe.WebServices.Consulta.protNFe.chNFe;
+        dhRecbto := FACBrNFe.WebServices.Consulta.protNFe.dhRecbto;
+        nProt := FACBrNFe.WebServices.Consulta.protNFe.nProt;
+        digVal := FACBrNFe.WebServices.Consulta.protNFe.digVal;
+        xmotivo := FACBrNFe.WebServices.Consulta.protNFe.xmotivo;
+        versao := FACBrNFe.WebServices.Consulta.protNFe.versao;
+      end;
+      setXmlProtocoloDist();
+    except
+    end;
+  end;
+  procedure setprotocoloRecibo;
+  begin
+    if assigned(FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0]) then
+    begin
+      cstat := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].cstat;
+      verAplic := FACBrNFe.WebServices.Recibo.verAplic;
+      chNFe := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].chDFe;
+      dhRecbto := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].dhRecbto;
+      nProt := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].nProt;
+      digVal := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].digVal;
+      xmotivo := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].xmotivo;
+      versao := FACBrNFe.WebServices.Recibo.NFeRetorno.ProtDFe[0].verAplic;
+      setXmlProtocoloDist();
+    end;
+  end;
+
+  function GetRecibo: String;
+  begin
+    result := '';
+    if Pos('[nRec:', Astatus) > 0 then
+    begin
+      result := Copy(Astatus, Pos('[nRec:', Astatus) + 6, Length(Astatus));
+      result := Copy(result, 0, Pos(']', result) - 1);
+    end;
+  end;
+  procedure checkCancelada;
+  begin
+    try
+      if (FACBrNFe.WebServices.Consulta.procEventoNFe.Count > 0) and
+        (FACBrNFe.WebServices.Consulta.procEventoNFe[0]
+        .RetEventoNFe.retEvento.Count > 0) then
+      begin
+
+        with FACBrNFe.WebServices.Consulta.procEventoNFe[0]
+          .RetEventoNFe.retEvento[0].RetInfEvento do
+        begin
+          nfceCancelada := TpEventoToStr(tpEvento) = '110111';
+          FdadosConsulta.nProt := nProt;
+          FdadosConsulta.chave := chNFe;
+          FdadosConsulta.versao := verAplic;
+          FdadosConsulta.data := dhRegEvento;
+          FdadosConsulta.xmotivo := xmotivo;
+          FdadosConsulta.cstat := cstat;
+          FdadosConsulta.xml := xml;
+          if nfceCancelada then
+            mydebug('    [DUP] A NFCE ESTA CANCELADA PROTOCOLO  ' + nProt);
+        end;
+      end;
+    except
+    end;
+  end;
+  procedure checarChaveCorretaMsg();
+  begin
+    FchaveAutorizada := '';
+    if (Pos(uppercase('chNFe'), uppercase(sMsg)) > 0) then
+    begin
+      FchaveAutorizada := Sonumeros(Copy(sMsg, Pos('chNFe', sMsg) + 5, 50));
+      mydebug('     [DUP968] TRATANDO CHAVE RETORNADA ' + FchaveAutorizada);
+    end
+    else
+    begin
+      if Length(Sonumeros(sMsg)) = 44 then
+      begin
+        mydebug('     [DUP973] CHAVE RETORNADA  ' + Sonumeros(sMsg));
+        FchaveAutorizada := Sonumeros(sMsg);
+      end;
+    end;
+    if FchaveAutorizada <> '' then
+    begin
+      mydebug('     [DUP968] TRATANDO CHAVE RETORNADA ' + FchaveAutorizada);
+      if Length(FchaveAutorizada) > 44 then
+        FchaveAutorizada := Copy(FchaveAutorizada, 0, 44);
+
+      FACBrNFe.WebServices.Consulta.Clear;
+      FACBrNFe.WebServices.Consulta.NFeChave := FchaveAutorizada;
+      Try
+        FACBrNFe.WebServices.Consulta.Executar;
+        if FACBrNFe.WebServices.Consulta.msg <> '' then
+        begin
+          sMsg := FACBrNFe.WebServices.Consulta.msg;
+          mydebug('     [DUP978]RETORNADA MENSAGEN CONSULTA CHAVE  ' + sMsg);
+        end;
+      except
+        on e: EXCEPTION do
+        begin
+          sMsg := e.Message;
+          mydebug('    [DUP982]  ERRO 353 TRATANDO DUP  ' + e.Message);
+        end;
+      End;
+      Fautorizacao := FACBrNFe.WebServices.Consulta.protNFe.nProt;
+      with TstringList.create do
+      begin
+        text := FACBrNFe.WebServices.Consulta.RetornoWS;
+        SaveToFile(ExtractFilePath(GetModuleName(HInstance)) + 'RETUN_DUP');
+        Free;
+      end;
+      mydebug('    [DUP988]  DATA DE RECIBO RETORNADO SEFAZ  ' +
+        datetimetostr(FACBrNFe.WebServices.Consulta.protNFe.dhRecbto) +
+
+        '  -  DATA NO CABECALHO ' + datetimetostr
+        (FACBrNFe.WebServices.Consulta.dhRecbto));
+    end
+    else
+      mydebug('    [DUP985] CAMPO DE CHAVE CORRETA NÃO PODE SER LOCALIZADA NA MENSAGEM DA SEFAZ !');
+  end;
+
+begin
+
+  Try
+    Fautorizacao := '';
+    If Length(FchaveAutorizada) > 40 Then
+    begin
+      FACBrNFe.WebServices.Consulta.Clear;
+      FACBrNFe.WebServices.Consulta.NFeChave := FchaveAutorizada;
+      Try
+        FACBrNFe.WebServices.Consulta.Executar;
+        if FACBrNFe.WebServices.Consulta.msg <> '' then
+          sMsg := FACBrNFe.WebServices.Consulta.msg
+      except
+        on e: EXCEPTION do
+        begin
+          sMsg := e.Message;
+          mydebug('    [DUP]  ERRO 353 TRATANDO DUP  ' + e.Message);
+        end;
+      End;
+      mydebug('     [DUP981] RESULTADO CONSULTA DUP ' + sMsg);
+      checkCancelada;
+      Fautorizacao := '';
+      Fautorizacao := FACBrNFe.WebServices.Consulta.protNFe.nProt;
+      if Fautorizacao = '' then
+        checarChaveCorretaMsg();
+      mydebug('     [DUP]1014 PROTOCOLO  AUTORIZACAO RETORNNADO ' +
+        Fautorizacao);
+      Fautorizacao := FACBrNFe.WebServices.Consulta.protNFe.nProt;
+      ValidarDataRecibo(FACBrNFe,
+        FACBrNFe.WebServices.Consulta.protNFe.dhRecbto);
+    end;
+    mydebug('     [DUP1012] TENTANDO VALIDAR SE EMITIDA EM MODO NORMAL ' +
+      sMsg);
+    if Fautorizacao = '' then
+    Begin
+      novachave := GerarChaveAcesso(FACBrNFe.NotasFiscais[0].nfe.Ide.cUF,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi,
+        FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.serie,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.nNF, 1,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.cNF, 65
+
+        );
+      // *******----------------------------------------------------------------
+
+      ACBrNFe1 := TACBrNFe.create(Nil);
+
+      ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
+      ACBrNFe1.Configuracoes.WebServices.UF :=
+        CodigoParaUF(strtoint(Copy(novachave, 0, 2)));
+
+      ACBrNFe1.Configuracoes.Geral.VersaoDF := ve400;
+      ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
+      TAcbrConfig.SetAcbrObj(ACBrNFe1,
+        FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF);
+      ACBrNFe1.NotasFiscais.Clear;
+      ACBrNFe1.WebServices.Consulta.NFeChave := novachave;
+
+      // *******---------------------------------------------------------------
+
+      Try
+        ACBrNFe1.WebServices.Consulta.Executar;
+        if ACBrNFe1.WebServices.Consulta.msg <> '' then
+          sMsg := ACBrNFe1.WebServices.Consulta.msg
+      except
+        on e: EXCEPTION do
+        begin
+          sMsg := e.Message;
+          mydebug('    [DUP1052]  ERRO 353 TRATANDO DUP  ' + e.Message);
+        end;
+      End;
+      checkCancelada;
+      mydebug('     [DUP1056] RESULTADO CONSULTA DUP ' + sMsg);
+      Fautorizacao := '';
+      Fautorizacao := ACBrNFe1.WebServices.Consulta.protNFe.nProt;
+      if Fautorizacao = '' then
+      Begin
+        checarChaveCorretaMsg();
+        ValidarDataRecibo(FACBrNFe,
+          FACBrNFe.WebServices.Consulta.protNFe.dhRecbto);
+      end
+      else
+        ValidarDataRecibo(FACBrNFe,
+          ACBrNFe1.WebServices.Consulta.protNFe.dhRecbto);
+      if Fautorizacao <> '' then
+      begin
+        setprotocoloConsulta;
+        FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis := teNormal;
+        FACBrNFe.NotasFiscais[0].nfe.Ide.xJust := '';
+        FACBrNFe.NotasFiscais[0].nfe.Ide.dhCont := 0;
+
+        try
+          FACBrNFe.NotasFiscais[0].nfe.signature.Clear;
+        except
+        end;
+        try
+          FACBrNFe.NotasFiscais[0].GerarXML;
+        except
+        end;
+        try
+          FACBrNFe.NotasFiscais[0].Assinar;
+        except
+        end;
+      end;
+    end;
+    if assigned(ACBrNFe1) then
+      FreeAndNil(ACBrNFe1);
+    if Fautorizacao <> '' then
+    begin
+      mydebug('    [DUP] ' + Fcd_filial + ' SUCESSO CORRIGINDO DUPLICIDADE');
+
+      FACBrNFe.NotasFiscais[0].nfe.infNFeSupl.qrCode := '';
+      FACBrNFe.NotasFiscais[0].nfe.signature.Clear;
+      setprotocoloConsulta;
+      FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+      try
+        FACBrNFe.NotasFiscais.Assinar;
+      except
+
+      end;
+      FAutorizado := true;
+    end
+    else
+    begin
+      try
+        srecibo := GetRecibo;
+        if srecibo = '' then
+          srecibo := FchaveAutorizada;
+        if srecibo <> '' then
+        begin
+          FACBrNFe.WebServices.Recibo.Recibo := srecibo;;
+          FACBrNFe.WebServices.Recibo.Executar;
+          Fautorizacao := FACBrNFe.WebServices.Recibo.NFeRetorno.
+            ProtDFe[0].nProt;
+
+          FACBrNFe.NotasFiscais[0].nfe.infNFeSupl.qrCode := '';
+          FACBrNFe.NotasFiscais[0].nfe.signature.Clear;
+          setprotocoloConsulta;
+          FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+          try
+            FACBrNFe.NotasFiscais.Assinar;
+          except
+
+          end;
+          mydebug('    [DUP]QRCODE ' + FACBrNFe.NotasFiscais[0]
+            .nfe.infNFeSupl.qrCode);
+          checkCancelada();
+          ValidarDataRecibo(FACBrNFe, FACBrNFe.WebServices.Consulta.dhRecbto);
+          if (Fautorizacao <> '') then
+          begin
+            setprotocoloRecibo;
+            FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+            FAutorizado := true;
+          end;
+        end;
+      except
+      end;
+
+      if not validaxmlvenda(FACBrNFe) then
+      begin
+        FACBrNFe.NotasFiscais[0].nfe.procNFe.dhRecbto := 0;
+        FACBrNFe.NotasFiscais[0].nfe.procNFe.chNFe := '';
+        FACBrNFe.NotasFiscais[0].nfe.procNFe.nProt := '';
+        FACBrNFe.NotasFiscais[0].nfe.procNFe.cstat := 0;
+        FACBrNFe.NotasFiscais[0].nfe.procNFe.digVal := '';
+        FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+      end;
+
+    end;
+  except
+    on e: EXCEPTION do
+    begin
+      mydebug(' ---->FILIAL' + Fcd_filial + ' ERRO ' + e.Message);
+      sMsg := e.Message;
+    end;
+  end;
+end;
+
+
+{ -+--------------------------------------------------------------------------- }
+Procedure TSefazCore.validarDadosContigencia(var FACBrNFe: TACBrNFe);
+var
+  aData: tdatetime;
+begin
+
+  // VERIFICAR SE A HORA ESTA ZERADA  -ALGUNS ESTADOS COMO MT NÃO ACEITAN
+  if (HourOf(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi) = 0) then
+  begin
+
+    FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi :=
+      EncodeDateTime(YearOf(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi),
+      MonthOf(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi),
+      DayOf(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi), HourOf(now), 0, 0, 0
+
+      );
+
+  end;
+  // VALIDAR HORA MAIOR QUE DATA ACTUAL CASO OFFLINE
+  if (FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis = teOffLine) then
+  begin
+    if FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi > now then
+      FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi := now;
+    FACBrNFe.NotasFiscais[0].nfe.Ide.dhCont := FACBrNFe.NotasFiscais[0]
+      .nfe.Ide.dEmi;
+
+    if (Length(FACBrNFe.NotasFiscais[0].nfe.Ide.xJust) < 30) and
+      (FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis = teOffLine) Then
+    begin
+      FACBrNFe.NotasFiscais[0].nfe.Ide.xJust := 'PROBLEMAS TECNICOS.'
+    end;
+
+    if (Length(FACBrNFe.NotasFiscais[0].nfe.Ide.xJust) > 256) and
+      (FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis = teOffLine) Then
+    begin
+      FACBrNFe.NotasFiscais[0].nfe.Ide.xJust := 'PROBLEMAS TECNICOS.'
+    end;
+  end;
+
+  // VERIFICAR SE DATA ANTERIOR A 2013
+  if FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi < EncodeDate(2013, 01, 01) then
+  begin
+    gravalog('DATA DE EMISSAO ANTERIOR A 2013');
+    FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi := date - 1;
+    FACBrNFe.NotasFiscais[0].nfe.Ide.dhCont := date - 1;
+  end;
+  // VERIFICAR SE E VIRADA DE MES
+  aData := FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi;
+  if (strtoint(FormatDateTime('dd', aData)) = 1) and
+    (strtoint(FormatDateTime('hh', aData)) < 3) then
+  Begin
+    FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi :=
+      IncHour(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi, 3);
+
+    mydebug('[SEFAZCORE]FILIAL:' + Fcd_filial + ' CUPON : ' + Fnr_nota +
+      ' CUPOM EMITIDO COM DIFERENÇA DE HORARIO VERÃO');
+
+  End;
+
+  // VALIDAR CAMPO XFANT/XNOME QUANDO MAIOR QUE O PERMITIDO
+  FACBrNFe.NotasFiscais[0].nfe.Emit.xFant :=
+    Copy(FACBrNFe.NotasFiscais[0].nfe.Emit.xFant, 0, 48);
+  FACBrNFe.NotasFiscais[0].nfe.Emit.xNome :=
+    Copy(FACBrNFe.NotasFiscais[0].nfe.Emit.xNome, 0, 48);
+
+  // VALIDAR
+  if FACBrNFe.NotasFiscais[0].nfe.Ide.nNF = 0 then
+    if FACBrNFe.NotasFiscais[0].nfe.Ide.cNF > 0 then
+      FACBrNFe.NotasFiscais[0].nfe.Ide.nNF := FACBrNFe.NotasFiscais[0]
+        .nfe.Ide.cNF
+    else
+      FACBrNFe.NotasFiscais[0].nfe.Ide.nNF := strtoint(Fnr_ecf);
+end;
+
+{ ----------------------------------------------------------------------------- }
+procedure TSefazCore.validarRastro(var FACBrNFe: TACBrNFe);
+var
+  iIndex: Integer;
+  irastro: Integer;
+  odate: tdatetime;
+begin
+  for iIndex := 0 to FACBrNFe.NotasFiscais[0].nfe.Det.Count - 1 do
+  begin
+    for irastro := 0 to FACBrNFe.NotasFiscais[0].nfe.Det[iIndex]
+      .Prod.rastro.Count - 1 do
+    begin
+      if FACBrNFe.NotasFiscais[0].nfe.Det[iIndex].Prod.rastro[irastro].dFab > date
+      then
+      begin
+        odate := date;
+        odate := IncDay(odate, -30);
+        FACBrNFe.NotasFiscais[0].nfe.Det[iIndex].Prod.rastro[irastro]
+          .dFab := odate;
+      end;
+      if FACBrNFe.NotasFiscais[0].nfe.Det[iIndex].Prod.rastro[irastro].dVal < date
+      then
+      begin
+        odate := date;
+        odate := IncDay(odate, +30);
+        FACBrNFe.NotasFiscais[0].nfe.Det[iIndex].Prod.rastro[irastro]
+          .dVal := odate;
+      end;
+
+    end;
+  end;
+
+end;
+
+
+{ ------------------------------------------------------------------------------ }
+
+procedure TSefazCore.validarDestinatario(var FACBrNFe: TACBrNFe);
+begin
+  if FACBrNFe.NotasFiscais[0].nfe.dest.CNPJCPF = FACBrNFe.NotasFiscais[0]
+    .nfe.Emit.CNPJCPF then
+  begin
+    FACBrNFe.NotasFiscais[0].nfe.dest.CNPJCPF := '';
+  end;
+  if FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.cMun = 0 then
+  begin
+    FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.cMun := FACBrNFe.NotasFiscais[0]
+      .nfe.Emit.EnderEmit.cMun;
+  end;
+  if FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF = '' then
+  begin
+    FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF :=
+      Copy(Sonumeros(FACBrNFe.NotasFiscais[0].nfe.infNFe.ID), 7, 14);
+  end;
+  if StrToFloat(Sonumeros(FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF)) < 1 then
+  begin
+    FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF := FCnpjFilial;
+  end;
+  if (Length(FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xBairro) > 0) and
+    (Length(FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xBairro) < 6) then
+  begin
+
+    FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xBairro := 'NÃO INFORMADO';
+
+  end;
+  if (FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.CEP > 0) then
+  begin
+    if Length(FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xLgr) < 5 then
+      FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xLgr := 'NÃO INFORMADO';
+
+    if FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xBairro = '' then
+      FACBrNFe.NotasFiscais[0].nfe.dest.EnderDest.xBairro := 'NÃO INFORMADO';
+
+  end;
+
+end;
+
+{ ----------------------------------------------------------------------------- }
+procedure TSefazCore.enviarNota(var FACBrNFe: TACBrNFe);
+
+begin
+  VInicio := Time;
+  TAcbrConfig.SetAcbrObj(FACBrNFe, FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF);
+  if FACBrNFe.NotasFiscais[0].nfe.Ide.tpAmb = taProducao then
+  begin
+    FACBrNFe.Configuracoes.WebServices.Ambiente := taProducao;
+  end
+  else
+  begin
+    FACBrNFe.Configuracoes.WebServices.Ambiente := taHomologacao;
+    FACBrNFe.NotasFiscais[0].nfe.infNFeSupl.qrCode := '';
+  end;
+  FACBrNFe.Configuracoes.WebServices.UF :=
+    CodigoParaUF(FACBrNFe.NotasFiscais[0].nfe.Ide.cUF);
+  FACBrNFe.Configuracoes.Geral.VersaoDF := ve400;
+  if DebugHook > 0 then
+  begin
+    /// WILSON PARA TESTES  SO UTILIZAR AMBIENTE DE HOMOLOGAÇÃO
+    // FACBrNFe.Configuracoes.WebServices.Ambiente := taHomologacao;
+  end;
+  Try
+    try
+      FACBrNFe.NotasFiscais[0].nfe.signature.Clear;
+
+      FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+    except
+    end;
+    try
+      FACBrNFe.NotasFiscais[0].Assinar;
+
+    except
+    end;
+    try
+      FACBrNFe.NotasFiscais[0].Validar;
+    except
+    end;
+    if FACBrNFe.NotasFiscais[0].nfe.Ide.serie = 0 then
+      raise EXCEPTION.create('Serie invalida informada  -> 0 ');
+    try
+      FACBrNFe.WebServices.Envia(1, true);
+    except
+      on e: EXCEPTION do
+      begin
+        // ACBR  LANÇA MENSGEM VAZIA
+        if e.Message <> '' then
+        begin
+          mydebug('[ENV-NFCE1541]: ' + Fcd_filial + ' - CNPJ: ' +
+            FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF + '  - ' + 'ID_CSS: ' +
+            FACBrNFe.Configuracoes.Geral.IdCSC + ' -' + 'CSS: ' +
+            FACBrNFe.Configuracoes.Geral.CSC + ' CHAVE : ' +
+            FACBrNFe.NotasFiscais[0].nfe.infNFe.ID + '  ' +
+            Copy(e.Message, 0, 50));
+          FcStat := 5001;
+          // ENVIO NÃO REALIZADO
+          Ferro := e.Message;
+          sMsg := Ferro;
+          with TstringList.create do
+          begin
+            text := FACBrNFe.NotasFiscais[0].xml;
+            ForceDirectories(ExtractFilePath(GetModuleName(HInstance)) +
+              '\XML_ERROR\');
+            SaveToFile(ExtractFilePath(GetModuleName(HInstance)) + '\XML_ERROR\'
+              + FACBrNFe.NotasFiscais[0].nfe.infNFe.ID + '.XML');
+            Free;
+          end;
+        end;
+      end;
+    end;
+
+  except
+    on e: EXCEPTION do
+    begin
+      sMsg := e.Message;
+      mensagemErro := e.Message;
+      Ferro := '[ENVIO] ' + e.Message;
+      sMsg := Ferro;
+      mydebug('[E874]EXCESSAO  --> ' + sMsg);
+    end;
+  end;
+  Fautorizacao := FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.nProt;
+  Fstatus := FACBrNFe.WebServices.Retorno.msg;
+  if Fstatus = '' then
+    Fstatus := FACBrNFe.WebServices.Enviar.msg;
+  if Fstatus = '' then
+    Fstatus := sMsg;
+  FcStat := FACBrNFe.WebServices.Retorno.cstat;
+  if FcStat = 0 then
+    FcStat := FACBrNFe.WebServices.Enviar.cstat;
+  if FcStat = 0 then
+  begin
+    FcStat := 7001;
+    sMsg := Ferro;
+  end;
+  if sMsg <> '' then
+    mensagemErro := sMsg;
+  if FACBrNFe.WebServices.Retorno.xmotivo <> '' then
+  begin
+    mensagemErro := FACBrNFe.WebServices.Retorno.xmotivo;
+  end;
+  setIndicadores;
+  if Fautorizacao <> '' then
+  begin
+    FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+    FAutorizado := true;
+    FTdataLocal.FIndicadores.NfcesValidadas :=
+      FTdataLocal.FIndicadores.NfcesValidadas + 1;
+  end
+  else
+  begin
+    FACBrNFe.NotasFiscais[0].GerarXML;
+  end;
+end;
+
+{ ------------------------------------------------------------------------------ }
+function TSefazCore.inutilizar(Var Facbr: TACBrNFe): string;
+var
+  Ano: string;
+  Justificativa: string;
+begin
+  FcStat := 5001;
+  Finutilizado := false;
+  codigoErro := 5001;
+  try
+    if Fserie = '' then
+      raise EXCEPTION.create('SERIE NÃO INFORMADA !');
+    Justificativa := 'ERRO NA GERAÇÃO DO CUPON';
+    // 1- PRODUCAO
+    // 2-HOMOLOGACAO
+    if Fdt_vd = '' then
+      Fdt_vd := Datetostr(date);
+    TAcbrConfig.SetAcbrObj(Facbr, FCnpjFilial);
+    Ano := FormatDateTime('YYYY', strtodate(Fdt_vd));
+    Facbr.Configuracoes.Geral.ModeloDF := moNFCe;
+    Facbr.Configuracoes.WebServices.Ambiente := taProducao;
+    // Facbr.Configuracoes.WebServices.Ambiente := taHomologacao;
+    Facbr.Configuracoes.WebServices.UF := FufFilial;
+    try
+      Facbr.WebServices.Inutiliza(FCnpjFilial, Justificativa, strtoint(Ano), 65,
+        strtoint(Fserie), strtoint(Fnr_ecf), strtoint(Fnr_ecf));
+    except
+      on e: EXCEPTION do
+      begin
+        mensagemErro := e.Message;
+        mydebug('[SEFAZCORE 1736] ' + e.Message);
+      end;
+    end;
+    FcStat := Facbr.WebServices.Inutilizacao.cstat;
+    Fmotivo := Facbr.WebServices.Inutilizacao.xmotivo;
+    result := Facbr.WebServices.Inutilizacao.RetornoWS;
+    If (FcStat = 563) then
+    begin
+
+      Finutilizado := true;
+      Fmotivo := 'Inutilização de numeração homologado';
+      if Facbr.WebServices.Inutilizacao.Protocolo = '' then
+        Facbr.WebServices.Inutilizacao.Protocolo :=
+          FormatDateTime('yymmddhhmmsszz', now);
+
+      result := Facbr.WebServices.Inutilizacao.XML_ProcInutNFe;
+    end
+    else If FcStat = 102 then
+    begin
+
+      Finutilizado := true;
+      Fmotivo := 'Inutilização de numeração homologado';
+      if Facbr.WebServices.Inutilizacao.Protocolo = '' then
+        Facbr.WebServices.Inutilizacao.Protocolo :=
+          FormatDateTime('yymmddhhmmsszz', now);
+
+      result := Facbr.WebServices.Inutilizacao.XML_ProcInutNFe;
+    end
+    else
+    begin
+      if Facbr.WebServices.Inutilizacao.cstat > 0 then
+        codigoErro := Facbr.WebServices.Inutilizacao.cstat;
+      if Facbr.WebServices.Inutilizacao.msg <> '' then
+        mensagemErro := Facbr.WebServices.Inutilizacao.msg;
+    end;
+  except
+    on e: EXCEPTION do
+    begin
+      mydebug('[INUTILIZACAO] ' + e.Message);
+      mensagemErro := e.Message;
+    end;
+  end;
+end;
+
+{ ----------------------------------------------------------------------------- }
+function TSefazCore.cuponJaValidado(var FACBrNFe: TACBrNFe): Boolean;
+var
+
+  novachave: string;
+  omsg: string;
+  chavefoiAlterada: Boolean;
+
+  ocdNf: string;
+  tpEmiss: Integer;
+
+begin
+  result := false;
+  try
+    VInicio := Time;
+    novachave := Sonumeros(FACBrNFe.NotasFiscais[0].nfe.infNFe.ID);
+    mydebug('      [CONSULTA PREVALIDA]---> CONSULTANDO CHAVE DE ACESSO ' +
+      novachave);
+    omsg := consultachave(novachave);
+    setIndicadores;
+    mydebug('      [CONSULTA PREVALIDA]---> RESULTADO STEP1  : ' + omsg);
+    // TRATAR  PROBLEMAS DE CODIGO NUMERICO GERADO DIFERENTE PELO PPDV
+    if Pos('rico da NF-e', omsg) > 0 then
+    begin
+      chavefoiAlterada := true;
+      // muda ate data por que esta pora de xml cagado e gerado todo fodido
+
+      novachave := Copy(omsg, Pos('rico da NF-e', omsg) + 12, 60);
+      if Pos('[', novachave) > 0 then
+        novachave := Sonumeros(Copy(omsg, Pos('[', omsg) + 1, 44));
+
+      omsg := consultachave(novachave);
+      mydebug('      [CONSULTA PREVALIDA]---> RESULTADO STEP2  : ' + omsg);
+      Fautorizacao := FdadosConsulta.nProt;
+      if Fautorizacao <> '' then
+        FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi := FdadosConsulta.data;
+
+    end;
+
+    Fautorizacao := '';
+    Fautorizacao := FdadosConsulta.nProt;
+    if Fautorizacao = '' then
+    begin
+
+      novachave := GerarChaveAcesso(FACBrNFe.NotasFiscais[0].nfe.Ide.cUF,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi,
+        FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.serie,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.nNF, 1,
+        FACBrNFe.NotasFiscais[0].nfe.Ide.cNF, 65);
+      mydebug('      [CONSULTA PREVALIDA]---> CHAVE NORMAL  : ' + novachave);
+      omsg := consultachave(novachave);
+      mydebug('      [CONSULTA PREVALIDA]---> RESULTADO STEP3  : ' + omsg);
+      Fautorizacao := FdadosConsulta.nProt;
+
+    end;
+
+    if Fautorizacao <> '' then
+    begin
+      // TRATAR SE E O PROTOCOLO PERTENCE A ESTE XML
+      // SE DATA DO RECIBO MENOR QUE A DATA DE EMISSÃO O PROTOCOLO
+      // PERTENCE A UM OUTRO XML JÁ VALIDADO  !;
+
+      if (trunc(FdadosConsulta.data) < trunc(FACBrNFe.NotasFiscais[0]
+        .nfe.Ide.dEmi)) and (FxmlOriginal <> '') then
+      begin
+        mydebug('  [CONSULTA PREVALIDA][FILIAL]:' + Fcd_filial +
+          ' CUPON JA VALIDADO NA SEFAZ  DATA DE RECIBO ' +
+          datetimetostr(trunc(FdadosConsulta.data))
+
+          + ' MENOR QUE DATA DA NOTA ' +
+
+          datetimetostr(trunc(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi)));
+        result := false;
+
+        FACBrNFe.NotasFiscais.Clear;
+        FACBrNFe.NotasFiscais.LoadFromString(UTF8Encode(FxmlOriginal));
+
+      End
+      else
+      begin
+
+        mydebug(' [CONSULTA PREVALIDA][FILIAL]:' + Fcd_filial +
+          ' CUPON JA VALIDADO NA SEFAZ ');
+        FAutorizado := true;
+
+        if FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.nProt = '' then
+        begin
+          novachave := FdadosConsulta.chave;
+          ocdNf := Copy(novachave, 36, 8);
+          tpEmiss := strtoint(Copy(novachave, 35, 1));
+          FACBrNFe.NotasFiscais[0].nfe.Ide.cNF := strtoint(ocdNf);
+
+          if tpEmiss = 1 then
+            FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis := teNormal
+          else
+            FACBrNFe.NotasFiscais[0].nfe.Ide.tpEmis := teOffLine;
+
+          FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.nProt :=
+            FdadosConsulta.nProt;
+          FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.cstat :=
+            FdadosConsulta.cstat;
+          FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.chNFe :=
+            FdadosConsulta.chave;
+          FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.digVal :=
+            FdadosConsulta.digito;
+          FACBrNFe.NotasFiscais.Items[0].nfe.procNFe.dhRecbto :=
+            FdadosConsulta.data;
+
+          checarTagsProtocolo(FACBrNFe);
+          try
+            FACBrNFe.NotasFiscais.GerarNFe;
+          except
+
+          end;
+        End;
+        result := true;
+      end;
+    end;
+  except
+    on e: EXCEPTION do
+      mydebug('[675] ERRO CONSULTA JA VALIDADO - CNPJ [ ' +
+        FACBrNFe.NotasFiscais.Items[0].nfe.Emit.CNPJCPF + ' ] ' + ' CUPON : ' +
+        inttostr(FACBrNFe.NotasFiscais.Items[0].nfe.Ide.nNF) + '  - ' +
+        e.Message)
+  End;
+end;
+
+{ ----------------------------------------------------------------------------- }
+procedure TSefazCore.limparComponente(var FACBrNFe: TACBrNFe);
+begin
+  try
+    if assigned(FACBrNFe.WebServices.Enviar) then
+    begin
+      FACBrNFe.WebServices.Enviar.Clear;
+    end;
+  except
+    on e: EXCEPTION do
+      mydebug('1694 ' + e.Message);
+  end;
+  try
+    if assigned(FACBrNFe.WebServices.Consulta) then
+    begin
+      FACBrNFe.WebServices.Consulta.Clear;
+    end;
+  except
+    on e: EXCEPTION do
+      mydebug('1701 ' + e.Message);
+  end;
+end;
+
+{ ----------------------------------------------------------------------------- }
+function TSefazCore.testaChave(ChaveOriginal, ChaveSefaz: string): Boolean;
+begin
+  result := Copy(ChaveOriginal, 0, 34) = Copy(ChaveSefaz, 0, 34);
+  if not result then
+  begin
+    result := Copy(ChaveOriginal, 0, 34) = Copy(ChaveSefaz, 0, 34);
+  end;
+end;
+
+procedure TSefazCore.ValidarDataRecibo(var FACBrNFe: TACBrNFe;
+  pdatarecibo: tdatetime);
+
+var
+  aData: tdatetime;
+begin
+
+  // SE FOR  SÃO PAULO  TEM QUE PEGAR A DATA DA VENDA
+  // POR QUE A DATA DE EMISSÃO DO XML JA FOI ALTERADA.
+  mydebug('[SEFAZCORE]1536 VALIDANDO DATA DA VENDA INFORMADA ->  ' + Fdt_vd);
+
+  aData := FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi;
+  try
+    if (Fdt_vd <> '') then
+      trystrtodate(Fdt_vd, aData);
+  except
+  end;
+  if (FACBrNFe.NotasFiscais[0].nfe.Ide.cUF = 35) and (Fdt_vd <> '') then
+    trystrtodate(Fdt_vd, aData);
+  if aData = 0 then
+  begin
+    FAutorizado := false;
+    mydebug('[SEFAZCORE]1529 FILIAL:' + Fcd_filial + ' CUPON : ' + Fnr_nota +
+      ' DATA DE EMISSAO NÃO DETERMINADA');
+    exit;
+  end;
+  if ((trunc(aData)) <= trunc(pdatarecibo)) or (FignorarDataRecibo) then
+  begin
+
+    mydebug('[SEFAZCORE]1529 FILIAL:' + Fcd_filial + ' CUPON : ' + Fnr_nota +
+      ' NOTA COM DUPLICIDADE CORRIGIDA');
+    FxmlProcessado := FACBrNFe.NotasFiscais[0].xml;
+    FAutorizado := true;
+
+    if assigned(FTdataLocal) then
+    begin
+      FTdataLocal.FIndicadores.NfcesValidadas :=
+        FTdataLocal.FIndicadores.NfcesValidadas + 1;
+    end;
+  end
+  else
+  begin
+    mydebug('[SEFAZCORE 1542]FILIAL:' + Fcd_filial + ' CUPON : ' + Fnr_nota +
+      ' NOTA COM DUPLICIDADE E RECIBO  ' + datetimetostr(trunc(pdatarecibo)) +
+
+      ' COM DATA ANTERIOR A EMISSAO ' + datetimetostr(aData));
+    FAutorizado := false;
+    Fautorizacao := '';
+
+    FACBrNFe.NotasFiscais.Clear;
+    FACBrNFe.NotasFiscais.LoadFromString(UTF8Encode(FxmlOriginal));
+
+  end;
+
+end;
+
+{ ----------------------------------------------------------------------------- }
+
+{ ------------------------------------------------------------------------------ }
+procedure TSefazCore.ValidarXml(var FACBrNFe: TACBrNFe);
+var
+  nr_nota: string;
+  osdate: string;
+begin
+  LimparVariaveis;
+  FAutorizado := false;
+  FcStat := 2001;
+  try
+    validarPagamentos(FACBrNFe);
+    FxmlOriginal := FACBrNFe.NotasFiscais[0].xml;
+    FchaveOriginal := Sonumeros(FACBrNFe.NotasFiscais[0].nfe.infNFe.ID);
+    nr_nota := inttostr(FACBrNFe.NotasFiscais[0].nfe.Ide.nNF);
+    Fnr_nota := nr_nota;
+    TAcbrConfig.SetAcbrObj(FACBrNFe, FACBrNFe.NotasFiscais[0].nfe.Emit.CNPJCPF);
+    IF (FACBrNFe.NotasFiscais[0].nfe.infNFe.versao <> 4) then
+    begin
+      FACBrNFe.NotasFiscais[0].nfe.infNFe.versao := 4.0;
+      FACBrNFe.Configuracoes.Geral.VersaoDF := ve400;
+      regerarXMLnota(FACBrNFe);
+
+    end;
+    if FverificarJaValidado then
+    begin
+
+      if cuponJaValidado(FACBrNFe) then
+      begin
+        mydebug('[904] CUPON JÁ VALIDADO - CNPJ [ ' +
+          FACBrNFe.NotasFiscais.Items[0].nfe.Emit.CNPJCPF + ' ] ' + ' CUPON : '
+          + inttostr(FACBrNFe.NotasFiscais.Items[0].nfe.Ide.nNF));
+
+        exit;
+      end;
+    end;
+    // CODIGOS IMPLEMENTANDOS PARA CORRIGIR EMERGENCIAS
+    // RETIRAR QUANDO.....
+    corrigirCodigoNumerico(FACBrNFe);
+
+    validarCfop(FACBrNFe);
+    validaGtin(FACBrNFe);
+    validarCbnef(FACBrNFe);
+    validarDestinatario(FACBrNFe);
+
+    if (FtipoOperacao = 3) or (FtipoOperacao = 7) then
+
+    begin
+      TAcbrConfig.calcularNFCE(FACBrNFe);
+    end;
+    validarIcms(FACBrNFe);
+
+    osdate := datetimetostr(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi);
+    validarDadosContigencia(FACBrNFe);
+    validarPaisUf51(FACBrNFe);
+    validarUFDest(FACBrNFe);
+    validarNcm(FACBrNFe);
+    validarBc(FACBrNFe);
+    validarRastro(FACBrNFe);
+    validarTipoEmissaoSp(FACBrNFe);
+    validarPagamentos(FACBrNFe);
+    /// RESPONSAVEL TECNICO//
+    try
+      if (FACBrNFe.NotasFiscais[0].nfe.infRespTec.cnpj <> '') and
+        (Length(FACBrNFe.NotasFiscais[0].nfe.infRespTec.cnpj) < 10) then
+        FACBrNFe.NotasFiscais[0].nfe.infRespTec.cnpj := '';
+      if (FACBrNFe.NotasFiscais[0].nfe.infRespTec.cnpj = '') and
+        (Sonumeros(FTrespTecnico.cnpj) <> '') then
+      begin
+        try
+          FACBrNFe.NotasFiscais[0].nfe.infRespTec.cnpj :=
+            Sonumeros(FTrespTecnico.cnpj);
+          FACBrNFe.NotasFiscais[0].nfe.infRespTec.xContato :=
+            FTrespTecnico.Contato;
+          FACBrNFe.NotasFiscais[0].nfe.infRespTec.email := FTrespTecnico.email;
+          FACBrNFe.NotasFiscais[0].nfe.infRespTec.fone :=
+            Sonumeros(FTrespTecnico.fone);
+        except
+          on e: EXCEPTION do
+          begin
+            gravalog('[SEFAZ CORE] 1720 ERRO RESPTECNICO ' + e.Message);
+          end;
+        end;
+      end;
+    except
+      on e: EXCEPTION do
+        gravalog('[SEFAZ CORE] 1725 ERRO RESPTECNICO ' + e.Message);
+    end;
+    // CPF/CNPJ ZERADO
+    if (Sonumeros(FACBrNFe.NotasFiscais[0].nfe.dest.CNPJCPF) <> '') and
+      (StrToFloat(Sonumeros(FACBrNFe.NotasFiscais[0].nfe.dest.CNPJCPF)) < 10)
+    then
+      FACBrNFe.NotasFiscais[0].nfe.dest.CNPJCPF := '';
+
+    Fautorizacao := '';
+    osdate := datetimetostr(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi);
+    regerarXMLnota(FACBrNFe);
+
+    osdate := datetimetostr(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi);
+    FcStat := 0;
+    sMsg := '';
+    Fstatus := '';
+    VInicio := Time;
+    try
+      enviarNota(FACBrNFe);
+    except
+      on e: EXCEPTION do
+      begin
+        if Pos(uppercase('ccess violation'), e.Message) > 0 then
+        begin
+          FatalError := true;
+
+        end;
+
+        gravalog('[SEFAZ CORE] 590 ERRO ENVIO DA NOTA  ' + e.Message);
+        mensagemErro := e.Message;
+        Fmotivo := e.Message;
+
+      end;
+    end;
+    // ***********************************************************************
+    if (FcStat <> 5001) and (Fautorizacao = '') and (assigned(FTdataLocal)) then
+      FTdataLocal.FIndicadores.ErrosValidacao :=
+        FTdataLocal.FIndicadores.ErrosValidacao + 1;
+
+    // ************************************************************************
+    if (FcStat = 5001) and (Fautorizacao = '') then
+    begin
+      if assigned(FTdataLocal) then
+        FTdataLocal.FIndicadores.FalhasSefaz :=
+          FTdataLocal.FIndicadores.FalhasSefaz + 1;
+      sMsg := '[FILIAL]: ' + Fcd_filial + ' - NOTA ' + nr_nota + '[e - 5001] : '
+        + nr_nota + ' ' + Fstatus;
+      mydebug(sMsg);
+      if mensagemErro = '' then
+        mensagemErro := sMsg;
+      codigoErro := FcStat;
+      Sleep(500);
+      exit;
+    end;
+
+
+    IF FcStat = 374 then
+    begin
+      mydebug('[ SEFAZ CORE1990 ] VALIDANDO ERRO 374 ');
+      validarGrupoTributacao(FACBrNFe);
+      enviarNota(FACBrNFe);
+    end;
+    IF (FcStat = 704) or (FcStat = 556) then
+    begin
+      mydebug('[ SEFAZ CORE1990 ] VALIDANDO ERRO 704 ');
+      FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi := now;
+      FACBrNFe.NotasFiscais[0].nfe.Ide.dSaiEnt := now;
+      try
+        FACBrNFe.NotasFiscais[0].GerarXML;
+      except
+      end;
+      enviarNota(FACBrNFe);
+    end;
+    if FcStat = 656 then
+    begin
+      mydebug('[FILIAL] : ' + Fcd_filial + ' - NOTA ' + nr_nota +
+        '  [E-656] CONSUMO INDEVIDO  VALIDAÇÃO ABORTADA ' + Fstatus);
+      FAutorizado := false;
+      Fstatus := sMsg;
+      mensagemErro := mensagemErro + ' - ' + sMsg;
+      codigoErro := FcStat;
+      raise EXCEPTION.create(sMsg);
+    end;
+    if not FAutorizado then
+    begin
+
+      if FcStat = 531 then
+      begin
+        mydebug('[ SEFAZ CORE ] RECALCULANDO BASE DE CALCULO');
+        validarBc(FACBrNFe);
+        enviarNota(FACBrNFe);
+      end;
+      if (FcStat = 539) then
+      begin
+        if Fstatus = '' then
+          Fstatus := sMsg;
+        sMsg := '539 - ' + FchaveOriginal + ' - ' + Fstatus;
+        if Fstatus = '' then
+          Fstatus := sMsg;
+        FAutorizado := false;
+        mensagemErro := mensagemErro + ' - ' + sMsg;
+        codigoErro := FcStat;
+        mydebug(sMsg);
+        FchaveAutorizada := '';
+        if Pos('[', Fstatus) > 1 then
+        begin
+          FchaveAutorizada := Copy(Fstatus, Pos('[', Fstatus) + 1,
+            Length(Fstatus));
+          FchaveAutorizada := Copy(FchaveAutorizada, 0,
+            Pos(']', FchaveAutorizada) - 1);
+          FchaveAutorizada := Sonumeros(FchaveAutorizada);
+          if testaChave(FchaveOriginal, FchaveAutorizada) then
+            trataDuplicadade(FACBrNFe, Fstatus);
+        end;
+
+        if not FAutorizado then
+        begin
+          trataDuplicadade(FACBrNFe, '');
+        end;
+        ValidarProtocolo(FACBrNFe);
+
+      end
+      else if (FcStat = 204) then
+      begin
+        Ferro := Copy(Fstatus, 0, 300);
+        FAutorizado := false;
+        Fautorizacao := '';
+        try
+          mydebug('[SEFAZCORE]FILIAL: ' + Fcd_filial + ' NOTA : ' + nr_nota +
+            ' TRATANDO DUPLICIDADE 204');
+          FACBrNFe.NotasFiscais.Clear;
+          FACBrNFe.NotasFiscais.LoadFromString(UTF8Encode(FxmlOriginal));
+          VInicio := Time;
+          FACBrNFe.Consultar;
+          mydebug('[SEFAZCORE] FILIAL: ' + Fcd_filial + ' NOTA : ' + nr_nota +
+            ' RETORNO CONSULTA EM DUPLICIDADE ' +
+            FACBrNFe.WebServices.Consulta.msg);
+
+          setIndicadores();
+          Fautorizacao := FACBrNFe.WebServices.Consulta.protNFe.nProt;
+          if Fautorizacao <> '' then
+          begin
+            // TRATAR SE E O PROTOCOLO PERTENCE A ESTE XML
+            // SE DATA DO RECIBO MENOR QUE A DATA DE EMISSÃO O PROTOCOLO
+            // PERTENCE A UM OUTRO XML JÁ VALIDADO  !;
+
+            ValidarDataRecibo(FACBrNFe, FACBrNFe.WebServices.Consulta.dhRecbto);
+          end
+          else
+          Begin
+            if FACBrNFe.WebServices.Consulta.cstat = 526 then
+            begin
+              if Pos('[', Fstatus) > 1 then
+              begin
+                FchaveAutorizada := Copy(Fstatus, Pos('[', Fstatus) + 1,
+                  Length(Fstatus));
+                FchaveAutorizada := Copy(FchaveAutorizada, 0,
+                  Pos(']', FchaveAutorizada) - 1);
+                FchaveAutorizada := Sonumeros(FchaveAutorizada);
+
+              end;
+              if FchaveAutorizada = '' then
+                FchaveAutorizada := FormatDateTime('DDMMYYYhhmmsszz', now);
+              FACBrNFe.NotasFiscais[0].nfe.procNFe.dhRecbto :=
+                FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi;
+
+              FACBrNFe.NotasFiscais[0].nfe.procNFe.chNFe :=
+                Sonumeros(FACBrNFe.NotasFiscais[0].nfe.infNFe.ID);
+
+              FACBrNFe.NotasFiscais[0].nfe.procNFe.nProt := FchaveAutorizada;
+              FACBrNFe.NotasFiscais[0].nfe.procNFe.cstat := 204;
+
+              FACBrNFe.NotasFiscais[0].nfe.procNFe.xmotivo :=
+                'AUTORIZADO USO NFE';
+              FxmlProcessado := FACBrNFe.NotasFiscais[0].GerarXML;
+              FAutorizado := true;
+            end;
+            mydebug('[SEFAZCORE] FILIAL: ' + Fcd_filial + ' NOTA : ' + nr_nota +
+              ' A CONSULTA DE DUPLICIDADE NÃO RETORNOU PROTOCOLO  -> ' +
+              FACBrNFe.WebServices.Consulta.xmotivo);
+          end;
+
+          ValidarProtocolo(FACBrNFe);
+
+        except
+          on e: EXCEPTION do
+          begin
+            mydebug('[SEFAZCORE] [FILIAL]:' + Fcd_filial + ' NOTA : ' + nr_nota
+              + ' ->  ' + e.Message);
+            trataDuplicadade(FACBrNFe, Fstatus);
+          end;
+        end;
+      end
+      else
+      begin
+        if (FcStat <> 108) and (FcStat <> 109) and (FcStat > 0) then
+        begin
+          Ferro := Copy(Fstatus, 0, 150);
+          FAutorizado := false;
+        end;
+      end;
+    end;
+    if FAutorizado then
+    Begin
+
+      FACBrNFe.NotasFiscais[0].GerarXML;
+      mydebug('[SEFAZCORE]1825 PROTOCOLO GERADO ' + FACBrNFe.NotasFiscais[0]
+        .nfe.procNFe.nProt);
+    End;
+  except
+    on e: EXCEPTION do
+    begin
+      mydebug('[SEFAZCORE]E1079  [FILIAL]:' + Fcd_filial + e.Message);
+      codigoErro := FcStat;
+      mensagemErro := mensagemErro + ' - ' + e.Message;
+      Fmotivo := e.Message;
+
+    end;
+  end;
+  limparComponente(FACBrNFe);
+end;
+
+function TSefazCore.validaxmlvenda(var FACBrNFe: TACBrNFe): Boolean;
+var
+  dtProtocolo: tdatetime;
+begin
+  result := true;
+  dtProtocolo := FACBrNFe.NotasFiscais[0].nfe.procNFe.dhRecbto;
+  if dtProtocolo > 100 then
+  begin
+    if (trunc(dtProtocolo)) < (trunc(FACBrNFe.NotasFiscais[0].nfe.Ide.dEmi))
+    then
+    begin
+      result := false;
+      Ferro := '[E643]O XML NÃO PERTENCE A ESTE CUPOM PROVALVEMENTE DUPLICIDADE';
+      gravalog(Ferro);
+
+    end;
+  End;
+end;
+
+end.

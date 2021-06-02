@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/05/10 08:28:46.000.707,=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.pas</Transaction>
+    <Transaction>2021/05/26 23:40:44.000.561,=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.pas</Transaction>
+    <Transaction>2021/05/30 08:32:04.000.096,=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.pas</Transaction>
+    <Transaction>2021/05/30 15:53:20.000.556,D:\WORK\NfeServer\DfeServiceConsole.dproj=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Project16.dproj</Transaction>
+    <Transaction>2021/05/30 16:10:45.000.531,=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/05/30 16:11:28.000.038,D:\WORK\NfeServer\lib\defe.lib.constantes.pas=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/05/30 16:30:02.000.947,=D:\WORK\NfeServer\lib\dfe.lib.constants.pas</Transaction>
+    <Transaction>2021/06/01 01:58:33.000.710,=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/06/01 02:03:38.000.771,D:\WORK\NfeServer\Unit1.pas=D:\WORK\NfeServer\model\dfe.model.infonfe.pas</Transaction>
+    <Transaction>2021/06/01 02:06:50.000.201,=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/06/01 02:07:23.000.647,D:\WORK\NfeServer\Unit1.pas=D:\WORK\NfeServer\dao\dfe.dao.infoNfe.pas</Transaction>
+    <Transaction>2021/06/01 03:25:19.000.187,=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/06/01 03:36:39.000.859,D:\WORK\NfeServer\Unit1.pas=D:\WORK\NfeServer\dao\dfe.dao.empresas.pas</Transaction>
+    <Transaction>2021/06/01 03:37:19.000.684,=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/06/01 03:38:58.000.266,D:\WORK\NfeServer\Unit1.pas=D:\WORK\NfeServer\controller\nfe.controller.empresa.pas</Transaction>
+    <Transaction>2021/06/01 14:05:33.982,=D:\WORK\NfeServer\components\superobject\superdate.pas</Transaction>
+    <Transaction>2021/06/01 14:05:34.010,=D:\WORK\NfeServer\components\superobject\superobject.pas</Transaction>
+    <Transaction>2021/06/01 14:05:34.030,=D:\WORK\NfeServer\components\superobject\supertimezone.pas</Transaction>
+    <Transaction>2021/06/01 14:05:34.047,=D:\WORK\NfeServer\components\superobject\supertypes.pas</Transaction>
+    <Transaction>2021/06/01 14:05:34.068,=D:\WORK\NfeServer\components\superobject\superxmlparser.pas</Transaction>
+    <Transaction>2021/06/01 14:53:10.665,D:\WORK\NfeServer\components\superobject\superobject.pas=</Transaction>
+    <Transaction>2021/06/01 14:53:25.024,=D:\WORK\NfeServer\components\superobject\superobject.pas</Transaction>
+    <Transaction>2021/06/01 14:53:25.034,=D:\WORK\NfeServer\components\superobject\XSuperJSON.pas</Transaction>
+    <Transaction>2021/06/01 14:53:25.046,=D:\WORK\NfeServer\components\superobject\XSuperObject.pas</Transaction>
+    <Transaction>2021/06/01 14:54:44.072,=D:\WORK\NfeServer\components\superobject\supertypes.pas</Transaction>
+    <Transaction>2021/06/01 14:56:22.335,D:\WORK\NfeServer\components\superobject\superobject.pas=</Transaction>
+    <Transaction>2021/06/01 14:56:25.446,D:\WORK\NfeServer\components\superobject\supertypes.pas=</Transaction>
+    <Transaction>2021/06/02 05:37:51.440,=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/06/02 05:38:18.393,D:\WORK\NfeServer\httphandlers\dfe.httphandlers.empresa.pas=D:\WORK\NfeServer\Unit1.pas</Transaction>
+    <Transaction>2021/06/02 06:39:35.685,D:\WORK\NfeServer\httphandlers\dfe.httphandler.empresa.pas=D:\WORK\NfeServer\httphandlers\dfe.httphandlers.empresa.pas</Transaction>
+    <Transaction>2021/06/02 06:40:10.288,D:\WORK\NfeServer\httphandlers\dfe.httphandlers.empresa.pas=D:\WORK\NfeServer\httphandlers\dfe.httphandler.empresa.pas</Transaction>
+  </Transactions>
+</BorlandProject>

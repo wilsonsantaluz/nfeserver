@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/05/10 08:28:46.000.707,=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.pas</Transaction>
+    <Transaction>2021/05/21 12:16:00.000.392,=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.pas</Transaction>
+    <Transaction>2021/05/21 12:16:12.000.374,=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit19.pas</Transaction>
+    <Transaction>2021/05/21 12:16:52.000.957,D:\WORK\NfeServer\teste\utester.pas=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit19.pas</Transaction>
+    <Transaction>2021/05/21 12:17:11.000.204,D:\WORK\NfeServer\teste\utester.pas=</Transaction>
+    <Transaction>2021/05/21 12:17:36.000.621,D:\WORK\NfeServer\teste\utester.pas=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.pas</Transaction>
+    <Transaction>2021/05/21 12:17:36.000.621,D:\WORK\NfeServer\teste\utester.dfm=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.dfm</Transaction>
+    <Transaction>2021/05/21 12:17:54.000.819,D:\WORK\NfeServer\teste\teste_units.dproj=C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Project16.dproj</Transaction>
+    <Transaction>2021/05/21 17:58:47.000.125,=D:\WORK\NfeServer\lib\defe.origin.return.pas</Transaction>
+    <Transaction>2021/05/21 17:59:06.000.838,=D:\WORK\NfeServer\lib\dfe.lib.normalize.pas</Transaction>
+    <Transaction>2021/05/21 17:59:06.000.830,=D:\WORK\NfeServer\lib\dfe.lib.jsontoXml.pas</Transaction>
+    <Transaction>2021/05/21 17:59:07.000.773,=D:\WORK\NfeServer\lib\dfe.lib.xmltoJson.pas</Transaction>
+    <Transaction>2021/05/21 18:00:45.000.238,D:\WORK\NfeServer\lib\defe.origin.return.pas=D:\WORK\NfeServer\lib\dfe.origin.return.pas</Transaction>
+    <Transaction>2021/05/21 18:01:07.000.893,D:\WORK\NfeServer\lib\dfe.origin.return.pas=D:\WORK\NfeServer\lib\dfe.lib.origin.return.pas</Transaction>
+  </Transactions>
+</BorlandProject>

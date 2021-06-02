@@ -1,0 +1,58 @@
+object fteste: Tfteste
+  Left = 0
+  Top = 0
+  Caption = 'teste_unitario'
+  ClientHeight = 557
+  ClientWidth = 886
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 886
+    Height = 41
+    Align = alTop
+    TabOrder = 0
+    ExplicitLeft = 368
+    ExplicitTop = 168
+    ExplicitWidth = 185
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 516
+    Width = 886
+    Height = 41
+    Align = alBottom
+    TabOrder = 1
+    ExplicitTop = 8
+    object Button1: TButton
+      Left = 40
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Exec teste'
+      TabOrder = 0
+    end
+  end
+  object Memo1: TMemo
+    Left = 0
+    Top = 41
+    Width = 886
+    Height = 475
+    Align = alClient
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 2
+    ExplicitLeft = 400
+    ExplicitTop = 256
+    ExplicitWidth = 185
+    ExplicitHeight = 89
+  end
+end
