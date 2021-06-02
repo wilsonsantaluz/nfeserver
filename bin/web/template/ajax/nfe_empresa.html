@@ -1,0 +1,221 @@
+﻿<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link rel="stylesheet" href="assets/plugins/sweetalert/sweetalert2.min.css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin #content -->
+<div id="content" class="content">
+   <!-- begin breadcrumb -->
+   <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">Home</a></li>
+      <li><a href="javascript:;">Empresas</a></li>
+      <li class="active">Empresas</li>
+   </ol>
+   <!-- end breadcrumb -->
+   <!-- begin page-header -->
+   <h1 class="page-header">Empresas <small></small></h1>
+   <!-- end page-header -->
+   <!-- begin row -->
+   <div class="row">
+      <!-- begin col-6 -->      
+      <div class="col-md-12">
+         <!-- begin panel -->
+         <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+            <div class="panel-heading">
+               <div class="panel-heading-btn">
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
+                     data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success"
+                     data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
+                     data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger"
+                     data-click="panel-remove"><i class="fa fa-times"></i></a>
+               </div>
+               <h4 class="panel-title">Parmetros da empresa</h4>
+            </div>
+            <div class="panel-body">
+               <div class="row" id="rowsearch">
+                  <div class="col-sm-12 col-md-12 col-lg-12column">
+                     <div class="col-sm- col-md-4 col-lg-4" style="padding: 2px">
+                        <div class="form-group" id="selectfiliais_FG">
+                           <label class="control-label" for="selectfiliais">Empresa</label>
+                           <select class="input input-sm form-control user-success" id="selectfiliais" name="selectfiliais" size="1">
+                              <option value="0">Nada selecionado </option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-sm- col-md-4 col-lg-4" style="padding-top: 25px">
+                        <div class="form-group" id="btcadastro">
+                           <button type="submit" id="empresainserir" class="btn btn-sm btn-success">Cadastrar</button>    
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row  well" id="modalrow18"  Dados basicos style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <label for="cnpj">Cnpj:</label>
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" id="cnpj" class="form-control" required >
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-8 col-lg-8">
+                     <div class="defaltspan form-group">
+                        <label for="razaoSocial">Razão social:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="razaoSocial" class="form-control" required>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row  well" id="modalrow19" Endereco style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="defaltspan form-group">
+                        <label for="endereco">Endereço:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="endereco" class="form-control" required>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="complemento">Complemento:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                           <input type="text" id="complemento" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="bairro">Bairro:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="bairro" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row row  well" id="modalrow20" style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="cidade">Cidade:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="cidade" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-2 col-lg-2">
+                     <div class="dform-group">
+                        <label for="codMunicipio">Cód municipio:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="number" id="codMunicipio" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-2 col-lg-2">
+                     <div class="dform-group">
+                        <label for="numero">Numero:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="number" id="numero" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <div class="input-group">                       
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="telefone" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row row  well" id="modalrow21" dados inscricao style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="inscricaoMunicipal">Inscrição municipal:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="inscricaoMunicipal" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="inscricaoEstadual">inscricaoEstadual:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="inscricaoEstadual" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="form-group">
+                        <label for="ambiente">Ambiente:</label>
+                        <select id="ambiente" class="form-control">
+                           <option>Homologação</option>
+                           <option>Produção</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+               <div class="row  well" id="modalrow22" certificado style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="certificadoPfx">Certificado:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="text" id="certificadoPfx" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="validade">Validade:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="date" id="validade" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="senhaPfx">Senha do certificado:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="text" id="senhaPfx" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row well" id="modalrowbotoes" style="text-align :center;margin-top :10px;">
+                  <div class="col-xs-12 col-sm-12 col-lg-12">
+                     <button type="submit" id="empresagravar" class="btn btn-sm btn-success">Gravar</button>
+                     <button type="submit" id="empresareload" class="btn btn-sm btn-danger">Cancelar</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- end panel -->
+      </div>
+      <!-- end col-6 -->
+   </div>
+   <!-- end row -->
+</div>
+<!-- end #content -->
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="assets/plugins/sweetalert/sweetalert2.min.js"></script>
+<script>
+   App.setPageTitle('Servidor NFe | Empresas');
+   $.getScript('assets/js2/nfe_app.js').done(function () {
+       $.getScript('assets/js2/view/nfe_view_empresa.js').done(function () {
+           rpsConfigMain.init();
+       });
+   });
+</script>
+<!-- ================== END PAGE LEVEL JS ================== -->

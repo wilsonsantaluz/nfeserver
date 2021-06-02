@@ -1,0 +1,380 @@
+﻿<div class="modal fade" id="htmlobjModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header"> Dados NFe   <small id="small-version-modal"> </small>   <button type="button"   class="close" data-dismiss="modal">&times;</button> </div>
+         <div id="panel" class="panel-default">
+            <div id="panelcorpo" class="panel-body">
+               <div class="col-xs-12 col-sm-12 col-lg-12">
+                  <div class="panel panel-default panel-with-tabs" data-sortable-id="ui-unlimited-tabs-2">
+                     <div class="panel-heading p-0">
+                        <div class="tab-overflow">
+                           <ul class="nav nav-tabs">
+                              <li class="active"><a href="#nav-tab_header" data-toggle="tab">Indentificação</a></li>
+                              <li class=""><a href="#nav-tab_valores" data-toggle="tab">Valores</a></li>
+                              <li class=""><a href="#nav-tab_tomador" data-toggle="tab">Tomador</a></li>
+                              <li class=""><a href="#nav-tab_prestador" data-toggle="tab">Prestador</a></li>
+                              <li class=""><a href="#nav-tab_itens" data-toggle="tab">Itens</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="tab-content">
+                        <div class="tab-pane fade active in well well-lg" id="nav-tab_header">
+                           <h3 class="m-t-10">Indentificação</h3>
+                           <div class="row" id="modalrow1">
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="ID_RPS">Código:</label>
+                                    <input type="text" id="ID_RPS" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="CD_FILIAL">Filial:</label>
+                                    <input type="text" id="CD_FILIAL" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="DT_EMIS">Dt.Emissao:</label>
+                                    <input type="text" id="DT_EMIS" class="form-control odatepicke" readonly >
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow1">
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="DT_COMP">Data Comp.:</label>
+                                    <input type="text" id="DT_COMP" class="form-control odatepicker"   readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="NUM_RPS">Numero.:</label>
+                                    <input type="text" id="NUM_RPS" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="SERIE_RPS">Serie:</label>
+                                    <input type="text" id="SERIE_RPS" class="form-control text-right"   readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="STATUS">Status:</label>
+                                    <input type="text" id="STATUS" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow1x">
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="INDENTIFICACAO">Indentificação:</label>
+                                    <input type="text" id="INDENTIFICACAO" class="form-control"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="RPS_SUBSTITUIDO">Substituido:</label>
+                                    <input type="text" id="RPS_SUBSTITUIDO" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="CODIGO_VERIFICACAO">Cód verificação:</label>
+                                    <input type="text" id="CODIGO_VERIFICACAO" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow1x">
+                              <div class="col-xs-12 col-sm-12 col-lg-12">
+                                 <div class="defaltspan form-group">
+                                    <label for="CHAVE_ACESSO">Chave de acesso:</label>
+                                    <input type="text" id="CHAVE_ACESSO" class="form-control"  readonly >
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tab-pane fade well well-lg" id="nav-tab_valores">
+                           <h3 class="m-t-10">Valores</h3>
+                           <div class="row" id="modalrow2">
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_SERVICOS">Vlr.Serv:</label>
+                                    <input type="text" id="VLR_SERVICOS" class="form-control text-right"   readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_DEDUCOES">Deduções.:</label>
+                                    <input type="text" id="VLR_DEDUCOES" class="form-control text-right"   readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_PIS">Pis:</label>
+                                    <input type="text" id="VLR_PIS" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_COFINS">Cofins:</label>
+                                    <input type="text" id="VLR_COFINS" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_INSS">Inss:</label>
+                                    <input type="text" id="VLR_INSS" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_IR">Ir:</label>
+                                    <input type="text" id="VLR_IR" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow3">
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_CSLL">Vlr Csll:</label>
+                                    <input type="text" id="VLR_CSLL" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="PERC_ALQ_ISS">Aliq.ISS:</label>
+                                    <input type="text" id="PERC_ALQ_ISS" class="form-control campopercent text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_ISS">Vlr.ISS:</label>
+                                    <input type="text" id="VLR_ISS" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_OTR_RETENCOES">Outras Ret.:</label>
+                                    <input type="text" id="VLR_OTR_RETENCOES" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_BASE_CALCULO">Base Calc.:</label>
+                                    <input type="text" id="VLR_BASE_CALCULO" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_LIQUIDO_NFSE">Vlr.Liquido</label>
+                                    <input type="text" id="VLR_LIQUIDO_NFSE" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow4">
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_DESC_INCONDICIONADO">Dec.Incondicional:</label>
+                                    <input type="text" id="VLR_DESC_INCONDICIONADO" class="form-control text-right campopercent"
+                                       readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_DESC_CONDICIONADO">Dec.Condicional:</label>
+                                    <input type="text" id="VLR_DESC_CONDICIONADO" class="form-control text-right campopercent"
+                                       readonly>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tab-pane fade well well-lg" id="nav-tab_tomador">
+                           <h3 class="m-t-10">Tomador</h3>
+                           <div class="row" id="modalrow14">
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="CNPJ_TOMADOR">Cpf/Cnpj Tomador:</label>
+                                    <input type="text" id="CNPJ_TOMADOR" class="form-control text-right" readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-8 col-lg-8">
+                                 <div class="defaltspan form-group">
+                                    <label for="RZ_TOMADOR">Tomador:</label>
+                                    <input type="text" id="RZ_TOMADOR" class="form-control" readonly>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow15">
+                              <div class="col-xs-12 col-sm-8 col-lg-8">
+                                 <div class="defaltspan form-group">
+                                    <label for="END_TOMADOR">Endereço tomador:</label>
+                                    <input type="text" id="END_TOMADOR" class="form-control" readonly  >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="NR_TOMADOR">Numero tomador </label>
+                                    <input type="text" id="NR_TOMADOR" class="form-control" readonly >
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow14">
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="BAIRRO_TOMADOR">Bairro Bairro:</label>
+                                    <input type="text" id="BAIRRO_TOMADOR" class="form-control" readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="CD_MUN_TOMADOR">Cód Municipio:</label>
+                                    <input type="text" id="CD_MUN_TOMADOR" class="form-control text-right" readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="UF_TOMADOR">Uf Tomador:</label>
+                                    <input type="text" id="UF_TOMADOR" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="CEP_TOMADOR">Cep Tomador </label>
+                                    <input type="text" id="CEP_TOMADOR" class="form-control campocep text-right"  readonly>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tab-pane fade well well-lg" id="nav-tab_prestador">
+                           <h3 class="m-t-10">Prestador</h3>
+                           <div class="row" id="modalrow16">
+                              <div class="col-xs-12 col-sm-3 col-lg-3">
+                                 <div class="defaltspan form-group">
+                                    <label for="CNPJ_PRESTADOR">Cnpj Prestador:</label>
+                                    <input type="text" id="CNPJ_PRESTADOR" class="form-control campocnpj text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 col-lg-3">
+                                 <div class="defaltspan form-group">
+                                    <label for="INSC_MUN_PRESTADOR">Inscrição Prestador:</label>
+                                    <input type="text" id="INSC_MUN_PRESTADOR" class="form-control text-right"
+                                       readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-6 col-lg-6">
+                                 <div class="defaltspan form-group">
+                                    <label for="END_PRESTADOR">Endereço Prestador:</label>
+                                    <input type="text" id="END_PRESTADOR" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow17">
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="NR_PRESTADOR">Numero:</label>
+                                    <input type="text" id="NR_PRESTADOR" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="BAIRRO_PRESTADOR">Numero:</label>
+                                    <input type="text" id="BAIRRO_PRESTADOR" class="form-control"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="UF_PRESTADOR">Uf:</label>
+                                    <input type="text" id="UF_PRESTADOR" class="form-control" readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="CEP_PRESTADOR">Cep:</label>
+                                    <input type="text" id="CEP_PRESTADOR" class="form-control campocep text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="CD_PAIS_PRESTADOR">Pais:</label>
+                                    <input type="text" id="CD_PAIS_PRESTADOR" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tab-pane fade well well-lg" id="nav-tab_itens">
+                           <h3 class="m-t-10">Itens da NFSE</h3>
+                           <div class="row" id="modalrow18">
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="CD_PROD">Código:</label>
+                                    <input type="text" id="CD_PROD" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="DESC_SERVICO">Descrição:</label>
+                                    <input type="text" id="DESC_SERVICO" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="QTD_SERV">Qt.:</label>
+                                    <input type="text" id="QTD_SERV" class="form-control text-right" readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_UNITARIO">Valor Un.:</label>
+                                    <input type="text" id="VLR_UNITARIO" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_TOTAL">Valor Total:</label>
+                                    <input type="text" id="VLR_TOTAL" class="form-control text-right" readonly >
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="modalrow19">
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="CD_CNAE">Cnae:</label>
+                                    <input type="text" id="CD_CNAE" class="form-control text-right"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="CD_TRIB_MUNICIPIO"> Cd trib:</label>
+                                    <input type="text" id="CD_TRIB_MUNICIPIO" class="form-control"  readonly>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 col-lg-4">
+                                 <div class="defaltspan form-group">
+                                    <label for="ITEM_LISTA_SERVICO">Item lista.:</label>
+                                    <input type="text" id="ITEM_LISTA_SERVICO" class="form-control text-right" readonly >
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-2 col-lg-2">
+                                 <div class="defaltspan form-group">
+                                    <label for="VLR_DESCONTO">Desconto:</label>
+                                    <input type="text" id="VLR_DESCONTO" class="form-control text-right"  readonly >
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row well" id="modalrowbotoes" style="text-align :center;">
+                     <div class="col-xs-12 col-sm-12 col-lg-12">
+                        <button type="submit" onclick="gravarRps();" id="rpsgravar" class="btn btn-sm btn-success">Gravar</button>
+                       
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

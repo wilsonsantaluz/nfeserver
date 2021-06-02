@@ -1,0 +1,209 @@
+﻿<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link rel="stylesheet" href="assets/plugins/sweetalert/sweetalert2.min.css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin #content -->
+<div id="content" class="content">
+   <!-- begin breadcrumb -->
+   <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">Home</a></li>
+      <li><a href="javascript:;">Configurações</a></li>
+      <li class="active">Config</li>
+   </ol>
+   <!-- end breadcrumb -->
+   <!-- begin page-header -->
+   <h1 class="page-header">Configurações <small></small></h1>
+   <!-- end page-header -->
+   <!-- begin row -->
+   <div class="row">
+      <!-- begin col-6 -->      
+      <div class="col-md-12">
+         <!-- begin panel -->
+         <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+            <div class="panel-heading">
+               <div class="panel-heading-btn">
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
+                     data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success"
+                     data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
+                     data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger"
+                     data-click="panel-remove"><i class="fa fa-times"></i></a>
+               </div>
+               <h4 class="panel-title">Parametros</h4>
+            </div>
+            <div class="panel-body">
+               <div class="row" id="rowsearch">
+                  <div class="col-sm-12 col-md-12 col-lg-12 column">
+                     <div class="col-sm- col-md-3 col-lg-3" style="padding: 2px">
+                        <div class="form-group" id="selectfiliais_FG">
+                           <label class="control-label" for="selectfiliais">Filial</label>
+                           <select class="input input-sm form-control user-success" id="selectfiliais" name="selectfiliais" size="1">
+                              <option value="0">Nada selecionado </option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row  well" id="modalrow18"  Seguranca style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <label for="USUARIO_PREFEITURA">Usuario Prefeitura:</label>
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" id="USUARIO_PREFEITURA" class="form-control">
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="defaltspan form-group">
+                        <label for="SENHA_WEBSERVER">Senha Prefeitura:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="text" id="SENHA_WEBSERVER" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="defaltspan form-group">
+                        <label for="FRASE_SECRETA">Frase Secreta:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="text" id="FRASE_SECRETA" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row  well" id="modalrow19" Aliquotas/Serie style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="SERIE">Serie para NFSE:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                           <input type="number" id="SERIE" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="CNAE">CNAE Filial:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                           <input type="text" id="CNAE" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="CD_TRIB_MUNICIPIO">Cód Trib.Municipal:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                           <input type="text" id="CD_TRIB_MUNICIPIO" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row row  well" id="modalrow20" style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="PERC_ISS">Aliquota ISS:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                           <input type="number" id="PERC_ISS" class="form-control"  placeholder="0.00" min="0" value="0" step="0.01" title="Currency" pattern="^\d+(?:\.\d{1,2})?$">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="PERC_IR">Aliquota IR:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                           <input type="number" id="PERC_IR" class="form-control" placeholder="0.00" min="0" value="0" step="0.01" title="Currency" pattern="^\d+(?:\.\d{1,2})?$">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="form-group">
+                      <label for="CD_MOV_OP">Cód. Natureza Operação:</label>
+                      <div class="input-group">                       
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                        <input type="number" id="CD_MOV_OP" class="form-control">
+                     </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row row  well" id="modalrow21" style="margin-top :10px;">
+                 <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="dform-group">
+                        <label for="SENHA_CERTIFICADO">Senha Certificado:</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="text" id="SENHA_CERTIFICADO" class="form-control">
+                        </div>
+                     </div>
+                  </div>
+                
+                  <div class="col-xs-12 col-sm-8 col-lg-8">
+                     <div class="form-group">
+                        <label for="ARQUIVOPFX">Arquivo Certificado(PFX):</label>
+                        <div class="input-group">                           
+                           <textarea class="form-control" rows="2" cols="250" id="ARQUIVOPFX"> </textarea>
+                        </div>
+                     </div>
+                  </div>
+                 
+               </div>
+               <div class="row  well" id="modalrow22" style="margin-top :10px;">
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="form-group">
+                        <label for="AMBIENTE">Ambiente:</label>
+                        <select id="AMBIENTE" class="form-control">
+                           <option>Homologação</option>
+                           <option>Produção</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                     <div class="checkbox">
+                        <label>
+                        <input type="checkbox" id="ENVIO_AUTO" value="" />
+                        Enviar automaticamente RPS
+                        </label>
+                     </div>
+                  </div>
+                    <div class="col-xs-12 col-sm-4 col-lg-4">
+                    <div class="dform-group">
+                        <label for="ULTIMO_LOTE_ENVIADO">Numeração de lote(Incremental):</label>
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-bell"></i></span>
+                           <input type="text" id="ULTIMO_LOTE_ENVIADO" class="form-control" readonly>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  
+               </div>
+            </div>
+            <div class="row well" id="modalrowbotoes" style="text-align :center;margin-top :10px;">
+               <div class="col-xs-12 col-sm-12 col-lg-12">
+                  <button type="submit" id="rpsgravar" class="btn btn-sm btn-success">Gravar</button>
+                  <button type="submit" id="rpsreload" class="btn btn-sm btn-danger">Cancelar</button>
+               </div>
+            </div>
+         </div>
+         <!-- end panel -->
+      </div>
+      <!-- end col-6 -->
+   </div>
+   <!-- end row -->
+</div>
+<!-- end #content -->
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="assets/plugins/sweetalert/sweetalert2.min.js"></script>
+<script>
+   App.setPageTitle('Painel NFSE | Configurações');
+   $.getScript('assets/js2/nfse_app.js').done(function () {
+       $.getScript('assets/js2/view/rps_view_rps_configuracao.js').done(function () {
+           rpsConfigMain.init();
+       });
+   });
+</script>
+<!-- ================== END PAGE LEVEL JS ================== -->
