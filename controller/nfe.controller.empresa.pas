@@ -9,7 +9,7 @@ uses
   JSON,
   sysutils,
 
-  dfe.dao.empresas,
+  dfe.dao.empresa,
 
   dfe.model.infonfe,
   dfe.dao.infoNfe,
@@ -39,10 +39,10 @@ var
 begin
   dao := TDaoEmpresa.create;
   try
-     empresa:=TEmpresa.Create;
+     empresa:=TEmpresa.Create('');
      empresa:=TJson.JsonToObject<TEmpresa> (json) ;
      dao.apagarEmpresa(empresa) ;
-
+     result:='Empresa '+ empresa.cnpj +' excluida';
   finally
     if assigned(empresa) then
       FreeAndNil(empresa);
@@ -71,7 +71,7 @@ begin
   end;
 
 end;
-
+{-----------------------------------------------------------------------------}
 function TEmpresaController.gravarEmpresa(json: TJSONObject): string;
 var
   dao: TDaoEmpresa;
@@ -80,7 +80,7 @@ var
 begin
   dao := TDaoEmpresa.create;
   try
-     empresa:=TEmpresa.Create;
+     empresa:=TEmpresa.Create('');
      empresa:=TJson.JsonToObject<TEmpresa> (json) ;
      if (empresa.cnpj ='') or (Length(sonumeros( empresa.cnpj)) <>14) then
        raise Exception.Create('Cnpj não informado ou invalido -> '+empresa.cnpj);
@@ -89,14 +89,14 @@ begin
 
 
      dao.gravarEmpresa(empresa) ;
-
+     result:='Empresa '+ empresa.cnpj +' gravada/atualizada';
   finally
     if assigned(empresa) then
       FreeAndNil(empresa);
     FreeAndNil(dao);
   end;
 end;
-
+{-----------------------------------------------------------------------------}
 function TEmpresaController.listarEmpresa(json: TJSONObject): string;
 var
   dao: TDaoEmpresa;

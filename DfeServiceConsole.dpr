@@ -14,7 +14,6 @@ uses
   dfe.httphandler.dashboard in 'httphandlers\dfe.httphandler.dashboard.pas',
   dfe.httpserver.base in 'httpserver\dfe.httpserver.base.pas',
   dfe.httpserver in 'httpserver\dfe.httpserver.pas',
-  dfe.lib.util in 'lib\dfe.lib.util.pas',
   dfe.dao.nfe in 'dao\dfe.dao.nfe.pas',
   dfe.model.nfe in 'model\dfe.model.nfe.pas',
   dfe.dao.base in 'dao\dfe.dao.base.pas',
@@ -25,19 +24,33 @@ uses
   dfe.model.config in 'model\dfe.model.config.pas',
   dfe.model.empresa in 'model\dfe.model.empresa.pas',
   nfe.controller.nfe in 'controller\nfe.controller.nfe.pas',
-  dfe.lib.constants in 'lib\dfe.lib.constants.pas',
   dfe.model.infonfe in 'model\dfe.model.infonfe.pas',
   dfe.dao.infoNfe in 'dao\dfe.dao.infoNfe.pas',
-  dfe.dao.empresas in 'dao\dfe.dao.empresas.pas',
+  dfe.dao.empresa in 'dao\dfe.dao.empresa.pas',
   nfe.controller.empresa in 'controller\nfe.controller.empresa.pas',
   XSuperJSON in 'components\superobject\XSuperJSON.pas',
   XSuperObject in 'components\superobject\XSuperObject.pas',
-  dfe.httphandlers.empresa in 'httphandlers\dfe.httphandlers.empresa.pas';
+  dfe.httphandlers.empresa in 'httphandlers\dfe.httphandlers.empresa.pas',
+  dfe.lib.constants in 'lib\dfe.lib.constants.pas',
+  dfe.lib.jsontoXml in 'lib\dfe.lib.jsontoXml.pas',
+  dfe.lib.normalize in 'lib\dfe.lib.normalize.pas',
+  dfe.lib.origin.return in 'lib\dfe.lib.origin.return.pas',
+  dfe.lib.util in 'lib\dfe.lib.util.pas',
+  dfe.lib.xmltoJson in 'lib\dfe.lib.xmltoJson.pas',
+  dfe.origin.return in 'lib\dfe.origin.return.pas',
+  dfe.dao.log in 'dao\dfe.dao.log.pas',
+  dfe.model.log in 'model\dfe.model.log.pas',
+  dfe.lib.acbr.config in 'lib\dfe.lib.acbr.config.pas',
+  dfe.model.validacaorequest in 'model\dfe.model.validacaorequest.pas',
+  dfe.model.validacaoResponse in 'model\dfe.model.validacaoResponse.pas',
+  dfe.model.cancelamento in 'model\dfe.model.cancelamento.pas',
+  dfe.model.cancelamentoRequest in 'model\dfe.model.cancelamentoRequest.pas',
+  dfe.dao.cancelamento in 'dao\dfe.dao.cancelamento.pas';
 
 var
   terminate: Boolean;
-  info: TinfoNfe;
-  analise: tanalissemensal;
+
+
 
 begin
   try
@@ -51,71 +64,6 @@ begin
     Writeln(' Runing on port:  ' + inttostr(_HTTP_PORT));
     Writeln('---------------------------------------------------------------');
     THttpHandlerBase.Create;
-    info := TinfoNfe.Create;
-    info.notasEmitidas := 100;
-    info.notasCanceladas := 10;
-    info.dataUpdate := NOW;
-    info.errosEmissao := 65;
-
-      analise := tanalissemensal.Create;
-    analise.tipo := 'VALIDADAS';
-    analise.valor := 177;
-    analise.data := date ;
-
-    info.analissemensal.add( analise);
-    analise := tanalissemensal.Create;
-    analise.tipo := 'CANCELADAS';
-    analise.valor := 3;
-    analise.data := date;
-
-
-    analise := tanalissemensal.Create;
-    analise.tipo := 'VALIDADAS';
-    analise.valor := 150;
-    analise.data := date - 1;
-
-    info.analissemensal.add( analise);
-    analise := tanalissemensal.Create;
-    analise.tipo := 'CANCELADAS';
-    analise.valor := 13;
-    analise.data := date - 1;
-
-
-    info.analissemensal.add( analise);
-
-    analise := tanalissemensal.Create;
-    analise.tipo := 'VALIDADAS';
-    analise.valor := 130;
-    analise.data := date - 3;
-
-    info.analissemensal.add( analise);
-
-    analise.tipo := 'CANCELADAS';
-    analise.valor := 28;
-    analise.data := date - 3;
-
-    info.analissemensal.add( analise);
-
-
-    analise := tanalissemensal.Create;
-    analise.tipo := 'VALIDADAS';
-    analise.valor := 256;
-    analise.data := date - 4;
-
-    info.analissemensal.add( analise);
-
-    analise.tipo := 'CANCELADAS';
-    analise.valor := 12;
-    analise.data := date - 4;
-
-    info.analissemensal.add( analise);
-
-    with TDaoInfoNfe.Create do
-    begin
-      setInfoNfe(info);
-      free;
-    end;
-
     while not terminate do
     begin
       sleep(1);

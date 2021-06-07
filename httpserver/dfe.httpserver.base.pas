@@ -324,12 +324,9 @@ procedure THttpServerBase.setResponse(coderetorno, respno: integer;
 begin
   ResponseInfo.ContentType := 'application/json; charset=iso-8859-1';
   ResponseInfo.ResponseNo := respno;
-  if (coderetorno = 10) or (coderetorno = 1) then
+  ResponseInfo.ContentText := '{"codretorno":' + IntToStr(coderetorno) +
+    ' ,"msg":"' + msg + '"}'
 
-    ResponseInfo.ContentText := '{"codretorno":' + IntToStr(coderetorno) +
-      ' ,"msg":"' + msg + '"}'
-  else
-    ResponseInfo.ContentText := msg;
 end;
 
 { ------------------------------------------------------------------------------ }

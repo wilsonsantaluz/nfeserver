@@ -54,6 +54,8 @@ const
   _ColectionConfig = 'config';
   _ColectionLotes = 'lotes';
   _ColectionEmpresas = 'empresas';
+  _ColectionCancelamentos ='cancelamentos' ;
+  _ColectionLogs ='nfelogs' ;
 
 type
 

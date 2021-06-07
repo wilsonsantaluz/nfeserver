@@ -66,7 +66,7 @@ begin
       CoInitialize(nil);
 {$ENDIF MSWINDOWS}
       try
-         setResponse(200, 200, controller.getEmpresa(jValue));
+         ResponseInfo.ContentText := controller.getEmpresa(jValue);
 
       except
         on E: Exception do

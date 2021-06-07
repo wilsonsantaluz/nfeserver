@@ -28,15 +28,13 @@ type
     FfilterPath: string;
     procedure processrequest; override;
     procedure handlePostRequest;
-
   public
-    function getInfo: string;
-    function validar: string;
-    function cancelar: string;
-    function inutilizar: string;
-    function imprimir: string;
-    function listarNfe: string;
-
+    procedure getInfo;
+    procedure validar;
+    procedure cancelar;
+    procedure inutilizar;
+    procedure imprimir;
+    procedure listarNfe;
     constructor create; override;
 
   published
@@ -57,7 +55,7 @@ begin
 end;
 
 { ------------------------------------------------------------------------------ }
-function TNfeHttpHandler.getInfo: string;
+procedure TNfeHttpHandler.getInfo ;
 var
   controller: TNnfeController;
 begin
@@ -69,8 +67,7 @@ begin
       CoInitialize(nil);
 {$ENDIF MSWINDOWS}
       try
-         setResponse(200, 200, controller.GetInfo);
-
+         ResponseInfo.ContentText :=  controller.GetInfo;
       except
         on E: Exception do
         begin
@@ -87,37 +84,37 @@ begin
 end;
 
 { ------------------------------------------------------------------------------ }
-function TNfeHttpHandler.cancelar(): string;
+procedure TNfeHttpHandler.cancelar();
 var
   controller: TNnfeController;
 begin
   controller := TNnfeController.create;
   try
-    result := controller.cancelarNfe(jValue);
+   ResponseInfo.ContentText := controller.cancelarNfe(jValue);
   finally
     FreeAndNil(controller);
   end;
 end;
 
 { ------------------------------------------------------------------------------ }
-function TNfeHttpHandler.imprimir: string;
+procedure TNfeHttpHandler.imprimir;
 begin
   // todo
 end;
 
-function TNfeHttpHandler.inutilizar(): string;
+procedure TNfeHttpHandler.inutilizar();
 var
   controller: TNnfeController;
 begin
   controller := TNnfeController.create;
   try
-    result := controller.inutilizarNfe(jValue);
+    ResponseInfo.ContentText :=controller.inutilizarNfe(jValue);
   finally
     FreeAndNil(controller);
   end;
 end;
 
-function TNfeHttpHandler.listarNfe: string;
+procedure TNfeHttpHandler.listarNfe;
 var
   controller: TNnfeController;
 begin
@@ -127,7 +124,7 @@ begin
     CoInitialize(nil);
 {$ENDIF MSWINDOWS}
     try
-      setResponse(200, 200, controller.listarNfe(jValue));
+      ResponseInfo.ContentText := controller.listarNfe(jValue);
     except
       on E: Exception do
       begin
@@ -143,7 +140,7 @@ begin
 end;
 
 { ------------------------------------------------------------------------------ }
-function TNfeHttpHandler.validar(): string;
+procedure TNfeHttpHandler.validar();
 var
   controller: TNnfeController;
 begin
@@ -153,7 +150,7 @@ begin
     CoInitialize(nil);
 {$ENDIF MSWINDOWS}
     try
-      setResponse(200, 200, controller.validarNfe(jValue));
+     ResponseInfo.ContentText := controller.validarNfe(jValue);
     except
       on E: Exception do
       begin
@@ -167,14 +164,16 @@ begin
 {$ENDIF MSWINDOWS}
   end;
 end;
-
 { ------------------------------------------------------------------------------ }
 
 procedure TNfeHttpHandler.handlePostRequest;
 
 var
   jv: TJSONValue;
+  s:string;
 begin
+  s:=jValue.ToString;
+  s:='';
   try
     if (isjason) and (assigned(jValue)) and (assigned(jValue.Get('operacao')))
     then
@@ -184,6 +183,8 @@ begin
         validar
       else if jv.Value = 'cancelamento' then
         cancelar
+      else if jv.Value = 'inutilizacao' then
+        inutilizar
       else if jv.Value = 'imprimir' then
         imprimir
       else
@@ -216,6 +217,11 @@ begin
           begin
             handlePostRequest();
           end;
+       vrPost:
+          begin
+            handlePostRequest();
+          end;
+
 
       end;
     end;

@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils,
   System.Generics.Collections,
-  system.json,
+  System.json,
   System.classes;
 
 Type
@@ -18,26 +18,33 @@ Type
     Fchave: string;
     FdataEmissao: Tdatetime;
     Fxml: string;
+    FxmlRetorno: string;
     Fstatus: Integer;
     Fmotivo: String;
     Ftxt: string;
+    Fdigitoval: string;
     FdataValidacao: Tdatetime;
+    FdataProcessamento: Tdatetime;
     Fprotocolo: string;
 
   public
     constructor create(param: string);
   published
-    property Cnpj: string read Fcnpj write Fcnpj;
-    property Numero: Integer read Fnumero write Fnumero;
-    property Serie: Integer read Fserie write Fserie;
-    property Chave: string read Fchave write Fchave;
-    property DataEmissao: Tdatetime read FdataEmissao write FdataEmissao;
-    property Xml: string read Fxml write Fxml;
-    property Txt: string read Ftxt write Ftxt;
-    property Status: Integer read Fstatus write Fstatus;
-    property Motivo: string read Fmotivo write Fmotivo;
-    property DataValidacao: Tdatetime read FdataValidacao write FdataValidacao;
-    property Protocolo: string read Fprotocolo write Fprotocolo;
+    property cnpj: string read Fcnpj write Fcnpj;
+    property numero: Integer read Fnumero write Fnumero;
+    property serie: Integer read Fserie write Fserie;
+    property chave: string read Fchave write Fchave;
+    property dataEmissao: Tdatetime read FdataEmissao write FdataEmissao;
+    property xml: string read Fxml write Fxml;
+    property xmlRetorno: string read FxmlRetorno write FxmlRetorno;
+    property txt: string read Ftxt write Ftxt;
+    property status: Integer read Fstatus write Fstatus;
+    property motivo: string read Fmotivo write Fmotivo;
+    property dataValidacao: Tdatetime read FdataValidacao write FdataValidacao;
+    property dataProcessamento: Tdatetime read FdataProcessamento
+      write FdataProcessamento;
+    property protocolo: string read Fprotocolo write Fprotocolo;
+    property digitoval: string read Fdigitoval write Fdigitoval;
   end;
 
 type
@@ -53,15 +60,15 @@ uses
 constructor Tnota.create(param: string);
 var
   dao: TDaoNfe;
-  oparam:tjsonObject;
+  oparam: tjsonObject;
 begin
   dao := TDaoNfe.create;
   try
-    if param <>'' then
+    if param <> '' then
     begin
-      oparam:=TJSONObject.Create;
+      oparam := tjsonObject.create;
       oparam.ParseJSONValue(param);
-       dao.getNota(oparam);
+      dao.getNota(oparam);
     end;
   finally
     FreeAndNil(dao);

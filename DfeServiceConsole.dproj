@@ -198,7 +198,6 @@
         <DCCReference Include="httphandlers\dfe.httphandler.dashboard.pas"/>
         <DCCReference Include="httpserver\dfe.httpserver.base.pas"/>
         <DCCReference Include="httpserver\dfe.httpserver.pas"/>
-        <DCCReference Include="lib\dfe.lib.util.pas"/>
         <DCCReference Include="dao\dfe.dao.nfe.pas"/>
         <DCCReference Include="model\dfe.model.nfe.pas"/>
         <DCCReference Include="dao\dfe.dao.base.pas"/>
@@ -209,14 +208,28 @@
         <DCCReference Include="model\dfe.model.config.pas"/>
         <DCCReference Include="model\dfe.model.empresa.pas"/>
         <DCCReference Include="controller\nfe.controller.nfe.pas"/>
-        <DCCReference Include="lib\dfe.lib.constants.pas"/>
         <DCCReference Include="model\dfe.model.infonfe.pas"/>
         <DCCReference Include="dao\dfe.dao.infoNfe.pas"/>
-        <DCCReference Include="dao\dfe.dao.empresas.pas"/>
+        <DCCReference Include="dao\dfe.dao.empresa.pas"/>
         <DCCReference Include="controller\nfe.controller.empresa.pas"/>
         <DCCReference Include="components\superobject\XSuperJSON.pas"/>
         <DCCReference Include="components\superobject\XSuperObject.pas"/>
         <DCCReference Include="httphandlers\dfe.httphandlers.empresa.pas"/>
+        <DCCReference Include="lib\dfe.lib.constants.pas"/>
+        <DCCReference Include="lib\dfe.lib.jsontoXml.pas"/>
+        <DCCReference Include="lib\dfe.lib.normalize.pas"/>
+        <DCCReference Include="lib\dfe.lib.origin.return.pas"/>
+        <DCCReference Include="lib\dfe.lib.util.pas"/>
+        <DCCReference Include="lib\dfe.lib.xmltoJson.pas"/>
+        <DCCReference Include="lib\dfe.origin.return.pas"/>
+        <DCCReference Include="dao\dfe.dao.log.pas"/>
+        <DCCReference Include="model\dfe.model.log.pas"/>
+        <DCCReference Include="lib\dfe.lib.acbr.config.pas"/>
+        <DCCReference Include="model\dfe.model.validacaorequest.pas"/>
+        <DCCReference Include="model\dfe.model.validacaoResponse.pas"/>
+        <DCCReference Include="model\dfe.model.cancelamento.pas"/>
+        <DCCReference Include="model\dfe.model.cancelamentoRequest.pas"/>
+        <DCCReference Include="dao\dfe.dao.cancelamento.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -243,12 +256,6 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="bin\DfeServiceConsole.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>DfeServiceConsole.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -261,6 +268,12 @@
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="bin\DfeServiceConsole.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>DfeServiceConsole.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

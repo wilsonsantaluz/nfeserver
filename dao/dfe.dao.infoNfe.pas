@@ -57,9 +57,7 @@ var
   oQry: TMongoQuery;
   collection: TMongoCollection;
 
-
 begin
-
   collection := FCon.Databases[_Db].GetCollection(_ColectionInfo);
   oQry := TMongoQuery.create(collection.Env).Limit(500);
   oCrs := collection.Find(oQry, []);
@@ -68,15 +66,9 @@ begin
   if oCrs.Next then
   begin
     s := oCrs.Doc.AsJSON;
-   // result := Tjson.JsonToObject <TinfoNfe>(s);
-
-     result := TJSON.Parse<TinfoNfe>(s);
-     s:=result.analissemensal [0].tipo;
-
+    result := TJSON.Parse<TinfoNfe>(s);
+    s := result.analissemensal[0].tipo;
   end;
-
-
-
 end;
 
 { ---------------------------------------------------------------------------- }
@@ -90,8 +82,8 @@ begin
   begin
     oCol := FCon[_Db][_ColectionInfo];
     oCol.RemoveAll;
-     //oText := REST.JSON.Tjson.ObjectToJsonString(value);
-    oText:= TJSON.Stringify<TinfoNfe>(value);
+    // oText := REST.JSON.Tjson.ObjectToJsonString(value);
+    oText := TJSON.Stringify<TinfoNfe>(value);
     oDoc := FEnv.NewDoc;
     try
       oCol.BeginBulk;

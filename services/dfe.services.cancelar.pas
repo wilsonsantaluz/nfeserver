@@ -10,7 +10,6 @@ uses
   SysUtils,
   inifiles,
   math,
-
   XSBuiltIns,
   Variants,
   activex,
@@ -26,59 +25,47 @@ uses
   XMLIntf,
   syncobjs,
   dfe.lib.util,
-  dfe.model.nfe;
+  dfe.model.cancelamentoRequest,
+  dfe.model.empresa,
+  dfe.lib.acbr.config,
+  dfe.dao.cancelamento,
+  dfe.model.cancelamento;
 
 type
-  TnfeCancelar = class
+  TServiceCancelar = class
   private
     Facbr: TACBrNFe;
     FcStat: integer;
-    Fnota: Tnota;
+    Fempresa: TEmpresa;
+    Fcancelamento: Tcancelamento;
     Fmotivo: string;
   public
-    constructor create(nota: Tnota);
-    function cancelar: string;
+    constructor create(nota: Tcancelamento);
+    procedure cancelar;
   end;
 
 implementation
 
-function TnfeCancelar.cancelar(): string;
-
+procedure TServiceCancelar.cancelar();
 var
-
-  Justificativa: string;
-  str: string;
+  duplicidade: boolean;
   ochave: string;
+  dao: TDaoCancelamento;
 begin
   FcStat := 5001;
-
-  result := '';
   try
-    Justificativa := 'ERRO NA GERAÇÃO DO CUPON';
-    // 1- PRODUCAO
-    // 2-HOMOLOGACAO
-    Facbr := TACBrNFe.create(Nil);
-    Facbr.NotasFiscais.LoadFromFile(Fnota.xml);
-    if (Facbr.NotasFiscais.Count > 0) then
-    begin
-      // TAcbrConfig.SetAcbrObj(Facbr, FCnpjFilial);
-      ochave := Facbr.NotasFiscais[0].nfe.procNFe.chNFe;
-      Facbr.Configuracoes.Geral.ModeloDF := moNFCe;
-      Facbr.Configuracoes.WebServices.Ambiente := taProducao;
-      Facbr.Configuracoes.WebServices.UF :=
-        cuftouf(Facbr.NotasFiscais[0].nfe.Ide.cUF);
+    try
+      ochave := Fcancelamento.chave;
       Facbr.EventoNFe.Evento.Clear;
       with Facbr.EventoNFe.Evento.Add do
       begin
-        infEvento.chNFe := Fnota.Chave;
-        infEvento.cnpj := Fnota.cnpj;
-        if Facbr.NotasFiscais.Count > 0 then
-          infEvento.dhEvento := Facbr.NotasFiscais[0].nfe.Ide.dEmi
-        Else
-          infEvento.dhEvento := now;
+        infEvento.chNFe := ochave;
+        infEvento.cnpj := Fcancelamento.cnpj;
+
+        infEvento.dhEvento := Fcancelamento.data;
         infEvento.tpEvento := teCancelamento;
-        infEvento.detEvento.xJust := Justificativa;
-        infEvento.detEvento.nProt := Fnota.Protocolo;
+        infEvento.detEvento.xJust := Fcancelamento.Justificativa;
+        infEvento.detEvento.nProt := Fcancelamento.protocoloNota;
       end;
       try
         Facbr.EnviarEvento(1);
@@ -115,7 +102,8 @@ begin
       If (FcStat = 135) or (FcStat = 155) then
       begin
 
-        result := '<nfeCanc>' + Facbr.WebServices.EnvEvento.DadosMsg + #13#10 +
+        Fcancelamento.xmlRetorno := '<nfeCanc>' +
+          Facbr.WebServices.EnvEvento.DadosMsg + #13#10 +
           Facbr.WebServices.EnvEvento.RetWS + '</nfeCanc>';
 
         if Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
@@ -123,19 +111,55 @@ begin
           Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
             .RetInfEvento.nProt := FormatDateTime('yymmddhhmmsszz', now);
 
+        Fcancelamento.protocoloCancelamento :=
+          Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
+          .RetInfEvento.nProt;
+      end;
+    except
+      on e: exception do
+      begin
+        Fmotivo := e.Message;
+        FcStat := 5001;
+        gravalog(e.Message);
       end;
     end;
-  except
-    on exception do
+  finally
+    Fcancelamento.cstat := FcStat;
+    Fcancelamento.xmotivo := Fmotivo;
+    // GRAVAR SOMENTE SE NÃO FOR DUPLICIDADE
+    if FcStat <> 573 then
     begin
-
+      dao := TDaoCancelamento.create;
+      try
+        dao.gravarCancelamento(Fcancelamento);
+      finally
+        FreeAndNil(dao);
+      end;
     end;
   end;
 end;
 
-constructor TnfeCancelar.create(nota: Tnota);
+constructor TServiceCancelar.create(nota: Tcancelamento);
 begin
-  Fnota := nota;
+  try
+    Fcancelamento := nota;
+
+    Fempresa := TEmpresa.create(nota.cnpj);
+    if Fempresa.cnpj = '' then
+      raise exception.create('Nehuma empresa  cadastrada com o cnpj informado '
+        + nota.cnpj);
+    Facbr := TACBrNFe.create(Nil);
+    TAcbrConfig.SetAcbrObj(Facbr, Fempresa);
+    cancelar;
+  except
+    on e: exception do
+    begin
+      gravalog('[Erro ao cancelar ' + e.Message);
+      Fcancelamento.cstat := 5001;
+      Fcancelamento.xmotivo := e.Message;
+    end;
+  end;
+
 end;
 
 end.

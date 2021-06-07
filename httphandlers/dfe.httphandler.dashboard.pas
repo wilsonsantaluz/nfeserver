@@ -29,12 +29,10 @@ uses
 type
   TDashBoadHttpHandler = class(THttpServerBase)
   private
-
     FfilterPath: string;
     procedure processrequest; override;
-
   public
-    function getInfo: string;
+    procedure getInfo;
 
     constructor create; override;
 
@@ -51,9 +49,8 @@ begin
   OnProcessRequest := processrequest;
   FfilterPath := '/dfeapi/nfe/info';
 end;
-
 { ------------------------------------------------------------------------------ }
-function TDashBoadHttpHandler.getInfo: string;
+procedure TDashBoadHttpHandler.getInfo;
 var
   controller: TNnfeController;
 begin
@@ -65,7 +62,7 @@ begin
       CoInitialize(nil);
 {$ENDIF MSWINDOWS}
       try
-        setResponse(200, 200, controller.getInfo);
+        ResponseInfo.ContentText := controller.getInfo;
       except
         on E: Exception do
         begin

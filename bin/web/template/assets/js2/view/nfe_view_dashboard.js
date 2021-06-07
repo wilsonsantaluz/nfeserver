@@ -62,6 +62,10 @@ var getDate = function (date) {
 
     return currentDate;
 };
+var  dataAmericana = function(idata) {
+  var data  = idata.split("T")[0];
+  return data
+};
 //----------------------------------------------------------------------------------------------------
 var handlewidgetstat = function (ojson) {
 
@@ -101,7 +105,7 @@ var updatelegenda = function () {
                 $(legendItem).prepend(legendColorDot)
                 $('#legend').append(legendItem);
             }
-            catch{
+            catch (err){
 
             }}
 
@@ -122,7 +126,7 @@ var updateVendasItens = function (ojson) {
         if (dados == '') {
             dados = '[ ' + linha
         } else {
-            dados = dados + ',' + linha;
+        dados = dados + ',' + linha;
         }
     }
     dados = dados + ' ]';
@@ -131,7 +135,7 @@ var updateVendasItens = function (ojson) {
     if (donutchart !== undefined) {
         try {
             donutchart.setData(vdata_vendas);
-        } catch {
+        } catch(err) {
 
             handleNfseStatus();
         }
@@ -161,7 +165,7 @@ var updateHistoricoNfse = function (ojson) {
         };
         var linha =
             '{' +
-            '"Data" : "' + ojson.analissemensal.listHelper[i].data + '" , ' +
+            '"Data" : "' + dataAmericana( ojson.analissemensal.listHelper[i].data) + '" , ' +
             '"Emitidas" : ' + vvalidadas + ',' +
             '"Canceladas" : ' + vcanceladas +
             ' }';
@@ -177,7 +181,7 @@ var updateHistoricoNfse = function (ojson) {
         try {
             areachart.setData(vdata_hist_nfse);
 
-        } catch {
+        } catch(err) {
 
             handleHistoricoNfse();
         }

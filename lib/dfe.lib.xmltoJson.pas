@@ -325,6 +325,7 @@ var
   comparador: String;
   arrays: TStringList;
   flag_01: Boolean;
+  saux: string;
 
 begin
   retorno := TStringList.Create();
@@ -334,25 +335,50 @@ begin
   comparador := EmptyStr;
   flag_01 := True;
   try
-    for I := 0 to nodo.ChildNodes.Count - 1 do
-    begin
-      if ((comparador = nodo.ChildNodes[I].NodeName) and
-        (arrays.IndexOf(comparador) = -1)) then
+
+    try
+      for I := 0 to nodo.ChildNodes.Count - 1 do
       begin
-        arrays.Add(comparador);
+        nome := nodo.ChildNodes[I].NodeName;
+        if ((comparador = nodo.ChildNodes[I].NodeName) and
+          (arrays.IndexOf(comparador) = -1)) then
+        begin
+          arrays.Add(comparador);
+        end;
+        comparador := nodo.ChildNodes[I].NodeName;
       end;
-      comparador := nodo.ChildNodes[I].NodeName;
+    except
+      on e: Exception do
+      begin
+        nome := '[354] Error ' + e.Message + ' on node' + nome;
+
+      end;
     end;
 
     for I := 0 to nodo.ChildNodes.Count - 1 do
     begin
       listaAux.Clear;
-      nome := nodo.ChildNodes[I].NodeName;
-      atributos := attributeToStringList
-        (getAtributosStr(nodo.ChildNodes[I].AttributeNodes));
-      abertura := '"' + nome + '":';
-      fechamento := ',';
+      try
+        nome := nodo.ChildNodes[I].NodeName;
+        try
+          atributos := attributeToStringList
+            (getAtributosStr(nodo.ChildNodes[I].AttributeNodes));
+        except
+          on e: Exception do
+          begin
+            nome := '[369] Error ' + e.Message + ' on node' + nome;
 
+          end;
+        end;
+        abertura := '"' + nome + '":';
+        fechamento := ',';
+      except
+        on e: Exception do
+        begin
+          nome := '[378] Error ' + e.Message + ' on node' + nome;
+
+        end;
+      end;
       if not nodo.IsTextElement then
       begin
         listaAux := self.nodeToStringJson(nodo.ChildNodes[I]);
@@ -378,36 +404,47 @@ begin
 
       case listaAux.Count of
         0:
-          if nodo.ChildNodes[I].text  <>'' then
-            retorno.Add('"' + Trim(nodo.ChildNodes[I].NodeValue) + '"')
-          else
+          try
+            if nodo.ChildNodes[I].text <> '' then
+              retorno.Add('"' + Trim(nodo.ChildNodes[I].NodeValue) + '"')
+            else
+              retorno.Add('"' + '' + '"');
+          except
             retorno.Add('"' + '' + '"');
-
+          end;
         1:
           begin
-            if (Pos('":', listaAux.Strings[0]) > 0) or (atributos.Count > 0)
-            then
+            try
+              saux := '';
+              saux := listaAux.Strings[0];
+            except
+            end;
+            if (Pos('":', saux) > 0) or (atributos.Count > 0) then
             begin
               abertura := abertura + '{';
               fechamento := '}' + fechamento;
               retorno.Add(abertura);
               for J := 0 to atributos.Count - 1 do
               begin
-                retorno.Add(atributos.Strings[J]);
+                if atributos.Count > J then
+                  retorno.Add(atributos.Strings[J]);
               end;
-              if Pos(':', listaAux.Strings[0]) <= 0 then
+              if Pos(':', saux) <= 0 then
               begin
-                retorno.Add('"#text":' + listaAux.Strings[0]);
+                if listaAux.Count > 0 then
+
+                  retorno.Add('"#text":' + saux);
               end
               else
               begin
-                retorno.Add(listaAux.Strings[0]);
+                retorno.Add(saux);
               end;
               retorno.Add(fechamento);
             end
             else
             begin
-              retorno.Add(abertura + listaAux.Strings[0] + fechamento);
+              if listaAux.Count > 0 then
+                retorno.Add(abertura + saux + fechamento);
             end;
           end
       else
@@ -416,11 +453,16 @@ begin
         retorno.Add(abertura);
         for J := 0 to atributos.Count - 1 do
         begin
-          retorno.Add(atributos.Strings[J]);
+          try
+            if atributos.Count > J then
+              retorno.Add(atributos.Strings[J]);
+          except
+          end;
         end;
         for J := 0 to listaAux.Count - 1 do
         begin
-          retorno.Add(listaAux.Strings[J]);
+          if listaAux.Count > J then
+            retorno.Add(listaAux.Strings[J]);
         end;
         retorno.Add(fechamento);
       end;
@@ -436,10 +478,9 @@ begin
   except
     on e: Exception do
     begin
-      nome := '[417] Error on node' + nome;
+      nome := '[417] Error ' + e.Message + ' on node ' + nome;
 
     end;
-
   end;
 end;
 
