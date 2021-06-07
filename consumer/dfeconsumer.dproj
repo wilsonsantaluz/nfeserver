@@ -114,6 +114,8 @@
         <DCCReference Include="..\model\dfe.model.validacaoResponse.pas"/>
         <DCCReference Include="..\model\dfe.model.cancelamentoRequest.pas"/>
         <DCCReference Include="..\model\dfe.model.cancelamento.pas"/>
+        <DCCReference Include="..\model\dfe.model.inutilizacao.pas"/>
+        <DCCReference Include="..\model\dfe.model.inutilizacaoRequest.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

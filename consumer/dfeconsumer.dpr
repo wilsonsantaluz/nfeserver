@@ -13,7 +13,9 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   dfe.model.cancelamentoRequest in '..\model\dfe.model.cancelamentoRequest.pas',
-  dfe.model.cancelamento in '..\model\dfe.model.cancelamento.pas';
+  dfe.model.cancelamento in '..\model\dfe.model.cancelamento.pas',
+  dfe.model.inutilizacao in '..\model\dfe.model.inutilizacao.pas',
+  dfe.model.inutilizacaoRequest in '..\model\dfe.model.inutilizacaoRequest.pas';
 
 {$R *.res}
 
