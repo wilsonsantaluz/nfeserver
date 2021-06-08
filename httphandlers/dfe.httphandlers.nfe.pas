@@ -33,6 +33,7 @@ type
     procedure validar;
     procedure cancelar;
     procedure inutilizar;
+    procedure cartaCorrecao;
     procedure imprimir;
     procedure listarNfe;
     constructor create; override;
@@ -48,10 +49,23 @@ uses
 { ------------------------------------------------------------------------------ }
 { TNfeHttpHandler }
 
+procedure TNfeHttpHandler.cartaCorrecao;
+var
+  controller: TNnfeController;
+begin
+  controller := TNnfeController.create;
+  try
+    ResponseInfo.ContentText :=controller.cartaCorrecao(jValue);
+  finally
+    FreeAndNil(controller);
+  end;
+
+end;
+
 constructor TNfeHttpHandler.create;
 begin
   OnProcessRequest := processrequest;
-  FfilterPath := '/dfeapi/nfe/';
+  FfilterPath := '/dfeapi/nfe';
 end;
 
 { ------------------------------------------------------------------------------ }
@@ -185,6 +199,8 @@ begin
         cancelar
       else if jv.Value = 'inutilizacao' then
         inutilizar
+       else if jv.Value = 'cartacorrecao' then
+        cartaCorrecao
       else if jv.Value = 'imprimir' then
         imprimir
       else
@@ -206,7 +222,7 @@ procedure TNfeHttpHandler.processrequest;
 begin
   if assigned(RequestInfo) then
   begin
-    if UpperCase(RequestInfo.URI) = UpperCase(FfilterPath) then
+    if  pos( UpperCase(FfilterPath),  UpperCase(RequestInfo.URI) ) > 0 then
     begin
       case Command of
         vrget:

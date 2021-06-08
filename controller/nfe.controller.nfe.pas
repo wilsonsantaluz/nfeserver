@@ -18,14 +18,22 @@ uses
   dfe.model.nfe,
   dfe.model.config,
   dfe.dao.nfe,
+  dfe.dao.inutilizacao,
+  dfe.dao.cartaCorrecao,
   dfe.services.validar,
   dfe.model.infonfe,
   dfe.dao.infonfe,
   dfe.model.validacaoRequest,
   dfe.model.validacaoResponse,
   dfe.model.cancelamento,
+  dfe.model.inutilizacao,
+  dfe.model.cartaCorrecao,
   dfe.model.cancelamentoRequest,
+  dfe.model.cartaCorrecaoRequest,
+  dfe.model.inutilizacaoRequest,
   dfe.services.cancelar,
+  dfe.services.inutilizar,
+  dfe.services.cartaCorrecao,
   dfe.model.empresa;
 
 type
@@ -36,6 +44,7 @@ type
     function validarNfe(pjson: TJSONObject): string;
     function cancelarNfe(pjson: TJSONObject): string;
     function inutilizarNfe(pjson: TJSONObject): string;
+    function cartaCorrecao(pjson: TJSONObject): string;
     function listarNfe(pjson: TJSONObject): string;
     function getInfo(): string;
   end;
@@ -47,12 +56,7 @@ implementation
 function TNnfeController.cancelarNfe(pjson: TJSONObject): string;
 var
   cancelamento: TCancelamento;
-  dao: TDaoNfe;
-  validador: TServiceCancelar;
-  valxml: iXMLDocument;
-  list: TStringList;
-  ojson: TJSONObject;
-  XmltoJson: TXMLtoJSON;
+  service: TServiceCancelar;
   request: TCancelamentoRequest;
   response: TCancelamento;
   procedure setResponsebyNota();
@@ -71,7 +75,6 @@ var
     response.cstat := cancelamento.cstat;
     response.xmotivo := cancelamento.xmotivo;
     response.protocoloCancelamento := cancelamento.protocoloCancelamento;
-
   end;
 
 begin
@@ -82,20 +85,61 @@ begin
     cancelamento.Numero := request.Numero;
     cancelamento.Serie := request.Serie;
     cancelamento.chave := request.chave;
-    cancelamento.protocoloNota:=request.protocolo;
-    cancelamento.data:=request.data;
-    cancelamento.justificativa:=request.justificativa;
-
-    validador :=  TServiceCancelar.create(cancelamento);
+    cancelamento.protocoloNota := request.protocolo;
+    cancelamento.data := request.data;
+    cancelamento.justificativa := request.justificativa;
+    service := TServiceCancelar.create(cancelamento);
     setResponsebyNota();
     result := tjson.ObjectToJsonString(response);
   finally
-    FreeAndNil(validador);
+    FreeAndNil(service);
+  end;
+end;
+
+{ ----------------------------------------------------------------------------- }
+function TNnfeController.cartaCorrecao(pjson: TJSONObject): string;
+var
+  cartaCorrecao: TcartaCorrecao;
+  service: TServicecartaCorrecao;
+  request: TcartaCorrecaoRequest;
+  response: TcartaCorrecao;
+  procedure setResponsebycartaCorrecao();
+  begin
+    response := TcartaCorrecao.create;
+    response.Cnpj := cartaCorrecao.Cnpj;
+    response.chave := cartaCorrecao.chave;
+    response.dataHora := request.dataHora;
+    response.sequencia := request.sequencia;
+    response.xcorrecao := request.xcorrecao;
+    response.xmotivo := cartaCorrecao.xmotivo;
+    response.cstat := cartaCorrecao.cstat;
+
+    response.xmlEvento := TNetEncoding.base64.Encode(cartaCorrecao.xmlEvento);
+
+    response.cstat := cartaCorrecao.cstat;
+    response.xmotivo := cartaCorrecao.xmotivo;
+    response.protocoloCce := cartaCorrecao.protocoloCce;
+  end;
+
+begin
+  try
+    request := tjson.JsonToObject<TcartaCorrecaoRequest>(pjson.tostring);
+    cartaCorrecao := TcartaCorrecao.create();
+    cartaCorrecao.Cnpj := request.Cnpj;
+    cartaCorrecao.chave := request.chave;
+    cartaCorrecao.dataHora := request.dataHora;
+    cartaCorrecao.sequencia := request.sequencia;
+    cartaCorrecao.xcorrecao := request.xcorrecao;
+
+    service := TServicecartaCorrecao.create(cartaCorrecao);
+    setResponsebycartaCorrecao();
+    result := tjson.ObjectToJsonString(response);
+  finally
+    FreeAndNil(service);
   end;
 
 end;
 
-{ ----------------------------------------------------------------------------- }
 function TNnfeController.getInfo: string;
 var
   dao: TDaoInfoNfe;
@@ -108,8 +152,44 @@ end;
 
 { ----------------------------------------------------------------------------- }
 function TNnfeController.inutilizarNfe(pjson: TJSONObject): string;
+var
+  inutilizacao: Tinutilizacao;
+  service: TServiceInutilizar;
+  request: TinutilizacaoRequest;
+  response: Tinutilizacao;
+  procedure setResponsebyInutilizacao();
+  begin
+    response := Tinutilizacao.create;
+    response.Cnpj := inutilizacao.Cnpj;
+    response.numeroInicial := inutilizacao.numeroInicial;
+    response.numeroFinal := inutilizacao.numeroFinal;
+    response.Serie := request.Serie;
+    response.xmotivo := inutilizacao.xmotivo;
+    response.justificativa := request.justificativa;
+    response.xmlEvento := TNetEncoding.base64.Encode(inutilizacao.xmlEvento);
+    response.ano := request.ano;
+    response.cstat := inutilizacao.cstat;
+    response.xmotivo := inutilizacao.xmotivo;
+    response.protocolo := inutilizacao.protocolo;
+  end;
+
 begin
-  /// ***
+  try
+    request := tjson.JsonToObject<TinutilizacaoRequest>(pjson.tostring);
+    inutilizacao := Tinutilizacao.create();
+    inutilizacao.Cnpj := request.Cnpj;
+    inutilizacao.numeroInicial := request.numeroInicial;
+    inutilizacao.numeroFinal := request.numeroFinal;
+    inutilizacao.Serie := request.Serie;
+    inutilizacao.ano := request.ano;
+    inutilizacao.modelo := request.modelo;
+    inutilizacao.justificativa := request.justificativa;
+    service := TServiceInutilizar.create(inutilizacao);
+    setResponsebyInutilizacao();
+    result := tjson.ObjectToJsonString(response);
+  finally
+    FreeAndNil(service);
+  end;
 end;
 
 { ----------------------------------------------------------------------------- }
@@ -136,12 +216,7 @@ end;
 function TNnfeController.validarNfe(pjson: TJSONObject): string;
 var
   nota: Tnota;
-  dao: TDaoNfe;
-  validador: TNfeValidar;
-  valxml: iXMLDocument;
-  list: TStringList;
-  ojson: TJSONObject;
-  XmltoJson: TXMLtoJSON;
+  service: TNfeValidar;
   request: TValidacaoRequest;
   response: TValidacaoResponse;
   procedure setResponsebyNota();
@@ -174,11 +249,11 @@ begin
     nota.Serie := request.Serie;
     nota.Xml := TNetEncoding.base64.Decode(request.Xml);
     nota.Txt := request.Txt;
-    validador := TNfeValidar.create(nota);
+    service := TNfeValidar.create(nota);
     setResponsebyNota();
     result := tjson.ObjectToJsonString(response);
   finally
-    FreeAndNil(validador);
+    FreeAndNil(service);
   end;
 end;
 

@@ -36,7 +36,11 @@ uses
   dfe.lib.http.Client,
   dfe.model.validacaoRequest,
   dfe.model.cancelamentoRequest,
+  dfe.model.inutilizacaoRequest,
+  dfe.model.inutilizacao,
   dfe.model.cancelamento,
+  dfe.model.cartaCorrecao,
+  dfe.model.cartaCorrecaoRequest,
   dfe.model.validacaoResponse;
 
 type
@@ -57,7 +61,7 @@ type
     edtendereco: TEdit;
     Label1: TLabel;
     pnlcomands: TPanel;
-    btgerarjsonvalidar: TButton;
+    btgerarJson: TButton;
     memoviewxml: TMemo;
     Splitter1: TSplitter;
     Panel5: TPanel;
@@ -65,10 +69,12 @@ type
     Label2: TLabel;
     Splitter2: TSplitter;
     memoresponse: TMemo;
+    ACBrNFe1: TACBrNFe;
+    tabgerarXml: TTabSheet;
     procedure bt_xmltojsonClick(Sender: TObject);
     procedure bt_jsontoxmlClick(Sender: TObject);
     procedure cboperacaoChange(Sender: TObject);
-    procedure btgerarjsonvalidarClick(Sender: TObject);
+    procedure btgerarJsonClick(Sender: TObject);
     procedure btenviarClick(Sender: TObject);
   private
     { Private declarations }
@@ -118,56 +124,80 @@ procedure Tfconsumer.processarRetorno(Sender: TObject);
 var
   sresult: string;
   Fclient: ThttpClient;
-  jv: TJSONValue;
-  response: TValidacaoResponse;
+  responseValidacao: TValidacaoResponse;
   responseCancel: TCancelamento;
+  responseInutilizacao: TInutilizacao;
+  responseCartaCorrecao: TcartaCorrecao;
 begin
-  try
-    Fclient := ThttpClient(Sender);
-    if assigned(Fclient) then
-    begin
-      case cboperacao.ItemIndex of
-        0:
-          begin
-            try
-              // CASO CONSIGA COMUNICAR COM O SERVER RETORNARA A CLASSE TValidacaoResponse
-              response := Tjson.JsonToObject<TValidacaoResponse>
-                (Fclient.response);
-              memoviewxml.lines.Text := TNetEncoding.base64.Decode
-                (response.xmlRetorno);
-
-              ShowMessage(IntToStr(response.cstat) + ' - ' + response.xmotivo);
-
-            except
-              on e: exception do
-                // TODO
-            end;
-            sresult := Fclient.response;
-            memoresponse.lines.Text := sresult;
+  Fclient := ThttpClient(Sender);
+  if assigned(Fclient) then
+  begin
+    sresult := Fclient.response;
+    memoresponse.lines.Text := sresult;
+    case cboperacao.ItemIndex of
+      0: // VALIDAÇÃO
+        begin
+          try
+            // CASO CONSIGA COMUNICAR COM O SERVER RETORNARA A CLASSE TValidacaoResponse
+            responseValidacao := Tjson.JsonToObject<TValidacaoResponse>
+              (Fclient.response);
+            memoviewxml.lines.Text := TNetEncoding.base64.Decode
+              (responseValidacao.xmlRetorno);
+            ShowMessage(IntToStr(responseValidacao.cstat) + ' - ' +
+              responseValidacao.xmotivo);
+          except
+            on e: exception do
+              // TODO
           end;
-        1:
-          begin
-            try
-              // CASO CONSIGA COMUNICAR COM O SERVER RETORNARA A CLASSE TCancelameto
-              memoviewxml.lines.Text := TNetEncoding.base64.Decode
-                (responseCancel.xmlRetorno);
-              responseCancel := Tjson.JsonToObject<TCancelamento>
-                (Fclient.response);
-              ShowMessage(IntToStr(response.cstat) + ' - ' + response.xmotivo);
-
-            except
-              on e: exception do
-                // TODO
-            end;
-            sresult := Fclient.response;
-            memoresponse.lines.Text := sresult;
-
+        end;
+      1: // CANCELAMENTO
+        begin
+          try
+            // RETORNARA A CLASSE TCancelameto
+            responseCancel := Tjson.JsonToObject<TCancelamento>
+              (Fclient.response);
+            memoviewxml.lines.Text := TNetEncoding.base64.Decode
+              (responseCancel.xmlRetorno);
+            ShowMessage(IntToStr(responseCancel.cstat) + ' - ' +
+              responseCancel.xmotivo);
+          except
+            on e: exception do
+              // TODO
           end;
-      end;
+        end;
+      2: // INUTILIZACAO
+        begin
+          try
+            // RETORNARA A CLASSE TInutilizacao
+            responseInutilizacao := Tjson.JsonToObject<TInutilizacao>
+              (Fclient.response);
+
+            memoviewxml.lines.Text := TNetEncoding.base64.Decode
+              (responseInutilizacao.xmlEvento);
+            ShowMessage(IntToStr(responseInutilizacao.cstat) + ' - ' +
+              responseInutilizacao.xmotivo);
+          except
+            on e: exception do
+              // TODO
+          end;
+        end;
+
+      3: // CARTA CORRECAO
+        begin
+          try
+            // RETORNARA A CLASSE TCartaCorrecao
+            responseCartaCorrecao := Tjson.JsonToObject<TcartaCorrecao>
+              (Fclient.response);
+            memoviewxml.lines.Text := TNetEncoding.base64.Decode
+              (responseCartaCorrecao.xmlEvento);
+            ShowMessage(IntToStr(responseCartaCorrecao.cstat) + ' - ' +
+              responseCartaCorrecao.xmotivo);
+          except
+            on e: exception do
+              // TODO
+          end;
+        end;
     end;
-  except
-    on e: exception do
-      memoresponse.lines.Text := e.Message
   end;
 end;
 
@@ -193,19 +223,22 @@ begin
     Client.FreeOnTerminate := true;
     Client.resume
   finally
-     {todo}
+    { todo }
   end;
 end;
 
 { ------------------------------------------------------------------------------ }
-procedure Tfconsumer.btgerarjsonvalidarClick(Sender: TObject);
+procedure Tfconsumer.btgerarJsonClick(Sender: TObject);
 var
   reqValidar: TValidacaoRequest;
   reqCancelar: TCancelamentoRequest;
+  reqInutilizar: TInutilizacaoRequest;
+  reqCartaCorrecao: TcartaCorrecaoRequest;
   base64: TBase64Encoding;
 begin
+
   case cboperacao.ItemIndex of
-    0:
+    0: // VALIDACAO
       begin
         base64 := TBase64Encoding.Create;
         reqValidar := TValidacaoRequest.Create;
@@ -224,12 +257,10 @@ begin
           FreeAndNil(base64);
         end;
       end;
-    1:
+    1: // EVENTO CANCELAMENTO
       begin
-
         reqCancelar := TCancelamentoRequest.Create;
         try
-          // PARA TESTES CPJ DEVE SER CADASTRO NO CADASTRO DE EMPRESAS
           reqCancelar.cnpj := '03075319000174';
           reqCancelar.chave := '41210603075319000174550060006762371639684850';
           reqCancelar.numero := 1;
@@ -245,23 +276,38 @@ begin
         end;
       end;
 
-      2:
+    2: // EVENTO INUTILIZACAO
       begin
-
-        reqCancelar := TCancelamentoRequest.Create;
+        reqInutilizar := TInutilizacaoRequest.Create;
         try
-          // PARA TESTES CPJ DEVE SER CADASTRO NO CADASTRO DE EMPRESAS
-          reqCancelar.cnpj := '03075319000174';
-          reqCancelar.chave := '41210603075319000174550060006762371639684850';
-          reqCancelar.numero := 1;
-          reqCancelar.serie := 1;
-          reqCancelar.protocolo := '141210000408196';
-          reqCancelar.justificativa := 'EMISSAO COM ERRO';
-          reqCancelar.Data := now;
-          reqCancelar.modelo := 55;
-          memorequest.lines.Text := Tjson.ObjectToJsonString(reqCancelar);
+          reqInutilizar.cnpj := '03075319000174';
+          reqInutilizar.numeroInicial := 666;
+          reqInutilizar.numeroFinal := 667;
+          reqInutilizar.serie := 1;
+          reqInutilizar.modelo := 55;
+          reqInutilizar.justificativa := 'EMISSAO COM ERRO';
+          reqInutilizar.ano := 2021;
+          reqInutilizar.modelo := 55;
+          memorequest.lines.Text := Tjson.ObjectToJsonString(reqInutilizar);
         finally
-          FreeAndNil(reqCancelar);
+          FreeAndNil(reqInutilizar);
+
+        end;
+      end;
+
+    3: // EVENTO CARTA DE CORRECAO
+      begin
+        reqCartaCorrecao := TcartaCorrecaoRequest.Create;
+        try
+          reqCartaCorrecao.cnpj := '03075319000174';
+          reqCartaCorrecao.chave :=
+            '41210603075319000174550060006762371639684850';
+          reqCartaCorrecao.dataHora := now;
+          reqCartaCorrecao.sequencia := 1;
+          reqCartaCorrecao.xcorrecao := 'LOGRADOURO DO DESTINATARIO INVALIDO';
+          memorequest.lines.Text := Tjson.ObjectToJsonString(reqCartaCorrecao);
+        finally
+          FreeAndNil(reqCartaCorrecao);
 
         end;
       end;

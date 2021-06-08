@@ -1246,15 +1246,20 @@ var handleMenus = function () {
     });
 
     $(document).on('click', '[data-click="nfeemitidas"]', function () {
-        handleCheckPageLoadUrlfull(window.location.hash, '#ajax/nfe_emitidos.html');
+        handleCheckPageLoadUrlfull(window.location.hash, '#ajax/nfe_notas.html');
         setactive(this);
     });
     
     
     $(document).on('click', '[data-click="inutilizacoes"]', function () {
-        handleCheckPageLoadUrlfull(window.location.hash, '#ajax/inutilizacoes.html');
+        handleCheckPageLoadUrlfull(window.location.hash, '#ajax/nfe_inutilizacoes.html');
         setactive(this);
     });
+     $(document).on('click', '[data-click="cartacorrecao"]', function () {
+         handleCheckPageLoadUrlfull(window.location.hash, '#ajax/nfe_cartacorrecao.html');
+        setactive(this);
+    });
+    
     
     $(document).on('click', '[data-click="empresas"]', function () {
         handleCheckPageLoadUrlfull(window.location.hash, '#ajax/nfe_empresa.html');

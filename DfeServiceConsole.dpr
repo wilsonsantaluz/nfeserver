@@ -41,11 +41,18 @@ uses
   dfe.dao.log in 'dao\dfe.dao.log.pas',
   dfe.model.log in 'model\dfe.model.log.pas',
   dfe.lib.acbr.config in 'lib\dfe.lib.acbr.config.pas',
-  dfe.model.validacaorequest in 'model\dfe.model.validacaorequest.pas',
   dfe.model.validacaoResponse in 'model\dfe.model.validacaoResponse.pas',
   dfe.model.cancelamento in 'model\dfe.model.cancelamento.pas',
-  dfe.model.cancelamentoRequest in 'model\dfe.model.cancelamentoRequest.pas',
-  dfe.dao.cancelamento in 'dao\dfe.dao.cancelamento.pas';
+  dfe.dao.cancelamento in 'dao\dfe.dao.cancelamento.pas',
+  dfe.model.cartaCorrecao in 'model\dfe.model.cartaCorrecao.pas',
+  dfe.model.inutilizacao in 'model\dfe.model.inutilizacao.pas',
+  dfe.model.cancelamentoRequest in 'model\request\dfe.model.cancelamentoRequest.pas',
+  dfe.model.validacaoRequest in 'model\request\dfe.model.validacaoRequest.pas',
+  dfe.model.cartaCorrecaoRequest in 'model\request\dfe.model.cartaCorrecaoRequest.pas',
+  dfe.model.inutilizacaoRequest in 'model\request\dfe.model.inutilizacaoRequest.pas',
+  dfe.dao.inutilizacao in 'dao\dfe.dao.inutilizacao.pas',
+  dfe.dao.cartaCorrecao in 'dao\dfe.dao.cartaCorrecao.pas',
+  dfe.services.cartaCorrecao in 'services\dfe.services.cartaCorrecao.pas';
 
 var
   terminate: Boolean;
@@ -54,6 +61,7 @@ var
 
 begin
   try
+    terminate:=false;
     Writeln('---------------------------------------------------------------');
     Writeln(' /  \    /  \__|  |   __________   ____   |  |  __ __________  ');
     Writeln(' \   \/\/   /  |  |  /  ___/  _ \ /    \  |  | |  |  \___   /  ');

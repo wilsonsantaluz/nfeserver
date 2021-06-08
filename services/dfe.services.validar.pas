@@ -63,6 +63,7 @@ type
     function consultaChave(ochave: string): string;
     procedure validar();
     constructor create(var Nota: Tnota);
+    destructor destroy;
   published
     property NfeCancelada: Boolean read FnfeCancelada write FnfeCancelada;
   end;
@@ -140,6 +141,13 @@ begin
   end;
 end;
 
+destructor TNfeValidar.destroy;
+begin
+  if Assigned(Facbr) then
+    FreeAndNil(Facbr);
+  if Assigned(Fempresa) then
+    FreeAndNil(Fempresa);
+end;
 { ----------------------------------------------------------------------------- }
 procedure TNfeValidar.mydebug(msg: string);
 begin

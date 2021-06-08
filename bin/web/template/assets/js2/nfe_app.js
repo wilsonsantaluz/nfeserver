@@ -1,7 +1,7 @@
 
   _HOST ='http://localhost:4475';
 
-var _CT_SERVER_NFSE         =  _HOST + '/dfeapi/nfe';
+var _CT_SERVER_NFE         =  _HOST + '/dfeapi/nfe';
 var _CT_SERVER_NFE_INFO    =  _HOST +'/dfeapi/nfe/info';
 var _CT_SERVER_NFE_EMPRESA  =  _HOST + '/dfeapi/nfe/empresa';
 var _CT_SERVER_NFSE_WEBSOCK = 'http://localhost:30086';
@@ -198,7 +198,7 @@ var appCache = window.applicationCache;
 var forceupd = function () {
     try {
         appCache.update();
-    } catch {
+    } catch (err){
 
     }
 
