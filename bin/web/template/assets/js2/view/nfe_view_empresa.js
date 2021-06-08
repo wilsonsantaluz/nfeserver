@@ -12,6 +12,8 @@ function prepareInsert() {
     $('#cnpj').prop('readonly', false);
     $('#cnpj').val('');
     $('#ambiente').prop('selectedIndex', 0);
+    $('#contigencia').prop('selectedIndex', 0);
+    $('#uf').prop('selectedIndex', 0);
     $('#razaoSocial').val('');
     $('#endereco').val('');
     $('#bairro').val('');
@@ -44,18 +46,20 @@ function getEmpresas() {
                 $('#bairro').val(jsonConsulta.listHelper[0].bairro);
                 $('#cidade').val(jsonConsulta.listHelper[0].cidade);
                 $('#codMunicipio').val(jsonConsulta.listHelper[0].codMunicipio);
-                $('#UF').val(jsonConsulta.listHelper[0].uf);
+                $('#uf').val( jsonConsulta.listHelper[0].uf);
+               
                 $('#complemento').val(jsonConsulta.listHelper[0].complemento);
                 $('#numero').val(jsonConsulta.listHelper[0].numero);
                 $('#telefone').val(jsonConsulta.listHelper[0].telefone);
-                $('#inscricaoMunicipal').val(jsonConsulta.listHelper[0].inscricaoMunicipa);
-                $('#inscricaoEstadual').val(jsonConsulta.listHelper[0].inscricaoEstadua);
+                $('#inscricaoMunicipal').val(jsonConsulta.listHelper[0].inscricaoMunicipal);
+                $('#inscricaoEstadual').val(jsonConsulta.listHelper[0].inscricaoEstadual);
                 $('#nomecertificadoPfx').val(jsonConsulta.listHelper[0].nomecertificadoPfx);                
                 b64 = jsonConsulta.listHelper[0].certificadoPfx;
                 nomearquivo = jsonConsulta.listHelper[0].nomecertificadoPfx;
                 $('#senhaPfx').val(jsonConsulta.listHelper[0].senhaPfx);
                 $('#validade').val(dataAmericana(jsonConsulta.listHelper[0].validade));
                 $('#ambiente').prop('selectedIndex', jsonConsulta.listHelper[0].ambiente);
+                $('#contigencia').prop('selectedIndex', jsonConsulta.listHelper[0].contigencia);
 
 
             } else {
@@ -73,13 +77,15 @@ function getEmpresas() {
     var oparam = JSON.stringify(dados);
     $('#cnpj').val('');
     $('#ambiente').prop('selectedIndex', 0);
+    $('#contigencia').prop('selectedIndex', 0);
+    $('#uf').val();
     $('#razaoSocial').val('');
     $('#endereco').val('');
     $('#bairro').val('');
     $('#cidade').val('');
     $('#codMunicipio').val('');
     $('#complemento').val('');
-    $('#UF').val('');
+   
     $('#numero').val('0');
     $('#telefone').val('');
     $('#inscricaoMunicipal').val('');
@@ -123,12 +129,13 @@ function setEmpresa() {
             "cnpj": $('#cnpj').val(),
             "razaoSocial": $('#razaoSocial').val(),
             "Ambiente": $('#ambiente').prop('selectedIndex'),
+            "contigencia": $('#contigencia').prop('selectedIndex'),
             "endereco": $('#endereco').val(),
             "bairro": $('#bairro').val(),
             "cidade": $('#cidade').val(),
             "codMunicipio": $('#codMunicipio').val(),
             "complemento": $('#complemento').val(),
-            "uf": $('#UF').val(),
+            "uf": $('#uf').val(),
             "numero": $('#numero').val(),
            
             "telefone": $('#telefone').val(),

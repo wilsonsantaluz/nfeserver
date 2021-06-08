@@ -8,14 +8,16 @@ uses
   dfe.lib.normalize in '..\lib\dfe.lib.normalize.pas',
   dfe.lib.xmltoJson in '..\lib\dfe.lib.xmltoJson.pas',
   dfe.lib.http.client in '..\lib\dfe.lib.http.client.pas',
-  dfe.model.validacaoRequest in '..\model\dfe.model.validacaoRequest.pas',
+  dfe.model.validacaoRequest in '..\model\request\dfe.model.validacaoRequest.pas',
   dfe.model.validacaoResponse in '..\model\dfe.model.validacaoResponse.pas',
   Vcl.Themes,
   Vcl.Styles,
-  dfe.model.cancelamentoRequest in '..\model\dfe.model.cancelamentoRequest.pas',
+  dfe.model.cancelamentoRequest in '..\model\request\dfe.model.cancelamentoRequest.pas',
   dfe.model.cancelamento in '..\model\dfe.model.cancelamento.pas',
   dfe.model.inutilizacao in '..\model\dfe.model.inutilizacao.pas',
-  dfe.model.inutilizacaoRequest in '..\model\dfe.model.inutilizacaoRequest.pas';
+  dfe.model.inutilizacaoRequest in '..\model\request\dfe.model.inutilizacaoRequest.pas',
+  dfe.model.cartaCorrecaoRequest in '..\model\request\dfe.model.cartaCorrecaoRequest.pas',
+  dfe.model.cartaCorrecao in '..\model\dfe.model.cartaCorrecao.pas';
 
 {$R *.res}
 

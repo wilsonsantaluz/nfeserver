@@ -54,8 +54,10 @@ const
   _ColectionConfig = 'config';
   _ColectionLotes = 'lotes';
   _ColectionEmpresas = 'empresas';
-  _ColectionCancelamentos ='cancelamentos' ;
-  _ColectionLogs ='nfelogs' ;
+  _ColectionCancelamentos = 'cancelamentos';
+  _ColectionLogs = 'nfelogs';
+  _ColectionInutilizacao = 'inutilizacoes';
+  _ColectionCartaCorrecao = 'cartacorrecao';
 
 type
 

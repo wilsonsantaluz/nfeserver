@@ -225,11 +225,18 @@
         <DCCReference Include="dao\dfe.dao.log.pas"/>
         <DCCReference Include="model\dfe.model.log.pas"/>
         <DCCReference Include="lib\dfe.lib.acbr.config.pas"/>
-        <DCCReference Include="model\dfe.model.validacaorequest.pas"/>
         <DCCReference Include="model\dfe.model.validacaoResponse.pas"/>
         <DCCReference Include="model\dfe.model.cancelamento.pas"/>
-        <DCCReference Include="model\dfe.model.cancelamentoRequest.pas"/>
         <DCCReference Include="dao\dfe.dao.cancelamento.pas"/>
+        <DCCReference Include="model\dfe.model.cartaCorrecao.pas"/>
+        <DCCReference Include="model\dfe.model.inutilizacao.pas"/>
+        <DCCReference Include="model\request\dfe.model.cancelamentoRequest.pas"/>
+        <DCCReference Include="model\request\dfe.model.validacaoRequest.pas"/>
+        <DCCReference Include="model\request\dfe.model.cartaCorrecaoRequest.pas"/>
+        <DCCReference Include="model\request\dfe.model.inutilizacaoRequest.pas"/>
+        <DCCReference Include="dao\dfe.dao.inutilizacao.pas"/>
+        <DCCReference Include="dao\dfe.dao.cartaCorrecao.pas"/>
+        <DCCReference Include="services\dfe.services.cartaCorrecao.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

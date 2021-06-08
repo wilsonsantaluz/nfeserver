@@ -41,6 +41,7 @@ type
     Fmotivo: string;
   public
     constructor create(nota: Tcancelamento);
+    destructor destroy;
     procedure cancelar;
   end;
 
@@ -160,6 +161,14 @@ begin
     end;
   end;
 
+end;
+
+destructor TServiceCancelar.destroy;
+begin
+  if Assigned(Facbr) then
+    FreeAndNil(Facbr);
+  if Assigned(Fempresa) then
+    FreeAndNil(Fempresa);
 end;
 
 end.

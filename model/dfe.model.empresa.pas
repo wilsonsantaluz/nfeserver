@@ -28,6 +28,7 @@ Type
     FsenhaPfx: string;
     Fvalidade: TDateTime;
     Fambiente: integer;
+    Fcontigencia: integer;
     procedure cloneEmpresa(source: TEmpresa);
   public
     constructor create(cnpj: string);
@@ -52,6 +53,7 @@ Type
     property senhaPfx: string read FsenhaPfx write FsenhaPfx;
     property validade: TDateTime read Fvalidade write Fvalidade;
     property ambiente: integer read Fambiente write Fambiente;
+    property contigencia: integer read Fcontigencia write Fcontigencia;
   end;
 
 type
@@ -91,6 +93,8 @@ var
   dao: TDaoEmpresa;
   tmpEmpresa: TEmpresa;
 begin
+  contigencia:=0;
+  ambiente:=2;
   if cnpj <> '' then
   begin
     try

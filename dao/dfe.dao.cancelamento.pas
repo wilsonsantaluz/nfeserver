@@ -133,7 +133,7 @@ begin
   while oCrs.Next do
   begin
     s := oCrs.Doc.AsJSON;
-    oCancelamento := TCancelamento.create();
+
     oCancelamento := Tjson.JsonToObject<TCancelamento>(s);
     Result.Add(oCancelamento);
   end;

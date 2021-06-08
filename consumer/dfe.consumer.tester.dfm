@@ -29,6 +29,12 @@ object fconsumer: Tfconsumer
     ActivePage = tabclass
     Align = alClient
     TabOrder = 1
+    object tabgerarXml: TTabSheet
+      Caption = 'gera'#231'ao Xml NFE'
+      ImageIndex = 2
+      ExplicitLeft = 8
+      ExplicitTop = 22
+    end
     object tabclass: TTabSheet
       Caption = 'Rest testes'
       object grouprequest: TGroupBox
@@ -90,14 +96,14 @@ object fconsumer: Tfconsumer
             TabOrder = 0
             OnClick = btenviarClick
           end
-          object btgerarjsonvalidar: TButton
+          object btgerarJson: TButton
             Left = 21
             Top = 6
             Width = 75
             Height = 25
             Caption = 'Gerar'
             TabOrder = 1
-            OnClick = btgerarjsonvalidarClick
+            OnClick = btgerarJsonClick
           end
         end
         object memoviewxml: TMemo
@@ -145,7 +151,7 @@ object fconsumer: Tfconsumer
               'validacao'
               'cancelamento'
               'inutilizacao'
-              'imprimir')
+              'cartacorrecao')
           end
         end
         object memoresponse: TMemo
@@ -173,6 +179,8 @@ object fconsumer: Tfconsumer
         Height = 49
         Align = alTop
         TabOrder = 1
+        ExplicitLeft = 2
+        ExplicitTop = -6
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -488,5 +496,19 @@ object fconsumer: Tfconsumer
         end
       end
     end
+  end
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
+    Left = 440
+    Top = 368
   end
 end

@@ -10,9 +10,7 @@ uses
 
 Type
   TInutilizacao = class
-
   private
-
     Fcnpj: string;
     FnumeroInicial: integer;
     FnumeroFinal: integer;
@@ -22,11 +20,11 @@ Type
     Fjustificativa: string;
     Fprotocolo: string;
     FxmlEvento: string;
-
+    Fxmotivo:string;
+    Fcstat:integer;
   public
 
   published
-
     property cnpj: string read Fcnpj write Fcnpj;
     property numeroInicial: integer read FnumeroInicial write FnumeroInicial;
     property numeroFinal: integer read FnumeroFinal write FnumeroFinal;
@@ -35,9 +33,12 @@ Type
     property ano: integer read Fano write Fano;
     property justificativa: string read Fjustificativa write Fjustificativa;
     property protocolo: string read Fprotocolo write Fprotocolo;
+    property xmotivo: string read Fxmotivo write Fxmotivo;
+    property cstat: integer read Fcstat write Fcstat;
     property xmlEvento: string read FxmlEvento write FxmlEvento;
   end;
-
+type
+  TInutilizacoes = TObjectList<TInutilizacao>;
 implementation
 
 { TInutilizacao }
