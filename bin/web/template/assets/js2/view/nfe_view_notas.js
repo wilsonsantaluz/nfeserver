@@ -9,7 +9,7 @@ var indcol = 0;
 var otimer;
 
 var FNFe = new TNFe_class(0);
-var versionFile ="21.04.14.1000";
+var versionFile ="21.06.10.1000";
 
 function popularModal() {
   
