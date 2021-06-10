@@ -10,7 +10,7 @@ uses
   windows,
   System.SysUtils,
   classes,
-  dfe.servicewin32.srv in 'win32service\dfe.servicewin32.srv.pas' {SrvRpswin32: TService},
+  dfe.servicewin32.srv in 'win32service\dfe.servicewin32.srv.pas' {nfeserver: TService},
   dfe.httphandler.dashboard in 'httphandlers\dfe.httphandler.dashboard.pas',
   dfe.httpserver.base in 'httpserver\dfe.httpserver.base.pas',
   dfe.httpserver in 'httpserver\dfe.httpserver.pas',

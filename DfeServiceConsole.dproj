@@ -2,12 +2,12 @@
     <PropertyGroup>
         <ProjectGuid>{5374318B-D40A-43F8-8A74-38786DB1F4A3}</ProjectGuid>
         <ProjectVersion>18.8</ProjectVersion>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <MainSource>DfeServiceConsole.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <TargetedPlatforms>1</TargetedPlatforms>
+        <TargetedPlatforms>129</TargetedPlatforms>
         <AppType>Console</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -87,7 +87,7 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>DfeServiceConsole</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
@@ -180,6 +180,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=Ws informatica;FileDescription=$(MSBuildProjectName);FileVersion=2021.6.1.0;InternalName=Nfe Service;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=Nfe Service;ProductName=$(MSBuildProjectName);ProductVersion=2021.6.1.0;Comments=</VerInfo_Keys>
         <Manifest_File>(None)</Manifest_File>
+        <DCC_UnitSearchPath>.\components\acbr\ACBrIntegrador;.\components\acbr\ACBrDFe\ACBrNFe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes;.\components\acbr\ACBrDFe\ACBrNFe\PCNNFe;.\components\acbr\ACBrComum;.\components\acbr\ACBrOpenSSL;.\components\acbr\PCNComum;.\components\acbr\Terceiros;.\components\acbr\Terceiros\Ole;.\components\acbr\Terceiros\CodeGear;.\components\acbr\Terceiros\GZIPUtils;.\components\acbr\Terceiros\LibXmlSec;.\components\acbr\Terceiros\JsonDataObjects;.\components\acbr\Terceiros\JsonDataObjects\Source;.\components\acbr\Terceiros\ZLibExGZ;.\components\acbr\ACBrDFe;.\components\acbr\Terceiros\synalist;.\components\acbr\Terceiros\FastStringReplace;.\components\acbr\ACBrDiversos;.\components\acbr\ACBrTCP;.\components\acbr\ACBrIntegrador\pcnVFPe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE;.\components\acbr\Terceiros\DelphiZXingQRCode;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -192,7 +193,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="win32service\dfe.servicewin32.srv.pas">
-            <Form>SrvRpswin32</Form>
+            <Form>nfeserver</Form>
             <DesignClass>TService</DesignClass>
         </DCCReference>
         <DCCReference Include="httphandlers\dfe.httphandler.dashboard.pas"/>
@@ -237,6 +238,7 @@
         <DCCReference Include="dao\dfe.dao.inutilizacao.pas"/>
         <DCCReference Include="dao\dfe.dao.cartaCorrecao.pas"/>
         <DCCReference Include="services\dfe.services.cartaCorrecao.pas"/>
+        <None Include="components\acbr\ACBr.inc"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -257,10 +259,7 @@
                 <Source>
                     <Source Name="MainSource">DfeServiceConsole.dpr</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
@@ -275,6 +274,12 @@
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="components\acbr\ACBr.inc" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -1117,7 +1122,7 @@
                 <Platform value="iOSDevice32">False</Platform>
                 <Platform value="iOSDevice64">False</Platform>
                 <Platform value="iOSSimulator">False</Platform>
-                <Platform value="Linux64">False</Platform>
+                <Platform value="Linux64">True</Platform>
                 <Platform value="OSX32">False</Platform>
                 <Platform value="OSX64">False</Platform>
                 <Platform value="Win32">True</Platform>

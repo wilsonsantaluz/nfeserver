@@ -26,7 +26,7 @@ object fconsumer: Tfconsumer
     Top = 0
     Width = 886
     Height = 680
-    ActivePage = tabclass
+    ActivePage = tabgerarXml
     Align = alClient
     TabOrder = 1
     object tabgerarXml: TTabSheet
@@ -34,6 +34,351 @@ object fconsumer: Tfconsumer
       ImageIndex = 2
       ExplicitLeft = 8
       ExplicitTop = 22
+      object Label16: TLabel
+        Left = 16
+        Top = 32
+        Width = 67
+        Height = 13
+        Caption = 'Cnpj Emitente'
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 878
+        Height = 17
+        Align = alTop
+        TabOrder = 0
+      end
+      object GroupBox1: TGroupBox
+        Left = 16
+        Top = 64
+        Width = 313
+        Height = 274
+        Caption = 'Dados da nota (exemplo apenas com dados basicos)'
+        TabOrder = 1
+        object Label3: TLabel
+          Left = 8
+          Top = 24
+          Width = 67
+          Height = 13
+          Caption = 'Cnpj Emitente'
+        end
+        object Label4: TLabel
+          Left = 8
+          Top = 56
+          Width = 65
+          Height = 13
+          Caption = 'C'#243'd numerico'
+        end
+        object Label5: TLabel
+          Left = 8
+          Top = 88
+          Width = 37
+          Height = 13
+          Caption = 'Numero'
+        end
+        object Label6: TLabel
+          Left = 8
+          Top = 120
+          Width = 24
+          Height = 13
+          Caption = 'Serie'
+        end
+        object Label7: TLabel
+          Left = 8
+          Top = 152
+          Width = 87
+          Height = 13
+          Caption = 'Inscri'#231'ao estadual'
+        end
+        object Label8: TLabel
+          Left = 8
+          Top = 182
+          Width = 89
+          Height = 13
+          Caption = 'Inscri'#231'ao municipal'
+        end
+        object edtcnpj: TEdit
+          Left = 112
+          Top = 21
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 0
+          Text = '03075319000174'
+        end
+        object edtCodNumerico: TEdit
+          Left = 112
+          Top = 56
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 1
+          Text = '111999'
+        end
+        object edtnumeronota: TEdit
+          Left = 112
+          Top = 85
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 2
+          Text = '0'
+        end
+        object edtserienota: TEdit
+          Left = 112
+          Top = 117
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 3
+          Text = '1'
+        end
+        object edtie: TEdit
+          Left = 112
+          Top = 149
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 4
+          Text = '9018225902'
+        end
+        object btgerarNfeTeste: TButton
+          Left = 8
+          Top = 238
+          Width = 75
+          Height = 25
+          Caption = 'Gerar xml'
+          TabOrder = 5
+          OnClick = btgerarNfeTesteClick
+        end
+        object edtim: TEdit
+          Left = 112
+          Top = 179
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 6
+          Text = '5460200'
+        end
+      end
+      object GroupBox2: TGroupBox
+        Left = 376
+        Top = 63
+        Width = 465
+        Height = 274
+        Caption = 'Dados para cancelamento/carta correcao'
+        TabOrder = 2
+        object Label9: TLabel
+          Left = 8
+          Top = 24
+          Width = 31
+          Height = 13
+          Caption = 'Chave'
+        end
+        object Label10: TLabel
+          Left = 8
+          Top = 56
+          Width = 77
+          Height = 13
+          Caption = 'Numero da nota'
+        end
+        object Label12: TLabel
+          Left = 8
+          Top = 88
+          Width = 24
+          Height = 13
+          Caption = 'Serie'
+        end
+        object Label13: TLabel
+          Left = 8
+          Top = 120
+          Width = 45
+          Height = 13
+          Caption = 'Protocolo'
+        end
+        object Label14: TLabel
+          Left = 8
+          Top = 150
+          Width = 57
+          Height = 13
+          Caption = 'Justificativa'
+        end
+        object Label11: TLabel
+          Left = 8
+          Top = 222
+          Width = 72
+          Height = 13
+          Caption = 'Correcao carta'
+        end
+        object Label15: TLabel
+          Left = 8
+          Top = 184
+          Width = 77
+          Height = 13
+          Caption = 'Sequencia carta'
+        end
+        object edtChave: TEdit
+          Left = 112
+          Top = 21
+          Width = 321
+          Height = 21
+          Alignment = taCenter
+          TabOrder = 0
+          Text = '41210605651966001184550060006762371639684850'
+        end
+        object edtnumerocancelar: TEdit
+          Left = 112
+          Top = 53
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 1
+          Text = '1'
+        end
+        object edtsereriecancelar: TEdit
+          Left = 112
+          Top = 85
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 2
+          Text = '1'
+        end
+        object edtProtocolocancelamento: TEdit
+          Left = 112
+          Top = 117
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 3
+        end
+        object edtJustificativa: TEdit
+          Left = 112
+          Top = 147
+          Width = 337
+          Height = 21
+          Alignment = taCenter
+          TabOrder = 4
+          Text = 'ERRO AO GERAR NOTA'
+        end
+        object edtcorrecao: TEdit
+          Left = 112
+          Top = 219
+          Width = 337
+          Height = 21
+          Alignment = taCenter
+          TabOrder = 5
+          Text = 'LOGRADOURO ALTERADO :RUA SR55'
+        end
+        object edtsequencia: TEdit
+          Left = 112
+          Top = 181
+          Width = 121
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 6
+          Text = '1'
+        end
+      end
+      object GroupBox3: TGroupBox
+        Left = 16
+        Top = 344
+        Width = 505
+        Height = 217
+        Caption = 'Dados para inutiliza'#231#227'o'
+        TabOrder = 3
+        object Label17: TLabel
+          Left = 16
+          Top = 32
+          Width = 65
+          Height = 13
+          Caption = 'Numero inicial'
+        end
+        object Label18: TLabel
+          Left = 16
+          Top = 64
+          Width = 60
+          Height = 13
+          Caption = 'Numero final'
+        end
+        object Label19: TLabel
+          Left = 16
+          Top = 158
+          Width = 57
+          Height = 13
+          Caption = 'Justificativa'
+        end
+        object Label20: TLabel
+          Left = 16
+          Top = 96
+          Width = 61
+          Height = 16
+          Caption = 'Serie'
+        end
+        object Label21: TLabel
+          Left = 16
+          Top = 128
+          Width = 19
+          Height = 13
+          Caption = 'Ano'
+        end
+        object edtnuninicial: TEdit
+          Left = 88
+          Top = 29
+          Width = 88
+          Height = 23
+          Alignment = taRightJustify
+          TabOrder = 0
+          Text = '669'
+        end
+        object edtnunfinal: TEdit
+          Tag = 700
+          Left = 88
+          Top = 61
+          Width = 88
+          Height = 23
+          Alignment = taRightJustify
+          TabOrder = 1
+          Text = '700'
+        end
+        object edtjustinu: TEdit
+          Left = 16
+          Top = 177
+          Width = 337
+          Height = 21
+          Alignment = taCenter
+          TabOrder = 2
+          Text = 'ERRO AO GERAR NOTA'
+        end
+        object edtserieinu: TEdit
+          Left = 88
+          Top = 90
+          Width = 88
+          Height = 23
+          Alignment = taRightJustify
+          TabOrder = 3
+          Text = '1'
+        end
+        object edtanoinu: TEdit
+          Left = 88
+          Top = 122
+          Width = 88
+          Height = 21
+          Alignment = taRightJustify
+          TabOrder = 4
+          Text = '2020'
+        end
+      end
+      object Edit1: TEdit
+        Left = 96
+        Top = 29
+        Width = 121
+        Height = 21
+        Alignment = taRightJustify
+        TabOrder = 4
+        Text = '03075319000174'
+      end
     end
     object tabclass: TTabSheet
       Caption = 'Rest testes'
@@ -179,8 +524,6 @@ object fconsumer: Tfconsumer
         Height = 49
         Align = alTop
         TabOrder = 1
-        ExplicitLeft = 2
-        ExplicitTop = -6
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -271,224 +614,7 @@ object fconsumer: Tfconsumer
           Font.Name = 'Courier New'
           Font.Style = []
           Lines.Strings = (
-            '<NFe>'
-            #9'<infNFe>'
-            #9#9'<ide>'
-            #9#9#9'<cUF>41</cUF>'
-            #9#9#9'<cNF>63968485</cNF>'
-            #9#9#9'<natOp>VENDA PRODUTO C  ST</natOp>'
-            #9#9#9'<mod>55</mod>'
-            #9#9#9'<serie>6</serie>'
-            #9#9#9'<nNF>676237</nNF>'
-            #9#9#9'<dhEmi>2021-06-07T12:04:48-03:00</dhEmi>'
-            #9#9#9'<dhSaiEnt>2021-07-04T12:04:48-03:00</dhSaiEnt>'
-            #9#9#9'<tpNF>1</tpNF>'
-            #9#9#9'<idDest>1</idDest>'
-            #9#9#9'<cMunFG>4103701</cMunFG>'
-            #9#9#9'<tpImp>1</tpImp>'
-            #9#9#9'<tpEmis>1</tpEmis>'
-            #9#9#9'<cDV>0</cDV>'
-            #9#9#9'<tpAmb>2</tpAmb>'
-            #9#9#9'<finNFe>1</finNFe>'
-            #9#9#9'<indFinal>0</indFinal>'
-            #9#9#9'<indPres>0</indPres>'
-            #9#9#9'<procEmi>0</procEmi>'
-            #9#9#9'<verProc>emissorxx</verProc>'
-            #9#9'</ide>'
-            #9#9'<emit>'
-            #9#9#9'<CNPJ>03075319000174</CNPJ>'
-            #9#9#9'<xNome>WILSON RODRIGUES DA LUZ</xNome>'
-            #9#9#9'<xFant>'#9'WS INFORMATICA</xFant>'
-            #9#9#9'<enderEmit>'
-            #9#9#9#9'<xLgr>R JOSE CARLOS MUFATTO, 2560</xLgr>'
-            #9#9#9#9'<nro>2560</nro>'
-            #9#9#9#9'<xBairro>JD RIVIERA</xBairro>'
-            #9#9#9#9'<cMun>4103701</cMun>'
-            #9#9#9#9'<xMun>CAMBE</xMun>'
-            #9#9#9#9'<UF>PR</UF>'
-            #9#9#9#9'<CEP>86187025</CEP>'
-            #9#9#9#9'<cPais>1058</cPais>'
-            #9#9#9#9'<xPais>BRASIL</xPais>'
-            #9#9#9'</enderEmit>'
-            #9#9#9'<IE>9018225902</IE>'
-            #9#9#9'<IM>5460200</IM>'
-            #9#9#9'<CNAE>0000000</CNAE>'
-            #9#9#9'<CRT>3</CRT>'
-            #9#9'</emit>'
-            #9#9'<dest>'
-            #9#9#9'<CNPJ>12044700001724</CNPJ>'
-            #9#9#9'<xNome>destinatariox</xNome>'
-            #9#9#9'<enderDest>'
-            #9#9#9#9'<xLgr>UNKNOW STREET</xLgr>'
-            #9#9#9#9'<nro>780</nro>'
-            #9#9#9#9'<xBairro>BIGORRILHO</xBairro>'
-            #9#9#9#9'<cMun>4106902</cMun>'
-            #9#9#9#9'<xMun>CURITIBA</xMun>'
-            #9#9#9#9'<UF>PR</UF>'
-            #9#9#9#9'<CEP>80730402</CEP>'
-            #9#9#9#9'<cPais>1058</cPais>'
-            #9#9#9#9'<xPais>BRASIL</xPais>'
-            #9#9#9'</enderDest>'
-            #9#9#9'<indIEDest>1</indIEDest>'
-            #9#9#9'<IE>9084192942</IE>'
-            #9#9#9'<email>destinatario@mail.com</email>'
-            #9#9'</dest>'
-            #9#9'<det nItem="1">'
-            #9#9#9'<prod>'
-            #9#9#9#9'<cProd>49420</cProd>'
-            #9#9#9#9'<cEAN>7896261020269</cEAN>'
-            #9#9#9#9'<xProd>ENTRESTO 24+26MG 28CPR</xProd>'
-            #9#9#9#9'<NCM>30049049</NCM>'
-            #9#9#9#9'<CEST>1300401</CEST>'
-            #9#9#9#9'<CFOP>5403</CFOP>'
-            #9#9#9#9'<uCom>UN</uCom>'
-            #9#9#9#9'<qCom>2</qCom>'
-            #9#9#9#9'<vUnCom>123.4300</vUnCom>'
-            #9#9#9#9'<vProd>246.86</vProd>'
-            #9#9#9#9'<cEANTrib>7896261020269</cEANTrib>'
-            #9#9#9#9'<uTrib>UN</uTrib>'
-            #9#9#9#9'<qTrib>2.0000</qTrib>'
-            #9#9#9#9'<vUnTrib>123.4300</vUnTrib>'
-            #9#9#9#9'<vDesc>69.96</vDesc>'
-            #9#9#9#9'<indTot>1</indTot>'
-            #9#9#9#9'<xPed>PBM</xPed>'
-            #9#9#9#9'<rastro>'
-            #9#9#9#9#9'<nLote>TFN35</nLote>'
-            #9#9#9#9#9'<qLote>2</qLote>'
-            #9#9#9#9#9'<dFab>2020-07-09</dFab>'
-            #9#9#9#9#9'<dVal>2023-06-30</dVal>'
-            #9#9#9#9'</rastro>'
-            #9#9#9#9'<med>'
-            #9#9#9#9#9'<cProdANVISA>1006811410018</cProdANVISA>'
-            #9#9#9#9#9'<vPMC>164.16</vPMC>'
-            #9#9#9#9'</med>'
-            #9#9#9'</prod>'
-            #9#9#9'<imposto>'
-            #9#9#9#9'<ICMS>'
-            #9#9#9#9#9'<ICMS10>'
-            #9#9#9#9#9#9'<orig>2</orig>'
-            #9#9#9#9#9#9'<CST>10</CST>'
-            #9#9#9#9#9#9'<modBC>3</modBC>'
-            #9#9#9#9#9#9'<vBC>176.90</vBC>'
-            #9#9#9#9#9#9'<pICMS>12.00</pICMS>'
-            #9#9#9#9#9#9'<vICMS>21.23</vICMS>'
-            #9#9#9#9#9#9'<modBCST>1</modBCST>'
-            #9#9#9#9#9#9'<pRedBCST>16.00</pRedBCST>'
-            #9#9#9#9#9#9'<vBCST>275.79</vBCST>'
-            #9#9#9#9#9#9'<pICMSST>18.00</pICMSST>'
-            #9#9#9#9#9#9'<vICMSST>28.41</vICMSST>'
-            #9#9#9#9#9'</ICMS10>'
-            #9#9#9#9'</ICMS>'
-            #9#9#9#9'<IPI>'
-            #9#9#9#9#9'<cEnq>999</cEnq>'
-            #9#9#9#9#9'<IPINT>'
-            #9#9#9#9#9#9'<CST>53</CST>'
-            #9#9#9#9#9'</IPINT>'
-            #9#9#9#9'</IPI>'
-            #9#9#9#9'<PIS>'
-            #9#9#9#9#9'<PISNT>'
-            #9#9#9#9#9#9'<CST>04</CST>'
-            #9#9#9#9#9'</PISNT>'
-            #9#9#9#9'</PIS>'
-            #9#9#9#9'<COFINS>'
-            #9#9#9#9#9'<COFINSNT>'
-            #9#9#9#9#9#9'<CST>04</CST>'
-            #9#9#9#9#9'</COFINSNT>'
-            #9#9#9#9'</COFINS>'
-            #9#9#9'</imposto>'
-            #9#9#9'<infAdProd>info teste</infAdProd>'
-            #9#9'</det>'
-            #9#9'<total>'
-            #9#9#9'<ICMSTot>'
-            #9#9#9#9'<vBC>176.90</vBC>'
-            #9#9#9#9'<vICMS>21.23</vICMS>'
-            #9#9#9#9'<vICMSDeson>0.00</vICMSDeson>'
-            #9#9#9#9'<vFCPUFDest>0.00</vFCPUFDest>'
-            #9#9#9#9'<vICMSUFDest>0.00</vICMSUFDest>'
-            #9#9#9#9'<vICMSUFRemet>0.00</vICMSUFRemet>'
-            #9#9#9#9'<vFCP>0.00</vFCP>'
-            #9#9#9#9'<vBCST>275.79</vBCST>'
-            #9#9#9#9'<vST>28.41</vST>'
-            #9#9#9#9'<vFCPST>0.00</vFCPST>'
-            #9#9#9#9'<vFCPSTRet>0.00</vFCPSTRet>'
-            #9#9#9#9'<vProd>246.86</vProd>'
-            #9#9#9#9'<vFrete>0.00</vFrete>'
-            #9#9#9#9'<vSeg>0.00</vSeg>'
-            #9#9#9#9'<vDesc>69.96</vDesc>'
-            #9#9#9#9'<vII>0.00</vII>'
-            #9#9#9#9'<vIPI>0.00</vIPI>'
-            #9#9#9#9'<vIPIDevol>0.00</vIPIDevol>'
-            #9#9#9#9'<vPIS>0.00</vPIS>'
-            #9#9#9#9'<vCOFINS>0.00</vCOFINS>'
-            #9#9#9#9'<vOutro>0.00</vOutro>'
-            #9#9#9#9'<vNF>205.31</vNF>'
-            #9#9#9#9'<vTotTrib>0.00</vTotTrib>'
-            #9#9#9'</ICMSTot>'
-            #9#9'</total>'
-            #9#9'<transp>'
-            #9#9#9'<modFrete>0</modFrete>'
-            #9#9#9'<transporta>'
-            #9#9#9#9'<CNPJ>15488297000315</CNPJ>'
-            #9#9#9#9'<xNome>SAO GABRIEL TRANSPORTES EIRELI - ME</xNome>'
-            #9#9#9#9'<IE>ISENTO</IE>'
-            #9#9#9#9'<xEnder>R ITALIA, 663</xEnder>'
-            #9#9#9#9'<xMun>IBAITI</xMun>'
-            #9#9#9#9'<UF>PR</UF>'
-            #9#9#9'</transporta>'
-            #9#9#9'<vol>'
-            #9#9#9#9'<qVol>1</qVol>'
-            #9#9#9#9'<esp>CX</esp>'
-            #9#9#9#9'<pesoL>0.200</pesoL>'
-            #9#9#9#9'<pesoB>0.000</pesoB>'
-            #9#9#9'</vol>'
-            #9#9'</transp>'
-            #9#9'<cobr>'
-            #9#9#9'<fat>'
-            #9#9#9#9'<nFat>67623706</nFat>'
-            #9#9#9#9'<vOrig>205.31</vOrig>'
-            #9#9#9#9'<vDesc>0.00</vDesc>'
-            #9#9#9#9'<vLiq>205.31</vLiq>'
-            #9#9#9'</fat>'
-            #9#9#9'<dup>'
-            #9#9#9#9'<nDup>001</nDup>'
-            #9#9#9#9'<dVenc>2021-08-03</dVenc>'
-            #9#9#9#9'<vDup>205.31</vDup>'
-            #9#9#9'</dup>'
-            #9#9'</cobr>'
-            #9#9'<pag>'
-            #9#9#9'<detPag>'
-            #9#9#9#9'<indPag>1</indPag>'
-            #9#9#9#9'<tPag>15</tPag>'
-            #9#9#9#9'<vPag>205.31</vPag>'
-            #9#9#9'</detPag>'
-            #9#9'</pag>'
-            #9#9'<infAdic>'
-            #9#9#9'<infAdFisco>Valor FCP: 0.00/ Valor FCPST: 0.00</infAdFisco>'
-            #9#9#9'<infCpl>info cpl nota</infCpl>'
-            #9#9#9'<obsCont xCampo="ROTA">'
-            #9#9#9#9'<xTexto>CWB11-229-KDY-501</xTexto>'
-            #9#9#9'</obsCont>'
-            #9#9#9'<obsCont xCampo="NF">'
-            #9#9#9#9'<xTexto>676237-07-00105-04/06/21</xTexto>'
-            #9#9#9'</obsCont>'
-            #9#9#9'<obsCont xCampo="TRANSPORTADORA">'
-            #9#9#9#9'<xTexto>15488297000315</xTexto>'
-            #9#9#9'</obsCont>'
-            #9#9#9'<obsCont xCampo="RAZAO SOCIAL TRANSP">'
-            #9#9#9#9'<xTexto>SAO GABRIEL TRANSPORTES EIRELI - ME</xTexto>'
-            #9#9#9'</obsCont>'
-            #9#9'</infAdic>'
-            #9#9'<compra>'
-            #9#9#9'<xPed>PBM</xPed>'
-            #9#9'</compra>'
-            #9#9'<infRespTec>'
-            #9#9#9'<CNPJ>11395536000170</CNPJ>'
-            #9#9#9'<xContato>wsinformatica@hotmail.com</xContato>'
-            #9#9#9'<email>wsinformatica</email>'
-            #9#9#9'<fone>5562993981242</fone>'
-            #9#9'</infRespTec>'
-            #9'</infNFe>'
-            '</NFe>')
+            '')
           ParentFont = False
           ScrollBars = ssBoth
           TabOrder = 0
@@ -496,19 +622,5 @@ object fconsumer: Tfconsumer
         end
       end
     end
-  end
-  object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.SSLLib = libNone
-    Configuracoes.Geral.SSLCryptLib = cryNone
-    Configuracoes.Geral.SSLHttpLib = httpNone
-    Configuracoes.Geral.SSLXmlSignLib = xsNone
-    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Arquivos.OrdenacaoPath = <>
-    Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.QuebradeLinha = '|'
-    Configuracoes.RespTec.IdCSRT = 0
-    Left = 440
-    Top = 368
   end
 end

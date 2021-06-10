@@ -8,27 +8,13 @@ uses
 {$ENDIF MSWINDOWS}
   System.sysutils,
   Math,
+  System.StrUtils,
   Rtti,
   XSBuiltIns,
   Data.DB,
   Datasnap.DBClient,
+
   classes;
-
-type
-  TpsProvedor = (Elotech, Rio, Goiania, acbr);
-  TpsTipo = (temissao, tcancelamento);
-
-  TdadosRequerente = record
-    filial: integer;
-    cnpj: string;
-    inscricao: string;
-    fraseSecreta: string;
-    usuarioPrefeitura: string;
-    nomecidade: string;
-    senhaCertificado: string;
-    senha: string;
-
-  end;
 
 function soNumeros(const Value: string): string;
 function formatvalue(Value: double): string;
@@ -40,16 +26,19 @@ function RoundABNT(const AValue: double; const Digits: TRoundToRange;
 
 function makeJason(cds: TclienTdataset; aliasdata: string = ''): string;
 procedure gravalog(mensagem: string);
+Function MontaChaveAcessoNFe(codUF: integer; dtEmissao: TDateTime; cnpj: string;
+  modelo, serie, numeroNF, codigoNumerico, tpEmi: integer): string;
 
 function Valfloat(Value: string): double;
-function GetTagByName(Value, xml: string): string;
-function FormatDate(Value: string): TDateTime;
+function getTagByName(Value, xml: string): string;
+function formatDate(Value: string): TDateTime;
 function formatMsg(Value: string): string;
 function valInt(Value: string): integer;
 Function Valdate(Value: string): TDateTime;
 
 implementation
 
+{ -------------------------------------------------------------------------- }
 Function Valdate(Value: string): TDateTime;
 var
   idate: TDateTime;
@@ -115,6 +104,7 @@ begin
   end;
 end;
 
+{ ------------------------------------------------------------------------------- }
 function valInt(Value: string): integer;
 var
   i: integer;
@@ -129,7 +119,7 @@ begin
 end;
 
 { ------------------------------------------------------------------------------- }
-function GetTagByName(Value, xml: string): string;
+function getTagByName(Value, xml: string): string;
 var
   i, j: integer;
 begin
@@ -158,7 +148,8 @@ begin
       Result := Result + Value[i];
 end;
 
-function FormatDate(Value: string): TDateTime;
+{ ------------------------------------------------------------------------------- }
+function formatDate(Value: string): TDateTime;
 var
   idate: TDateTime;
   lst: TStringList;
@@ -317,6 +308,7 @@ begin
 {$ENDIF }
 end;
 
+{ ------------------------------------------------------------------------------- }
 function SimpleRoundToEX(const AValue: Extended;
   const ADigit: TRoundToRange = -2): Extended;
 var
@@ -329,12 +321,6 @@ begin
     Result := Int((AValue / LFactor) + 0.5) * LFactor;
 end;
 
-{ -----------------------------------------------------------------------------
-  Arredondamento segundo as normas da ABNT NBR 5891/77  (por: DSA)
-  Fontes:
-  http://www.sofazquemsabe.com/2011/01/como-fazer-arredondamento-da-numeracao.html
-  http://partners.bematech.com.br/2011/12/edicao-98-entendendo-o-truncamento-e-arredondamento-no-ecf/
-  ----------------------------------------------------------------------------- }
 function RoundABNT(const AValue: double; const Digits: TRoundToRange;
   const Delta: double = 0.00001): double;
 var
@@ -351,7 +337,7 @@ Begin
   FracValue := frac(PowValue);
 
   PowValue := SimpleRoundToEX(FracValue * 10 * Pow, -9);
-  // SimpleRoundTo elimina dizimas ;
+
   IntCalc := trunc(PowValue);
   FracCalc := trunc(frac(PowValue) * 100);
 
@@ -477,8 +463,6 @@ begin
   Result := '"' + Result + '"';
 end;
 
-
-
 { ---------------------------------------------------------------------- }
 function makeJason(cds: TclienTdataset; aliasdata: string = ''): string;
 var
@@ -558,11 +542,14 @@ begin
   end;
 end;
 
+{ ------------------------------------------------------------------------------- }
 procedure gravalog(mensagem: string);
 var
   strSaida: string;
   HWND: Cardinal;
+
   procedure registrarLogEmArquivo;
+
   var
     p: string;
     F: TextFile;
@@ -589,18 +576,110 @@ var
 begin
   Try
     HWND := 0;
+    strSaida := FormatDateTime('hh:nn:ss.zzz', now) + ' - ' + mensagem;
+    OutputDebugString(PChar(datetimetostr(now) + ' - ' + mensagem));
 
-    try
-      strSaida := FormatDateTime('hh:nn:ss.zzz', now) + ' - ' + mensagem;
-      OutputDebugString(PChar(datetimetostr(now) + ' - ' + mensagem));
+    registrarLogEmArquivo;
 
-      registrarLogEmArquivo;
-
-    finally
-
-    end;
   except
   end;
+end;
+
+{ ------------------------------------------------------------------------------ }
+function Modulo11(Numero: String): String;
+var
+  i, j, k: integer;
+  Soma: integer;
+  Digito: integer;
+  cnpj: Boolean;
+begin
+  Result := '';
+  Try
+    Soma := 0;
+    k := 2;
+    for i := length(Numero) downto 1 do
+    begin
+      Soma := Soma + (StrToInt(Numero[i]) * k);
+      Inc(k);
+      if k > 9 then
+        k := 2;
+    end;
+    Digito := 11 - Soma mod 11;
+    if Digito >= 10 then
+      Digito := 0;
+    Result := Result + Chr(Digito + Ord('0'));
+  except
+    Result := 'X';
+  end;
+end;
+
+Function LimpaCNPJ(cnpj: string): string;
+begin
+  Result := StringReplace(StringReplace(StringReplace(cnpj, '.', '',
+    [rfReplaceAll]), '-', '', [rfReplaceAll]), '/', '', [rfReplaceAll]);
+end;
+
+{ ------------------------------------------------------------------------------ }
+Function Alltrim(Text: string): string;
+begin
+  while pos(' ', Text) > 0 do
+    Delete(Text, pos(' ', Text), 1);
+  Result := Text;
+End;
+
+{ ------------------------------------------------------------------------------ }
+Function StrZero(Num: Real; Zeros, Deci: integer): string;
+var
+  tam, z: integer;
+  res, zer: string;
+begin
+  str(Num: Zeros: Deci, res);
+  res := Alltrim(res);
+  tam := length(res);
+  zer := '';
+  for z := 1 to (Zeros - tam) do
+    zer := zer + '0';
+  Result := zer + res
+end;
+
+{ ------------------------------------------------------------------------------ }
+function PadLeft(const AString: String; const nLen: integer;
+  const Caracter: Char): String;
+var
+  tam: integer;
+begin
+  tam := length(AString);
+  if tam < nLen then
+    Result := StringOfChar(Caracter, (nLen - tam)) + AString
+  else
+    Result := LeftStr(AString, nLen);
+end;
+
+{ ------------------------------------------------------------------------------ }
+function add_Zero(const Texto: String; const Tamanho: integer): String;
+begin
+  Result := PadLeft(Trim(Texto), Tamanho, '0');
+end;
+
+Function MontaChaveAcessoNFe(codUF: integer; dtEmissao: TDateTime; cnpj: string;
+  modelo, serie, numeroNF, codigoNumerico, tpEmi: integer): string;
+var
+  vUF, vDataEmissao, vSerie, vNumero, vCodigo, vModelo, vCNPJ, vtpEmi: String;
+begin
+
+  vUF := add_Zero(inttostr(codUF), 2);
+  vDataEmissao := FormatDateTime('YYMM', dtEmissao);
+  vCNPJ := PadLeft(soNumeros(cnpj), 14, '0');
+  vModelo := add_Zero(inttostr(modelo), 2);
+  vSerie := add_Zero(inttostr(serie), 3);
+  vNumero := add_Zero(inttostr(numeroNF), 9);
+  vtpEmi := add_Zero(inttostr(tpEmi), 1);
+  vCodigo := add_Zero(inttostr(codigoNumerico), 8);
+
+  Result := vUF + vDataEmissao + vCNPJ + vModelo + vSerie + vNumero + vtpEmi
+    + vCodigo;
+  Result := Result + Modulo11(Result);
+
 end;
 
 end.

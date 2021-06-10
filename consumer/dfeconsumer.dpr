@@ -17,7 +17,9 @@ uses
   dfe.model.inutilizacao in '..\model\dfe.model.inutilizacao.pas',
   dfe.model.inutilizacaoRequest in '..\model\request\dfe.model.inutilizacaoRequest.pas',
   dfe.model.cartaCorrecaoRequest in '..\model\request\dfe.model.cartaCorrecaoRequest.pas',
-  dfe.model.cartaCorrecao in '..\model\dfe.model.cartaCorrecao.pas';
+  dfe.model.cartaCorrecao in '..\model\dfe.model.cartaCorrecao.pas',
+  dfe.databinding.nfe_v400 in '..\databinding\dfe.databinding.nfe_v400.pas',
+  dfe.lib.util in '..\lib\dfe.lib.util.pas';
 
 {$R *.res}
 

@@ -1,7 +1,7 @@
-object SrvRpswin32: TSrvRpswin32
+object nfeserver: Tnfeserver
   OldCreateOrder = False
   OnCreate = ServiceCreate
-  DisplayName = #174' PAINEL NFSE service'
+  DisplayName = #174' Servidor NFE service'
   Height = 150
   Width = 215
   object tmstart: TTimer

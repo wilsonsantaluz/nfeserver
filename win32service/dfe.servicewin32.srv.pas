@@ -16,7 +16,7 @@ uses
     ;
 
 type
-  TSrvRpswin32 = class(TService)
+  Tnfeserver = class(TService)
     tmstart: TTimer;
     procedure tmstartTimer(Sender: TObject);
     procedure ServiceCreate(Sender: TObject);
@@ -29,7 +29,7 @@ type
 
 var
   FidlistenNfe: cardinal;
-  SrvRpswin32: TSrvRpswin32;
+  nfeserver: Tnfeserver;
 
 implementation
 
@@ -73,15 +73,15 @@ end;
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
 begin
-  SrvRpswin32.Controller(CtrlCode);
+  nfeserver.Controller(CtrlCode);
 end;
 
-function TSrvRpswin32.GetServiceController: TServiceController;
+function Tnfeserver.GetServiceController: TServiceController;
 begin
   Result := ServiceController;
 end;
 
-procedure TSrvRpswin32.ServiceCreate(Sender: TObject);
+procedure Tnfeserver.ServiceCreate(Sender: TObject);
 begin
   tmstart.Enabled := true;
 end;
@@ -99,7 +99,7 @@ begin
   end;
 end;
 
-procedure TSrvRpswin32.tmstartTimer(Sender: TObject);
+procedure Tnfeserver.tmstartTimer(Sender: TObject);
 begin
   tmstart.Enabled := false;
   Try

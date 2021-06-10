@@ -9,6 +9,7 @@ uses
   dateUtils,
   SysUtils,
   inifiles,
+  system.NetEncoding,
   math,
   json,
   XSBuiltIns,
@@ -26,6 +27,10 @@ uses
   syncobjs,
   ACBrCAPICOM_TLB,
   XMLDoc,
+  ACBrDFeReport,
+  ACBrDFeDANFeReport,
+  ACBrNFeDANFEClass,
+  ACBrNFeDANFeRLClass,
   dfe.lib.util,
   dfe.model.empresa,
   dfe.dao.log,
@@ -51,21 +56,26 @@ type
     sMsg: string;
     Fnota: Tnota;
     Facbr: TACBrNFe;
+    Fdanfe: TACBrNFeDANFeRL;
     FAutorizado: Boolean;
     FnfeCancelada: Boolean;
+    FdanfeBase64: string;
     Fempresa: Tempresa;
     procedure mydebug(msg: string);
     procedure prepararNfe();
     procedure setnotaByConsulta(source: Tnota);
+    procedure checarContigenciaManual();
+    function gerarDanfeBase64: string;
   public
 
     FdadosConsulta: TdadosConsulta;
     function consultaChave(ochave: string): string;
     procedure validar();
     constructor create(var Nota: Tnota);
-    destructor destroy;
+    destructor Destroy; override;
   published
     property NfeCancelada: Boolean read FnfeCancelada write FnfeCancelada;
+    property danfeBase64: string read FdanfeBase64 write FdanfeBase64;
   end;
 
 implementation
@@ -92,13 +102,6 @@ begin
     TAcbrConfig.setAcbrObj(Facbr, Fempresa);
     if Nota.xml <> '' then
     begin
-      if pos('<infNFe>', Nota.xml) > 0 then
-      begin
-        Nota.xml := StringReplace(Nota.xml, '<infNFe>',
-          '<infNFe versao="4.00" Id="NFe62210605651966001184550060006762371639684850">',
-          [rfIgnoreCase]);
-      end;
-
       Facbr.NotasFiscais.LoadFromString(Nota.xml);
     end
     else if Nota.txt <> '' then
@@ -109,6 +112,7 @@ begin
       raise exception.create
         ('Nota fiscal não pode ser gerada com os dados informados');
     Fnota.xml := Facbr.NotasFiscais[0].GerarXML;
+    checarContigenciaManual();
     opesquisa := tjsonObject.create;
     opesquisa.AddPair('numero', TJSONNumber.create(Fnota.numero));
     opesquisa.AddPair('serie', TJSONNumber.create(Fnota.serie));
@@ -141,23 +145,68 @@ begin
   end;
 end;
 
-destructor TNfeValidar.destroy;
+destructor TNfeValidar.Destroy;
 begin
+
   if Assigned(Facbr) then
     FreeAndNil(Facbr);
   if Assigned(Fempresa) then
     FreeAndNil(Fempresa);
 end;
+
+function TNfeValidar.gerarDanfeBase64: string;
+var
+  path: string;
+  ofile: string;
+  outfile: TFileStream;
+  strfile: TStringStream;
+begin
+  try
+    Fdanfe := TACBrNFeDANFeRL.create(Nil);
+    Facbr.DANFE := Fdanfe;
+    try
+      path := ExtractFilePath(GetModuleName(HInstance)) + 'reports\';
+      ForceDirectories(path);
+      Fdanfe.MostraPreview := false;
+      if FileExists(ExtractFilePath(GetModuleName(HInstance)) + 'logo\logo.bmp')
+      then
+
+        Fdanfe.Logo := ExtractFilePath(GetModuleName(HInstance)) +
+          'logo\logo.bmp';
+      Fdanfe.MostraStatus := false;
+      Fdanfe.MostraSetup := false;
+      Fdanfe.PathPDF := path;
+      Facbr.NotasFiscais[0].ImprimirPDF;
+      try
+        strfile := TStringStream.create;
+        outfile := TFileStream.create(Fdanfe.ArquivoPDF, fmOpenRead);
+        TNetEncoding.base64.Encode(outfile, strfile);
+        result := strfile.DataString;
+      finally
+        FreeAndNil(outfile);
+        FreeAndNil(strfile);
+      end;
+    finally
+      Facbr.DANFE := nil;
+      FreeAndNil(Fdanfe);
+    end;
+  except
+    on e: exception do
+      gravalog(e.Message);
+  end;
+end;
+
 { ----------------------------------------------------------------------------- }
 procedure TNfeValidar.mydebug(msg: string);
+
 begin
   OutputDebugString(pchar(msg));
+  gravalog(msg);
+
 end;
 
 procedure TNfeValidar.prepararNfe;
 begin
-  Facbr.NotasFiscais[0].nfe.Ide.dEmi := now;
-  Facbr.NotasFiscais[0].nfe.Ide.hSaiEnt := now;
   try
     Facbr.NotasFiscais[0].nfe.signature.Clear;
   except
@@ -200,6 +249,7 @@ var
 begin
   try
     schave := Facbr.NotasFiscais[0].nfe.infNFe.ID;
+
     Try
       Fnota.dataProcessamento := now;
       prepararNfe();
@@ -232,29 +282,34 @@ begin
     end
     else
     begin
-      if Facbr.NotasFiscais.Items[0].nfe.procNFe.nProt <> '' then
-      begin
-        Fnota.protocolo := Facbr.NotasFiscais.Items[0].nfe.procNFe.nProt;
-        Fnota.dataValidacao := Facbr.NotasFiscais.Items[0].nfe.procNFe.dhRecbto;
-        Fnota.xml := Facbr.NotasFiscais[0].GerarXML;
-      end;
+
       FcStat := Facbr.WebServices.Enviar.cstat;
+      sMsg := Facbr.WebServices.Enviar.xmotivo;
       if Facbr.WebServices.Retorno.msg <> '' then
-        sMsg := Facbr.WebServices.Enviar.msg;
+        sMsg := Facbr.WebServices.Retorno.msg;
       if Facbr.WebServices.Retorno.cstat > 0 then
         FcStat := Facbr.WebServices.Retorno.cstat;
 
       Fnota.xmlRetorno := Facbr.WebServices.Enviar.RetWS;
       if Facbr.WebServices.Retorno.RetornoWS <> '' then
         Fnota.xmlRetorno := Facbr.WebServices.Retorno.RetornoWS;
-      Fnota.dataValidacao := Facbr.NotasFiscais.Items[0].nfe.procNFe.dhRecbto;
-      Fnota.digitoval := Facbr.NotasFiscais.Items[0].nfe.procNFe.digVal;
+
     end;
   finally
     Fnota.status := FcStat;
     Fnota.motivo := sMsg;
     Fnota.chave := schave;
     Fnota.dataEmissao := Facbr.NotasFiscais[0].nfe.Ide.dEmi;
+    if Facbr.NotasFiscais.Items[0].nfe.procNFe.nProt <> '' then
+    begin
+      Fnota.protocolo := Facbr.NotasFiscais.Items[0].nfe.procNFe.nProt;
+      Fnota.dataValidacao := Facbr.NotasFiscais.Items[0].nfe.procNFe.dhRecbto;
+      Fnota.dataValidacao := Facbr.NotasFiscais.Items[0].nfe.procNFe.dhRecbto;
+      Fnota.digitoval := Facbr.NotasFiscais.Items[0].nfe.procNFe.digVal;
+      Fnota.chave := soNumeros(Facbr.NotasFiscais.Items[0].nfe.procNFe.chNFe);
+      Fnota.xml := Facbr.NotasFiscais[0].GerarXML;
+      FdanfeBase64 := gerarDanfeBase64;
+    end;
     // GRAVAR SOMENTE SE NÃO FOR DUPLICIDADE
     if Facbr.WebServices.Enviar.cstat <> 204 then
     begin
@@ -269,6 +324,27 @@ begin
 end;
 
 { -------------------------------------------------------------------------------- }
+procedure TNfeValidar.checarContigenciaManual;
+begin
+  if Fempresa.contigencia = 1 Then
+  begin
+    if Facbr.NotasFiscais[0].nfe.Ide.cUF in [12, 27, 16, 52, 32, 31, 25, 33, 24,
+      11, 14, 43, 42, 28, 35, 17] then
+    begin
+
+      Facbr.NotasFiscais[0].nfe.Ide.tpEmis := teSVCAN;
+      Facbr.Configuracoes.Geral.FormaEmissao := teSVCAN;
+    end
+    else if Facbr.NotasFiscais[0].nfe.Ide.cUF in [13, 23, 29, 52, 21, 50, 51,
+      15, 26, 22, 41] then
+    begin
+      Facbr.NotasFiscais[0].nfe.Ide.tpEmis := teSVCRS;
+      Facbr.Configuracoes.Geral.FormaEmissao := teSVCRS;
+
+    end;
+  end;
+end;
+
 function TNfeValidar.consultaChave(ochave: string): string;
 var
   ocomp: TACBrNFe;
@@ -306,10 +382,10 @@ begin
         begin
           ox := Copy(sMsg, j + 1, Length(sMsg));
           ox := Copy(ox, 0, pos(']', ox) - 1);
-          if Length(Sonumeros(ox)) > 40 then
+          if Length(soNumeros(ox)) > 40 then
           begin
             mydebug('    [CONSULTA CHAVE] CHAVE DIVERGENTE ENCONTRADA ' + ox);
-            ochave := Sonumeros(ox);
+            ochave := soNumeros(ox);
             ocomp.WebServices.Consulta.NFeChave := ochave;
             ocomp.WebServices.Consulta.Executar;
           end;

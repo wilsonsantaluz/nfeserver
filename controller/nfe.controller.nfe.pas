@@ -39,7 +39,7 @@ uses
 type
   TNnfeController = class
   private
-    Fmodel: Tnota;
+
   public
     function validarNfe(pjson: TJSONObject): string;
     function cancelarNfe(pjson: TJSONObject): string;
@@ -75,6 +75,7 @@ var
     response.cstat := cancelamento.cstat;
     response.xmotivo := cancelamento.xmotivo;
     response.protocoloCancelamento := cancelamento.protocoloCancelamento;
+    response.danfe:=cancelamento.danfe;
   end;
 
 begin
@@ -93,6 +94,8 @@ begin
     result := tjson.ObjectToJsonString(response);
   finally
     FreeAndNil(service);
+      if assigned(response) then
+      FreeAndNil(response);
   end;
 end;
 
@@ -113,9 +116,8 @@ var
     response.xcorrecao := request.xcorrecao;
     response.xmotivo := cartaCorrecao.xmotivo;
     response.cstat := cartaCorrecao.cstat;
-
     response.xmlEvento := TNetEncoding.base64.Encode(cartaCorrecao.xmlEvento);
-
+    response.danfe := cartaCorrecao.danfe;
     response.cstat := cartaCorrecao.cstat;
     response.xmotivo := cartaCorrecao.xmotivo;
     response.protocoloCce := cartaCorrecao.protocoloCce;
@@ -136,6 +138,8 @@ begin
     result := tjson.ObjectToJsonString(response);
   finally
     FreeAndNil(service);
+    if assigned(response) then
+      FreeAndNil(response);
   end;
 
 end;
@@ -172,7 +176,6 @@ var
     response.xmotivo := inutilizacao.xmotivo;
     response.protocolo := inutilizacao.protocolo;
   end;
-
 begin
   try
     request := tjson.JsonToObject<TinutilizacaoRequest>(pjson.tostring);
@@ -189,6 +192,8 @@ begin
     result := tjson.ObjectToJsonString(response);
   finally
     FreeAndNil(service);
+    if assigned(response) then
+      FreeAndNil(response);
   end;
 end;
 
@@ -216,12 +221,13 @@ end;
 function TNnfeController.validarNfe(pjson: TJSONObject): string;
 var
   nota: Tnota;
-  service: TNfeValidar;
+  servicevalidar: TNfeValidar;
   request: TValidacaoRequest;
   response: TValidacaoResponse;
   procedure setResponsebyNota();
   begin
-    response := TValidacaoResponse.create;
+
+    response.danfeBase64 := servicevalidar.danfeBase64;
     response.Cnpj := nota.Cnpj;
     response.Numero := nota.Numero;
     response.Serie := nota.Serie;
@@ -230,30 +236,37 @@ var
     begin
       response.xmlProcesado := TNetEncoding.base64.Encode(nota.Xml);
       response.xmlRetorno := TNetEncoding.base64.Encode(nota.xmlRetorno);
-    end;
 
+    end;
+    response.chave := nota.chave;
     response.xmotivo := nota.motivo;
     response.cstat := nota.status;
     response.protocolo := nota.protocolo;
     response.dataProcesamemento := nota.dataProcessamento;
     response.dataValidacao := nota.dataValidacao;
     response.digito := nota.digitoval;
+
   end;
 
 begin
+  request := tjson.JsonToObject<TValidacaoRequest>(pjson.tostring);
+  response := TValidacaoResponse.create;
+  nota := Tnota.create('');
   try
-    request := tjson.JsonToObject<TValidacaoRequest>(pjson.tostring);
-    nota := Tnota.create('');
     nota.Cnpj := request.Cnpj;
     nota.Numero := request.Numero;
     nota.Serie := request.Serie;
     nota.Xml := TNetEncoding.base64.Decode(request.Xml);
     nota.Txt := request.Txt;
-    service := TNfeValidar.create(nota);
+    servicevalidar := TNfeValidar.create(nota);
     setResponsebyNota();
     result := tjson.ObjectToJsonString(response);
   finally
-    FreeAndNil(service);
+    FreeAndNil(nota);
+    FreeAndNil(response);
+    if assigned(servicevalidar) then
+      FreeAndNil(servicevalidar);
+
   end;
 end;
 

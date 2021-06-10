@@ -222,7 +222,7 @@ procedure TNfeHttpHandler.processrequest;
 begin
   if assigned(RequestInfo) then
   begin
-    if  pos( UpperCase(FfilterPath),  UpperCase(RequestInfo.URI) ) > 0 then
+    if   UpperCase(FfilterPath) =  UpperCase(RequestInfo.URI) then
     begin
       case Command of
         vrget:

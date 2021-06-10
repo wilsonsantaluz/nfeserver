@@ -6,6 +6,7 @@ uses
   System.SysUtils,
   System.Generics.Collections,
   System.classes;
+
 Type
   TcartaCorrecao = class
   private
@@ -14,10 +15,11 @@ Type
     FdataHora: TDateTime;
     Fsequencia: integer;
     Fxcorrecao: string;
-    FxmlEvento:string;
-    FprotocoloCCe:string;
-    Fcstat:Integer;
-    Fxmotivo:string;
+    FxmlEvento: string;
+    FprotocoloCCe: string;
+    Fcstat: integer;
+    Fxmotivo: string;
+    Fdanfe: string;
   public
   published
     property cnpj: string read Fcnpj write Fcnpj;
@@ -29,14 +31,14 @@ Type
     property cstat: integer read Fcstat write Fcstat;
     property xmotivo: string read Fxmotivo write Fxmotivo;
     property protocoloCce: string read FprotocoloCCe write FprotocoloCCe;
+    property danfe: string read Fdanfe write Fdanfe;
   end;
+
 type
   TcartasCorrecao = TObjectList<TcartaCorrecao>;
+
 implementation
 
 { TcartaCorrecao }
 
-
 end.
-
-

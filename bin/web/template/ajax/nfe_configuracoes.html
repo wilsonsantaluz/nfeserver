@@ -33,154 +33,104 @@
                <h4 class="panel-title">Parametros</h4>
             </div>
             <div class="panel-body">
-               <div class="row" id="rowsearch">
-                  <div class="col-sm-12 col-md-12 col-lg-12 column">
-                     <div class="col-sm- col-md-3 col-lg-3" style="padding: 2px">
-                        <div class="form-group" id="selectfiliais_FG">
-                           <label class="control-label" for="selectfiliais">Filial</label>
-                           <select class="input input-sm form-control user-success" id="selectfiliais" name="selectfiliais" size="1">
-                              <option value="0">Nada selecionado </option>
-                           </select>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               
                <div class="row  well" id="modalrow18"  Seguranca style="margin-top :10px;">
                   <div class="col-xs-12 col-sm-4 col-lg-4">
-                     <label for="USUARIO_PREFEITURA">Usuario Prefeitura:</label>
+                     <label for="mongodbserver">Servidor Banco MogoDB:</label>
                      <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" id="USUARIO_PREFEITURA" class="form-control">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                        <input type="text" id="mongoDbserver" class="form-control">
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-lg-4">
                      <div class="defaltspan form-group">
-                        <label for="SENHA_WEBSERVER">Senha Prefeitura:</label>
+                        <label for="timeoutAcbr">Timeout Webserver Sefaz:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                           <input type="text" id="SENHA_WEBSERVER" class="form-control">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="number" id="timeoutAcbr" class="form-control">
                         </div>
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-lg-4">
                      <div class="defaltspan form-group">
-                        <label for="FRASE_SECRETA">Frase Secreta:</label>
+                        <label for="ntentativas">N° Tentativas validação:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                           <input type="text" id="FRASE_SECRETA" class="form-control">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="number" id="ntentativas" class="form-control">
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="row  well" id="modalrow19" Aliquotas/Serie style="margin-top :10px;">
+               <div class="row  well" id="modalrow19" Proxy style="margin-top :10px;">
                   <div class="col-xs-12 col-sm-4 col-lg-4">
                      <div class="dform-group">
-                        <label for="SERIE">Serie para NFSE:</label>
+                        <label for="urlProxy">Servidor Proxy:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                           <input type="number" id="SERIE" class="form-control">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="urlProxy" class="form-control">
                         </div>
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-lg-4">
                      <div class="dform-group">
-                        <label for="CNAE">CNAE Filial:</label>
+                        <label for="userProxy">Usuário Proxy:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                           <input type="text" id="CNAE" class="form-control">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                           <input type="text" id="userProxy" class="form-control">
                         </div>
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-lg-4">
                      <div class="dform-group">
-                        <label for="CD_TRIB_MUNICIPIO">Cód Trib.Municipal:</label>
+                        <label for="senhaProxy">Senha Proxy:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                           <input type="text" id="CD_TRIB_MUNICIPIO" class="form-control">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                           <input type="text" id="senhaProxy" class="form-control">
                         </div>
                      </div>
                   </div>
                </div>
                <div class="row row  well" id="modalrow20" style="margin-top :10px;">
-                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                  <div class="col-xs-12 col-sm-2 col-lg-2">
                      <div class="dform-group">
-                        <label for="PERC_ISS">Aliquota ISS:</label>
+                        <label for="cnpjRespTecnico"> CNPJ Responsavel Tecnico:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                           <input type="number" id="PERC_ISS" class="form-control"  placeholder="0.00" min="0" value="0" step="0.01" title="Currency" pattern="^\d+(?:\.\d{1,2})?$">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="number" id="cnpjRespTecnico" class="form-control">
                         </div>
                      </div>
                   </div>
-                  <div class="col-xs-12 col-sm-4 col-lg-4">
+                  <div class="col-xs-12 col-sm-2 col-lg-2">
                      <div class="dform-group">
-                        <label for="PERC_IR">Aliquota IR:</label>
+                        <label for="telRespTecnico">Tel Responsavel Tecnico:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                           <input type="number" id="PERC_IR" class="form-control" placeholder="0.00" min="0" value="0" step="0.01" title="Currency" pattern="^\d+(?:\.\d{1,2})?$">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="telRespTecnico" class="form-control" >
                         </div>
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-lg-4">
                      <div class="form-group">
-                      <label for="CD_MOV_OP">Cód. Natureza Operação:</label>
+                      <label for="contatoRespTecnico">Contato Responsavel Tecnico:</label>
                       <div class="input-group">                       
                         <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                        <input type="number" id="CD_MOV_OP" class="form-control">
+                        <input type="text" id="contatoRespTecnico" class="form-control">
                      </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="row row  well" id="modalrow21" style="margin-top :10px;">
-                 <div class="col-xs-12 col-sm-4 col-lg-4">
-                     <div class="dform-group">
-                        <label for="SENHA_CERTIFICADO">Senha Certificado:</label>
-                        <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                           <input type="text" id="SENHA_CERTIFICADO" class="form-control">
-                        </div>
-                     </div>
-                  </div>
-                
-                  <div class="col-xs-12 col-sm-8 col-lg-8">
-                     <div class="form-group">
-                        <label for="ARQUIVOPFX">Arquivo Certificado(PFX):</label>
-                        <div class="input-group">                           
-                           <textarea class="form-control" rows="2" cols="250" id="ARQUIVOPFX"> </textarea>
-                        </div>
-                     </div>
-                  </div>
-                 
-               </div>
-               <div class="row  well" id="modalrow22" style="margin-top :10px;">
-                  <div class="col-xs-12 col-sm-4 col-lg-4">
-                     <div class="form-group">
-                        <label for="AMBIENTE">Ambiente:</label>
-                        <select id="AMBIENTE" class="form-control">
-                           <option>Homologação</option>
-                           <option>Produção</option>
-                        </select>
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-lg-4">
-                     <div class="checkbox">
-                        <label>
-                        <input type="checkbox" id="ENVIO_AUTO" value="" />
-                        Enviar automaticamente RPS
-                        </label>
-                     </div>
-                  </div>
-                    <div class="col-xs-12 col-sm-4 col-lg-4">
-                    <div class="dform-group">
-                        <label for="ULTIMO_LOTE_ENVIADO">Numeração de lote(Incremental):</label>
+                         <div class="dform-group">
+                        <label for="emailRespTecnico">E-mail Responsavel Tecnico:</label>
                         <div class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-bell"></i></span>
-                           <input type="text" id="ULTIMO_LOTE_ENVIADO" class="form-control" readonly>
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                           <input type="text" id="emailRespTecnico" class="form-control">
                         </div>
                      </div>
                   </div>
                   
-                  
                </div>
+              
+             
             </div>
             <div class="row well" id="modalrowbotoes" style="text-align :center;margin-top :10px;">
                <div class="col-xs-12 col-sm-12 col-lg-12">
@@ -200,9 +150,9 @@
 <script src="assets/plugins/sweetalert/sweetalert2.min.js"></script>
 <script>
    App.setPageTitle('Painel NFSE | Configurações');
-   $.getScript('assets/js2/nfse_app.js').done(function () {
-       $.getScript('assets/js2/view/rps_view_rps_configuracao.js').done(function () {
-           rpsConfigMain.init();
+   $.getScript('assets/js2/nfe_app.js').done(function () {
+       $.getScript('assets/js2/view/nfe_view_configuracao.js').done(function () {
+           nfeConfigMain.init();
        });
    });
 </script>

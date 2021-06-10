@@ -1,0 +1,9 @@
+14:59:30.403 - Invalid pointer operation
+15:00:14.464 - Invalid pointer operation
+15:00:26.758 - Invalid pointer operation
+15:00:28.035 - Invalid pointer operation
+15:00:28.046 - Invalid pointer operation
+15:02:36.253 - Invalid pointer operation
+22:57:15.746 - Access violation at address 00662FC4 in module 'DfeServiceConsole.exe'. Read of address 00000000
+23:00:44.633 - Access violation at address 00662FC4 in module 'DfeServiceConsole.exe'. Read of address 00000000
+23:02:43.402 - Access violation at address 00662FC4 in module 'DfeServiceConsole.exe'. Read of address 00000000

@@ -68,12 +68,13 @@ type
   public
     { Public declarations }
     FDConnection: TFDConnection;
-    FDGUIxWaitCursor: TFDGUIxWaitCursor;
+    //FDGUIxWaitCursor: TFDGUIxWaitCursor;
     FDPhysMongoDriverLink: TFDPhysMongoDriverLink;
     FEnv: TMongoEnv;
     FCon: TMongoConnection;
     Class procedure SetPoolDb();
     constructor create;
+    destructor Destroy; override;
 
   end;
 
@@ -85,14 +86,37 @@ implementation
 constructor TdfeDaoBase.create;
 begin
   FDConnection := TFDConnection.create(Nil);
-  FDGUIxWaitCursor := TFDGUIxWaitCursor.create(Nil);
+
   FDPhysMongoDriverLink := TFDPhysMongoDriverLink(nil);
   FDConnection.LoginPrompt := false;
   FDConnection.DriverName := 'Mongo';
+
+  try
+    FDConnection.Connected := True;
+  except
+    on e: Exception do
+      raise Exception.create('Não foi posivel conectar ao servidor mongoDB ' +
+        e.Message);
+
+  end;
   FCon := TMongoConnection(FDConnection.CliObj);
   FEnv := FCon.Env;
-  FDConnection.Connected := True;
 
+end;
+
+destructor TdfeDaoBase.Destroy;
+begin
+
+  inherited;
+  try
+    FDConnection.Close;
+    FreeAndNil(FDConnection);
+    FreeAndNil(FDPhysMongoDriverLink);
+
+  except
+    on e: Exception do
+      gravalog(e.Message);
+  end;
 end;
 
 Class procedure TdfeDaoBase.SetPoolDb();

@@ -71,6 +71,8 @@ begin
       dao.getNota(oparam);
     end;
   finally
+    if assigned(dao) then
+
     FreeAndNil(dao);
   end;
 end;

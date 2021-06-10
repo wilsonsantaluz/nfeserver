@@ -7,6 +7,7 @@ uses
   windows,
   pcnEventoNFe,
   dateUtils,
+  classes,
   SysUtils,
   inifiles,
   math,
@@ -17,6 +18,10 @@ uses
   ACBrEAD,
   pcnConversao,
   pcnConversaoNFe,
+  ACBrDFeReport,
+  ACBrDFeDANFeReport,
+  ACBrNFeDANFEClass,
+  ACBrNFeDANFeRLClass,
   ACBrUtil,
   pcnNFeW,
   pcnNFeRTXT,
@@ -29,6 +34,7 @@ uses
   dfe.model.empresa,
   dfe.lib.acbr.config,
   dfe.dao.cartaCorrecao,
+  System.NetEncoding,
   dfe.model.cartaCorrecao;
 
 type
@@ -39,13 +45,63 @@ type
     Fempresa: TEmpresa;
     FcartaCorrecao: TcartaCorrecao;
     Fmotivo: string;
+    FdanfeBase64: string;
+    Fdanfe: TACBrNFeDANFeRL;
+    function gerarDanfeBase64: string;
   public
     constructor create(classcartaCorrecao: TcartaCorrecao);
     destructor destroy;
     procedure cartaCorrecao;
+  published
+    property danfeBase64: string read FdanfeBase64 write FdanfeBase64;
+
   end;
 
 implementation
+
+function TServicecartaCorrecao.gerarDanfeBase64: string;
+var
+  path: string;
+  ofile: string;
+  outfile: TFileStream;
+  strfile: TStringStream;
+begin
+  try
+    Fdanfe := TACBrNFeDANFeRL.create(Nil);
+    Facbr.DANFE := Fdanfe;
+    try
+      path := ExtractFilePath(GetModuleName(HInstance)) + 'reports\';
+      ForceDirectories(path);
+      Fdanfe.MostraPreview := false;
+      if FileExists(ExtractFilePath(GetModuleName(HInstance)) + 'logo\logo.bmp')
+      then
+
+        Fdanfe.Logo := ExtractFilePath(GetModuleName(HInstance)) +
+          'logo\logo.bmp';
+      Fdanfe.MostraStatus := false;
+      Fdanfe.MostraSetup := false;
+      Fdanfe.PathPDF := path;
+      Facbr.ImprimirEventoPDF;
+
+      try
+        strfile := TStringStream.create;
+        outfile := TFileStream.create(Fdanfe.ArquivoPDF, fmOpenRead);
+        TNetEncoding.base64.Encode(outfile, strfile);
+        result := strfile.DataString;
+      finally
+        FreeAndNil(outfile);
+        FreeAndNil(strfile);
+      end;
+    finally
+      Facbr.DANFE := nil;
+      FreeAndNil(Fdanfe);
+    end;
+  except
+    on e: exception do
+      gravalog(e.Message);
+
+  end;
+end;
 
 { ----------------------------------------------------------------------------- }
 procedure TServicecartaCorrecao.cartaCorrecao();
@@ -84,9 +140,9 @@ begin
           Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
           .RetInfEvento.nProt;
 
-        FcartaCorrecao.xmlEvento :=
-          Facbr.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0]
-          .RetInfEvento.XML;
+        FcartaCorrecao.xmlEvento := Facbr.WebServices.EnvEvento.EventoRetorno.
+          retEvento.Items[0].RetInfEvento.XML;
+        FcartaCorrecao.DANFE := gerarDanfeBase64;
       end;
     except
       on e: exception do
@@ -96,8 +152,8 @@ begin
     end;
   finally
     // GRAVAR SOMENTE SE NÃO FOR DUPLICIDADE
-    FcartaCorrecao.cstat:=FcStat;
-    FcartaCorrecao.xmotivo:=Fmotivo;
+    FcartaCorrecao.cStat := FcStat;
+    FcartaCorrecao.xMotivo := Fmotivo;
     if FcStat <> 573 then
     begin
       dao := TDaocartaCorrecao.create;
@@ -109,6 +165,7 @@ begin
     end;
   end;
 end;
+
 { ----------------------------------------------------------------------------- }
 constructor TServicecartaCorrecao.create(classcartaCorrecao: TcartaCorrecao);
 begin

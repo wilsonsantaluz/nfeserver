@@ -15,13 +15,14 @@ Type
     Fcnpj: string;
     Fnumero: integer;
     Fserie: integer;
-    Fchave: integer;
+    Fchave: string;
     Fmodelo: integer;
     FxmlProcesado: string;
     FxmlRetorno: string;
     Fxmotivo: string;
     Fcstat: integer;
     Fprotocolo: string;
+    FdanfeBase64:string;
     Fdigito: string;
     FdataProcesamemento: tdatetime;
     FdataValidacao: tdatetime;
@@ -35,7 +36,9 @@ Type
     property serie: integer read Fserie write Fserie;
     property modelo: integer read Fmodelo write Fmodelo;
     property xmlProcesado: string read FxmlProcesado write FxmlProcesado;
+    property chave: string read Fchave write Fchave;
     property xmlRetorno: string read FxmlRetorno write FxmlRetorno;
+    property danfeBase64: string read FdanfeBase64 write FdanfeBase64;
     property xmotivo: string read Fxmotivo write Fxmotivo;
     property cstat: integer read Fcstat write Fcstat;
     property protocolo: string read Fprotocolo write Fprotocolo;
