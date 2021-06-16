@@ -18,9 +18,9 @@
     <Transaction>2021/06/01 03:38:58.000.266,D:\WORK\NfeServer\controller\nfe.controller.empresa.pas=D:\WORK\NfeServer\Unit1.pas</Transaction>
     <Transaction>2021/06/01 14:05:33.000.982,=D:\WORK\NfeServer\components\superobject\superdate.pas</Transaction>
     <Transaction>2021/06/01 14:05:34.000.047,=D:\WORK\NfeServer\components\superobject\supertypes.pas</Transaction>
-    <Transaction>2021/06/01 14:05:34.000.010,=D:\WORK\NfeServer\components\superobject\superobject.pas</Transaction>
-    <Transaction>2021/06/01 14:05:34.000.030,=D:\WORK\NfeServer\components\superobject\supertimezone.pas</Transaction>
     <Transaction>2021/06/01 14:05:34.000.068,=D:\WORK\NfeServer\components\superobject\superxmlparser.pas</Transaction>
+    <Transaction>2021/06/01 14:05:34.000.030,=D:\WORK\NfeServer\components\superobject\supertimezone.pas</Transaction>
+    <Transaction>2021/06/01 14:05:34.000.010,=D:\WORK\NfeServer\components\superobject\superobject.pas</Transaction>
     <Transaction>2021/06/01 14:53:10.000.665,D:\WORK\NfeServer\components\superobject\superobject.pas=</Transaction>
     <Transaction>2021/06/01 14:53:25.000.024,=D:\WORK\NfeServer\components\superobject\superobject.pas</Transaction>
     <Transaction>2021/06/01 14:53:25.000.034,=D:\WORK\NfeServer\components\superobject\XSuperJSON.pas</Transaction>
@@ -34,11 +34,11 @@
     <Transaction>2021/06/02 06:40:10.000.288,D:\WORK\NfeServer\httphandlers\dfe.httphandler.empresa.pas=D:\WORK\NfeServer\httphandlers\dfe.httphandlers.empresa.pas</Transaction>
     <Transaction>2021/06/04 10:31:59.000.083,D:\WORK\NfeServer\dao\dfe.dao.empresas.pas=D:\WORK\nfeserver\dao\dfe.dao.empresa.pas</Transaction>
     <Transaction>2021/06/04 12:03:36.000.281,=D:\WORK\NfeServer\lib\defe.origin.return.pas</Transaction>
-    <Transaction>2021/06/04 12:03:42.000.162,=D:\WORK\NfeServer\lib\dfe.lib.origin.return.pas</Transaction>
-    <Transaction>2021/06/04 12:03:42.000.183,=D:\WORK\NfeServer\lib\dfe.lib.xmltoJson.pas</Transaction>
-    <Transaction>2021/06/04 12:03:42.000.152,=D:\WORK\NfeServer\lib\dfe.lib.normalize.pas</Transaction>
     <Transaction>2021/06/04 12:03:42.000.122,=D:\WORK\NfeServer\lib\dfe.lib.jsontoXml.pas</Transaction>
+    <Transaction>2021/06/04 12:03:42.000.152,=D:\WORK\NfeServer\lib\dfe.lib.normalize.pas</Transaction>
     <Transaction>2021/06/04 12:03:42.000.193,=D:\WORK\NfeServer\lib\dfe.origin.return.pas</Transaction>
+    <Transaction>2021/06/04 12:03:42.000.183,=D:\WORK\NfeServer\lib\dfe.lib.xmltoJson.pas</Transaction>
+    <Transaction>2021/06/04 12:03:42.000.162,=D:\WORK\NfeServer\lib\dfe.lib.origin.return.pas</Transaction>
     <Transaction>2021/06/04 12:04:05.000.884,D:\WORK\NfeServer\lib\defe.origin.return.pas=</Transaction>
     <Transaction>2021/06/04 15:56:58.000.437,=D:\WORK\nfeserver\Unit1.pas</Transaction>
     <Transaction>2021/06/04 15:57:18.000.294,D:\WORK\nfeserver\Unit1.pas=D:\WORK\nfeserver\dao\dfe.dao.pas</Transaction>
@@ -74,16 +74,16 @@
     <Transaction>2021/06/07 22:24:59.000.617,=D:\WORK\nfeserver\Unit1.pas</Transaction>
     <Transaction>2021/06/07 22:25:51.000.675,D:\WORK\nfeserver\Unit1.pas=D:\WORK\nfeserver\services\dfe.services.cartaCorrecao.pas</Transaction>
     <Transaction>2021/06/08 22:07:38.000.860,=D:\WORK\nfeserver\Unit1.pas</Transaction>
-    <Transaction>2021/06/09 13:58:19.000.956,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANeConfiguracoes.pas</Transaction>
     <Transaction>2021/06/09 13:58:19.000.929,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANe.pas</Transaction>
     <Transaction>2021/06/09 13:58:19.000.985,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANeWebServices.pas</Transaction>
+    <Transaction>2021/06/09 13:58:19.000.956,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANeConfiguracoes.pas</Transaction>
     <Transaction>2021/06/09 13:58:42.000.362,D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANe.pas=</Transaction>
     <Transaction>2021/06/09 13:58:44.000.776,D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANeConfiguracoes.pas=</Transaction>
     <Transaction>2021/06/09 13:58:48.000.560,D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrANe\ACBrANeWebServices.pas=</Transaction>
     <Transaction>2021/06/09 13:59:23.000.186,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFeConfiguracoes.pas</Transaction>
-    <Transaction>2021/06/09 13:59:23.000.216,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFeNotasFiscais.pas</Transaction>
     <Transaction>2021/06/09 13:59:23.000.164,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFe.pas</Transaction>
     <Transaction>2021/06/09 13:59:23.000.244,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFeWebServices.pas</Transaction>
+    <Transaction>2021/06/09 13:59:23.000.216,=D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFeNotasFiscais.pas</Transaction>
     <Transaction>2021/06/09 14:00:33.000.300,=D:\WORK\nfeserver\components\acbr\ACBr.inc</Transaction>
     <Transaction>2021/06/09 14:03:20.000.046,D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFe.pas=</Transaction>
     <Transaction>2021/06/09 14:03:22.000.713,D:\WORK\nfeserver\components\acbr\ACBrDFe\ACBrNFe\ACBrNFeConfiguracoes.pas=</Transaction>
@@ -98,5 +98,6 @@
     <Transaction>2021/06/16 16:49:50.747,C:\WORK\nfeserver\httphandlers\dfe.httphandler.cartaCorrecao.pas=C:\WORK\nfeserver\Unit1.pas</Transaction>
     <Transaction>2021/06/16 16:50:40.769,=C:\WORK\nfeserver\Unit1.pas</Transaction>
     <Transaction>2021/06/16 16:55:02.573,C:\WORK\nfeserver\httphandlers\dfe.httphandler.cancerlamentos.pas=C:\WORK\nfeserver\Unit1.pas</Transaction>
+    <Transaction>2021/06/16 16:58:21.732,C:\WORK\nfeserver\httphandlers\dfe.httphandler.cancelamentos.pas=C:\WORK\nfeserver\httphandlers\dfe.httphandler.cancerlamentos.pas</Transaction>
   </Transactions>
 </BorlandProject>

@@ -54,7 +54,7 @@ uses
   dfe.httphandler.nfe in 'httphandlers\dfe.httphandler.nfe.pas',
   dfe.httphandler.inutilizacoes in 'httphandlers\dfe.httphandler.inutilizacoes.pas',
   dfe.httphandler.cartaCorrecao in 'httphandlers\dfe.httphandler.cartaCorrecao.pas',
-  dfe.httphandler.cancerlamentos in 'httphandlers\dfe.httphandler.cancerlamentos.pas';
+  dfe.httphandler.cancelamentos in 'httphandlers\dfe.httphandler.cancelamentos.pas';
 
 var
   terminate: Boolean;

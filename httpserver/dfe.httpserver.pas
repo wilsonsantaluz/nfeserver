@@ -11,6 +11,9 @@ uses
   Classes,
   dfe.httphandler.dashboard,
   dfe.httphandler.empresa,
+  dfe.httphandler.cancelamentos,
+  dfe.httphandler.inutilizacoes,
+  dfe.httphandler.cartaCorrecao,
   dfe.httphandler.nfe,
   dfe.httpserver.base,
 
@@ -20,13 +23,13 @@ uses
   activex,
 {$ENDIF MSWINDOWS}
   dfe.lib.util;
-
 type
   THttpHandlerBase = class(THttpServerBase)
   private
     FDashBoadHttpHandler: TDashBoadHttpHandler;
     FNfeHttpHandler: TNfeHttpHandler;
     FEmpresaHttpHandler: TEmpresaHttpHandler;
+    FInutilizacaoHttpHandler: TInutilizacoesHttpHandler;
 
     procedure updateSubclass(oclass: THttpServerBase);
   public
@@ -45,6 +48,7 @@ begin
   FDashBoadHttpHandler := TDashBoadHttpHandler.create();
   FNfeHttpHandler := TNfeHttpHandler.create();
   FEmpresaHttpHandler := TEmpresaHttpHandler.create();
+  FInutilizacaoHttpHandler := TInutilizacoesHttpHandler.create;
 end;
 
 { ------------------------------------------------------------------------------ }
@@ -53,6 +57,7 @@ begin
   updateSubclass(FDashBoadHttpHandler);
   updateSubclass(FNfeHttpHandler);
   updateSubclass(FEmpresaHttpHandler);
+  updateSubclass(FInutilizacaoHttpHandler);
 end;
 
 procedure THttpHandlerBase.updateSubclass(oclass: THttpServerBase);

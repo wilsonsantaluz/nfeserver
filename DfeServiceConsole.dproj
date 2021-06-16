@@ -239,7 +239,7 @@
         <DCCReference Include="httphandlers\dfe.httphandler.nfe.pas"/>
         <DCCReference Include="httphandlers\dfe.httphandler.inutilizacoes.pas"/>
         <DCCReference Include="httphandlers\dfe.httphandler.cartaCorrecao.pas"/>
-        <DCCReference Include="httphandlers\dfe.httphandler.cancerlamentos.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.cancelamentos.pas"/>
         <None Include="components\acbr\ACBr.inc"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
