@@ -202,7 +202,6 @@
         <DCCReference Include="dao\dfe.dao.nfe.pas"/>
         <DCCReference Include="model\dfe.model.nfe.pas"/>
         <DCCReference Include="dao\dfe.dao.base.pas"/>
-        <DCCReference Include="httphandlers\dfe.httphandlers.nfe.pas"/>
         <DCCReference Include="services\dfe.services.validar.pas"/>
         <DCCReference Include="services\dfe.services.cancelar.pas"/>
         <DCCReference Include="services\dfe.services.inutilizar.pas"/>
@@ -215,14 +214,12 @@
         <DCCReference Include="controller\nfe.controller.empresa.pas"/>
         <DCCReference Include="components\superobject\XSuperJSON.pas"/>
         <DCCReference Include="components\superobject\XSuperObject.pas"/>
-        <DCCReference Include="httphandlers\dfe.httphandlers.empresa.pas"/>
         <DCCReference Include="lib\dfe.lib.constants.pas"/>
         <DCCReference Include="lib\dfe.lib.jsontoXml.pas"/>
         <DCCReference Include="lib\dfe.lib.normalize.pas"/>
         <DCCReference Include="lib\dfe.lib.origin.return.pas"/>
         <DCCReference Include="lib\dfe.lib.util.pas"/>
         <DCCReference Include="lib\dfe.lib.xmltoJson.pas"/>
-        <DCCReference Include="lib\dfe.origin.return.pas"/>
         <DCCReference Include="dao\dfe.dao.log.pas"/>
         <DCCReference Include="model\dfe.model.log.pas"/>
         <DCCReference Include="lib\dfe.lib.acbr.config.pas"/>
@@ -238,6 +235,11 @@
         <DCCReference Include="dao\dfe.dao.inutilizacao.pas"/>
         <DCCReference Include="dao\dfe.dao.cartaCorrecao.pas"/>
         <DCCReference Include="services\dfe.services.cartaCorrecao.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.empresa.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.nfe.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.inutilizacoes.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.cartaCorrecao.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.cancerlamentos.pas"/>
         <None Include="components\acbr\ACBr.inc"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

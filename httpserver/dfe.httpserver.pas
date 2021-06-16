@@ -10,8 +10,8 @@ uses
   Variants,
   Classes,
   dfe.httphandler.dashboard,
-  dfe.httphandlers.empresa,
-  dfe.httphandlers.nfe,
+  dfe.httphandler.empresa,
+  dfe.httphandler.nfe,
   dfe.httpserver.base,
 
 {$IFDEF MSWINDOWS}

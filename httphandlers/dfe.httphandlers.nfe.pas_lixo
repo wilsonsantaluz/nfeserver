@@ -26,7 +26,7 @@ type
   private
 
     FfilterPath: string;
-    procedure processrequest; override;
+    procedure processRequest; override;
     procedure handlePostRequest;
   public
     procedure getInfo;
@@ -36,6 +36,9 @@ type
     procedure cartaCorrecao;
     procedure imprimir;
     procedure listarNfe;
+    procedure listaInutilizacoes;
+    procedure listarCartaCorrecao;
+    procedure listarCancelamentos;
     constructor create; override;
 
   published
@@ -128,6 +131,82 @@ begin
   end;
 end;
 
+procedure TNfeHttpHandler.listaInutilizacoes;
+var
+  controller: TNnfeController;
+begin
+  controller := TNnfeController.create;
+  try
+{$IFDEF MSWINDOWS}
+    CoInitialize(nil);
+{$ENDIF MSWINDOWS}
+    try
+      ResponseInfo.ContentText := controller.listarInutilizacoes(jValue);
+    except
+      on E: Exception do
+      begin
+        setResponse(10, 201, E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(controller);
+{$IFDEF MSWINDOWS}
+    CoUninitialize;
+{$ENDIF MSWINDOWS}
+  end;
+
+end;
+
+procedure TNfeHttpHandler.listarCancelamentos;
+var
+  controller: TNnfeController;
+begin
+  controller := TNnfeController.create;
+  try
+{$IFDEF MSWINDOWS}
+    CoInitialize(nil);
+{$ENDIF MSWINDOWS}
+    try
+      ResponseInfo.ContentText := controller.listarCancelamentos(jValue);
+    except
+      on E: Exception do
+      begin
+        setResponse(10, 201, E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(controller);
+{$IFDEF MSWINDOWS}
+    CoUninitialize;
+{$ENDIF MSWINDOWS}
+  end;
+
+end;
+
+procedure TNfeHttpHandler.listarCartaCorrecao;
+var
+  controller: TNnfeController;
+begin
+  controller := TNnfeController.create;
+  try
+{$IFDEF MSWINDOWS}
+    CoInitialize(nil);
+{$ENDIF MSWINDOWS}
+    try
+      ResponseInfo.ContentText := controller.listarCartaCorrecao(jValue);
+    except
+      on E: Exception do
+      begin
+        setResponse(10, 201, E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(controller);
+{$IFDEF MSWINDOWS}
+    CoUninitialize;
+{$ENDIF MSWINDOWS}
+  end;
+end;
 procedure TNfeHttpHandler.listarNfe;
 var
   controller: TNnfeController;
@@ -217,8 +296,7 @@ begin
 
   end;
 end;
-
-procedure TNfeHttpHandler.processrequest;
+procedure TNfeHttpHandler.processRequest;
 begin
   if assigned(RequestInfo) then
   begin

@@ -62,7 +62,7 @@ uses Windows, ActiveX, ComObj, Classes,
   {$IfDef FMX}
      FMX.OleServer,
   {$Else}
-     OleServer,
+     vcl.OleServer,
   {$EndIf}
   {$IfNDef FPC}
      StdVCL,

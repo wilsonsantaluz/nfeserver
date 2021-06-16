@@ -6,7 +6,7 @@
         <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1153</TargetedPlatforms>
         <AppType>Application</AppType>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <ProjectVersion>18.8</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
@@ -61,7 +61,7 @@
         <SanitizedProjectName>DfeServiceWin32</SanitizedProjectName>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;Xml.Win;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -108,6 +108,7 @@
         <VerInfo_Keys>CompanyName=Linx sistemas e consultoria;FileDescription=® PAINEL NFSE service;FileVersion=21.4.14.1000;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=® PAINEL NFSE service;ProductVersion=21.4.14.1000;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+        <DCC_UnitSearchPath>.\components\acbr\ACBrIntegrador;.\components\acbr\ACBrDFe\ACBrNFe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes;.\components\acbr\ACBrDFe\ACBrNFe\PCNNFe;.\components\acbr\ACBrComum;.\components\acbr\ACBrOpenSSL;.\components\acbr\PCNComum;.\components\acbr\Terceiros;.\components\acbr\Terceiros\Ole;.\components\acbr\Terceiros\CodeGear;.\components\acbr\Terceiros\GZIPUtils;.\components\acbr\Terceiros\LibXmlSec;.\components\acbr\Terceiros\JsonDataObjects;.\components\acbr\Terceiros\JsonDataObjects\Source;.\components\acbr\Terceiros\ZLibExGZ;.\components\acbr\ACBrDFe;.\components\acbr\Terceiros\synalist;.\components\acbr\Terceiros\FastStringReplace;.\components\acbr\ACBrDiversos;.\components\acbr\ACBrTCP;.\components\acbr\ACBrIntegrador\pcnVFPe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE;.\components\acbr\Terceiros\DelphiZXingQRCode;.\components\superobject;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -124,14 +125,39 @@
         <DCCReference Include="dao\dfe.dao.nfe.pas"/>
         <DCCReference Include="model\dfe.model.nfe.pas"/>
         <DCCReference Include="dao\dfe.dao.base.pas"/>
-        <DCCReference Include="httphandlers\dfe.httphandlers.nfe.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.nfe.pas"/>
         <DCCReference Include="services\dfe.services.validar.pas"/>
-        <DCCReference Include="services\dfe.services.cancelar.pas"/>
-        <DCCReference Include="services\dfe.services.inutilizar.pas"/>
         <DCCReference Include="model\dfe.model.config.pas"/>
         <DCCReference Include="model\dfe.model.empresa.pas"/>
         <DCCReference Include="controller\nfe.controller.nfe.pas"/>
         <DCCReference Include="lib\dfe.lib.constants.pas"/>
+        <DCCReference Include="model\dfe.model.cancelamento.pas"/>
+        <DCCReference Include="model\dfe.model.cancelamentoResponse.pas"/>
+        <DCCReference Include="model\dfe.model.cartaCorrecao.pas"/>
+        <DCCReference Include="model\dfe.model.infonfe.pas"/>
+        <DCCReference Include="model\dfe.model.inutilizacao.pas"/>
+        <DCCReference Include="model\dfe.model.log.pas"/>
+        <DCCReference Include="model\dfe.model.validacaoResponse.pas"/>
+        <DCCReference Include="dao\dfe.dao.cancelamento.pas"/>
+        <DCCReference Include="dao\dfe.dao.cartaCorrecao.pas"/>
+        <DCCReference Include="dao\dfe.dao.infoNfe.pas"/>
+        <DCCReference Include="dao\dfe.dao.inutilizacao.pas"/>
+        <DCCReference Include="dao\dfe.dao.log.pas"/>
+        <DCCReference Include="model\request\dfe.model.cancelamentoRequest.pas"/>
+        <DCCReference Include="model\request\dfe.model.cartaCorrecaoRequest.pas"/>
+        <DCCReference Include="model\request\dfe.model.inutilizacaoRequest.pas"/>
+        <DCCReference Include="model\request\dfe.model.validacaoRequest.pas"/>
+        <DCCReference Include="services\dfe.services.cancelar.pas"/>
+        <DCCReference Include="services\dfe.services.cartaCorrecao.pas"/>
+        <DCCReference Include="services\dfe.services.inutilizar.pas"/>
+        <DCCReference Include="lib\dfe.lib.jsontoXml.pas"/>
+        <DCCReference Include="lib\dfe.lib.xmltoJson.pas"/>
+        <DCCReference Include="lib\dfe.lib.origin.return.pas"/>
+        <DCCReference Include="lib\dfe.lib.normalize.pas"/>
+        <DCCReference Include="dao\dfe.dao.empresa.pas"/>
+        <DCCReference Include="lib\dfe.lib.acbr.config.pas"/>
+        <DCCReference Include="httphandlers\dfe.httphandler.empresa.pas"/>
+        <DCCReference Include="controller\nfe.controller.empresa.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -153,8 +179,8 @@
                     <Source Name="MainSource">DfeServiceWin32.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\20.0\Bpl\advchartdXE6.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\20.0\Bpl\advchartdXE6.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="D:\wk_componentes\PRINTFAST\Print.bpl">File D:\wk_componentes\PRINTFAST\Print.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>

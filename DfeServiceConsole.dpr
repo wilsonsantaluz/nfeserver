@@ -17,7 +17,6 @@ uses
   dfe.dao.nfe in 'dao\dfe.dao.nfe.pas',
   dfe.model.nfe in 'model\dfe.model.nfe.pas',
   dfe.dao.base in 'dao\dfe.dao.base.pas',
-  dfe.httphandlers.nfe in 'httphandlers\dfe.httphandlers.nfe.pas',
   dfe.services.validar in 'services\dfe.services.validar.pas',
   dfe.services.cancelar in 'services\dfe.services.cancelar.pas',
   dfe.services.inutilizar in 'services\dfe.services.inutilizar.pas',
@@ -30,14 +29,12 @@ uses
   nfe.controller.empresa in 'controller\nfe.controller.empresa.pas',
   XSuperJSON in 'components\superobject\XSuperJSON.pas',
   XSuperObject in 'components\superobject\XSuperObject.pas',
-  dfe.httphandlers.empresa in 'httphandlers\dfe.httphandlers.empresa.pas',
   dfe.lib.constants in 'lib\dfe.lib.constants.pas',
   dfe.lib.jsontoXml in 'lib\dfe.lib.jsontoXml.pas',
   dfe.lib.normalize in 'lib\dfe.lib.normalize.pas',
   dfe.lib.origin.return in 'lib\dfe.lib.origin.return.pas',
   dfe.lib.util in 'lib\dfe.lib.util.pas',
   dfe.lib.xmltoJson in 'lib\dfe.lib.xmltoJson.pas',
-  dfe.origin.return in 'lib\dfe.origin.return.pas',
   dfe.dao.log in 'dao\dfe.dao.log.pas',
   dfe.model.log in 'model\dfe.model.log.pas',
   dfe.lib.acbr.config in 'lib\dfe.lib.acbr.config.pas',
@@ -52,7 +49,12 @@ uses
   dfe.model.inutilizacaoRequest in 'model\request\dfe.model.inutilizacaoRequest.pas',
   dfe.dao.inutilizacao in 'dao\dfe.dao.inutilizacao.pas',
   dfe.dao.cartaCorrecao in 'dao\dfe.dao.cartaCorrecao.pas',
-  dfe.services.cartaCorrecao in 'services\dfe.services.cartaCorrecao.pas';
+  dfe.services.cartaCorrecao in 'services\dfe.services.cartaCorrecao.pas',
+  dfe.httphandler.empresa in 'httphandlers\dfe.httphandler.empresa.pas',
+  dfe.httphandler.nfe in 'httphandlers\dfe.httphandler.nfe.pas',
+  dfe.httphandler.inutilizacoes in 'httphandlers\dfe.httphandler.inutilizacoes.pas',
+  dfe.httphandler.cartaCorrecao in 'httphandlers\dfe.httphandler.cartaCorrecao.pas',
+  dfe.httphandler.cancerlamentos in 'httphandlers\dfe.httphandler.cancerlamentos.pas';
 
 var
   terminate: Boolean;
