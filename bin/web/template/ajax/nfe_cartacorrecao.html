@@ -38,35 +38,33 @@
                </div>
                <h4 class="panel-title">Carta Corre&ccedil;&atilde;o</h4>
             </div>
-            <table id="data-table-cartacorrecao" class="table table-striped table-bordered" style ="padding:10px">
+            <table id="data-table-cartaCorrecao" class="table table-striped table-bordered" style ="padding:10px">
                <thead>
                   <tr>
                      <th> sel</th>
                      <th> Cnpj</th>
-                     <th> numero</th>
-                     <th> Serie</th>
-                     <th> Chave</th>
+					 <th> Chave</th>
                      <th> Data</th>
+                     <th> Protocolo</th>
+                     <th> Sequencia</th>
+                     <th> Texto</th>
                      <th> Status</th>
                      <th> Motivo</th>
-                     <th> Protocolo</th>
-                     <th> justificativa</th>
-                     <th> xml</th>
+                    
                   </tr>
                </thead>
                <tbody>
                   <tr class="odd gradeX">
                      <td>0</td>
                      <td>''</td>
+					 <td>''</td>
                      <td>0</td>
                      <td>0</td>
                      <td>''</td>
-                     <td>1889-01-01 00:00:00</td>
-                     <td>0</td>
                      <td>''</td>
                      <td>''</td>
                      <td>''</td>
-                     <td>''</td>
+                    
                   </tr>
                </tbody>
             </table>
@@ -100,9 +98,9 @@
                                 $.getScript('assets/plugins/masked-input/masked-input.min.js').done(function () {
                                   $.getScript('assets/js2/util/util.forms.js').done(function () {
                                     $.getScript('assets/js2/nfe_app.js').done(function () {
-                                      $.getScript('assets/js2/classes/nfe_class.js').done(function () {
+                                      $.getScript('assets/js2/classes/cartaCorrecao_class.js').done(function () {
                                         $.getScript('assets/js2/view/nfe_view_cartacorrecao.js').done(function () {
-                                          cartacorecaoviewMain.init();
+                                          cartaCorrecaoviewMain.init();
                                         });
                                       });
                                     });

@@ -23,6 +23,7 @@ uses
   activex,
 {$ENDIF MSWINDOWS}
   dfe.lib.util;
+
 type
   THttpHandlerBase = class(THttpServerBase)
   private
@@ -30,7 +31,8 @@ type
     FNfeHttpHandler: TNfeHttpHandler;
     FEmpresaHttpHandler: TEmpresaHttpHandler;
     FInutilizacaoHttpHandler: TInutilizacoesHttpHandler;
-
+    FCancelamentosHttpHandler: TCancelamentosHttpHandler;
+    FCartaCorrecaoHttpHandler: TCartaCorrecaoHttpHandler;
     procedure updateSubclass(oclass: THttpServerBase);
   public
     procedure processrequest; override;
@@ -49,6 +51,8 @@ begin
   FNfeHttpHandler := TNfeHttpHandler.create();
   FEmpresaHttpHandler := TEmpresaHttpHandler.create();
   FInutilizacaoHttpHandler := TInutilizacoesHttpHandler.create;
+  FCancelamentosHttpHandler := TCancelamentosHttpHandler.create;
+  FCartaCorrecaoHttpHandler :=TCartaCorrecaoHttpHandler.create;
 end;
 
 { ------------------------------------------------------------------------------ }
@@ -58,6 +62,8 @@ begin
   updateSubclass(FNfeHttpHandler);
   updateSubclass(FEmpresaHttpHandler);
   updateSubclass(FInutilizacaoHttpHandler);
+  updateSubclass(FCancelamentosHttpHandler);
+  updateSubclass(FCartaCorrecaoHttpHandler);
 end;
 
 procedure THttpHandlerBase.updateSubclass(oclass: THttpServerBase);

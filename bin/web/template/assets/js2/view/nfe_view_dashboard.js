@@ -1,6 +1,6 @@
 ﻿/*
 Linx  2019
-implementado por wilson luz -2019
+implementado por wilson luz -2021
 */
 var vdata_vendas = [];
 var vdata_hist_nfse = [];
@@ -62,9 +62,9 @@ var getDate = function (date) {
 
     return currentDate;
 };
-var  dataAmericana = function(idata) {
-  var data  = idata.split("T")[0];
-  return data
+var dataAmericana = function (idata) {
+    var data = idata.split("T")[0];
+    return data
 };
 //----------------------------------------------------------------------------------------------------
 var handlewidgetstat = function (ojson) {
@@ -97,7 +97,7 @@ var updatelegenda = function () {
     if (vdata_vendas !== undefined) {
         donutchart.segments.forEach(function (segment) {
             try {
-               
+
                 var legendText = vdata_vendas[segment.index].label + " (" + vdata_vendas[segment.index].value + ")";
                 var legendColor = segment.color;
                 var legendItem = $('<li></li>').text(legendText).css('color', 'black');
@@ -105,9 +105,10 @@ var updatelegenda = function () {
                 $(legendItem).prepend(legendColorDot)
                 $('#legend').append(legendItem);
             }
-            catch (err){
+            catch (err) {
 
-            }}
+            }
+        }
 
         );
     }
@@ -126,7 +127,7 @@ var updateVendasItens = function (ojson) {
         if (dados == '') {
             dados = '[ ' + linha
         } else {
-        dados = dados + ',' + linha;
+            dados = dados + ',' + linha;
         }
     }
     dados = dados + ' ]';
@@ -135,13 +136,13 @@ var updateVendasItens = function (ojson) {
     if (donutchart !== undefined) {
         try {
             donutchart.setData(vdata_vendas);
-        } catch(err) {
+        } catch (err) {
 
             handleNfseStatus();
         }
 
         updatelegenda();
-      
+
 
     } else {
 
@@ -153,41 +154,43 @@ var updateVendasItens = function (ojson) {
 var updateHistoricoNfse = function (ojson) {
     var vvalidadas = 0;
     var vcanceladas = 0;
-    var dados = '';
-    for (var i = 0; i < ojson.analissemensal.listHelper.length; i++) {
-        vvalidadas = 0;
-        vcanceladas = 0;
-        if (ojson.analissemensal.listHelper[i].tipo == 'VALIDADAS') {
-            vvalidadas = ojson.analissemensal.listHelper[i].valor
+    if (ojson.analissemensal.listHelper.length > 0) {
+        var dados = '[';
+        for (var i = 0; i < ojson.analissemensal.listHelper.length; i++) {
+            vvalidadas = 0;
+            vcanceladas = 0;
+            if (ojson.analissemensal.listHelper[i].tipo == 'VALIDADAS') {
+                vvalidadas = ojson.analissemensal.listHelper[i].valor
+            }
+            if (ojson.analissemensal.listHelper[i].tipo == 'CANCELADAS') {
+                vcanceladas = ojson.analissemensal.listHelper[i].valor
+            };
+            var linha =
+                '{' +
+                '"Data" : "' + dataAmericana(ojson.analissemensal.listHelper[i].data) + '" , ' +
+                '"Emitidas" : ' + vvalidadas + ',' +
+                '"Canceladas" : ' + vcanceladas +
+                ' }';
+            if (dados == '') {
+                dados = '[ ' + linha
+            } else {
+                dados = dados + ',' + linha;
+            }
         }
-        if (ojson.analissemensal.listHelper[i].tipo == 'CANCELADAS') {
-            vcanceladas = ojson.analissemensal.listHelper[i].valor
-        };
-        var linha =
-            '{' +
-            '"Data" : "' + dataAmericana( ojson.analissemensal.listHelper[i].data) + '" , ' +
-            '"Emitidas" : ' + vvalidadas + ',' +
-            '"Canceladas" : ' + vcanceladas +
-            ' }';
-        if (dados == '') {
-            dados = '[ ' + linha
-        } else {
-            dados = dados + ',' + linha;
-        }
-    }
-    dados = dados + ' ]';
-    vdata_hist_nfse = JSON.parse(dados);
-    if (areachart !== undefined) {
-        try {
-            areachart.setData(vdata_hist_nfse);
+        dados = dados + ' ]';
+        vdata_hist_nfse = JSON.parse(dados);
+        if (areachart !== undefined) {
+            try {
+                areachart.setData(vdata_hist_nfse);
 
-        } catch(err) {
+            } catch (err) {
+
+                handleHistoricoNfse();
+            }
+        } else {
 
             handleHistoricoNfse();
         }
-    } else {
-
-        handleHistoricoNfse();
     }
 }
 
@@ -248,8 +251,6 @@ var handleHistoricoNfse = function () {
             lineColors: [greenDark, orange]
         });
 };
-
-
 var handleNfseStatus = function () {
 
     donutchart = Morris.Donut({
@@ -289,7 +290,7 @@ $(document).ready(function () {
 
 });
 var DashboardV2 = function () {
-     $('#small-version').text("version 21.01.27.1900");
+    $('#small-version').text("version 21.04.17.1900");
     "use strict";
     return {
         //main function
@@ -311,6 +312,7 @@ var DashboardV2 = function () {
 
             updatePanel();
             vupdatepanel = setInterval(updatePanel, 30000);
+            
         }
     };
 }();

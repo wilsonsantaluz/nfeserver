@@ -1,15 +1,9 @@
-﻿function TNFe_class(_rps_id) {
-
-  
-
-
-
+﻿function nfeClass(_rps_id) {
   this.excluir = function (pchave, pfcallback) {
     var dados = {
       "chave": pchave
-      
-    };
 
+    };
     params = JSON.stringify(dados);
     var fcalback = function (oresponse) {
       if (oresponse !== "") {
@@ -31,28 +25,19 @@
     }
     basicRequest("DELETE", _CT_SERVER_NFE + '?' + params, params, fcalback);
 
-  }
-  
-  //ALTERAR  DADOS 
-  
-  function alterar() {}
-  
- 
-  
-  function inclur() {}  
+  };
 
-  
+  function alterar() { }
+  function inclur() { }
   this.exibirRps = function (pchave, oret, fclass) {
     var dados = {
       "chave": pchave
     };
-    
+
     params = JSON.stringify(dados);
     var fretornoExibirRps = function (oresponse) {
       if (oresponse !== "") {
-        jsonConsulta = JSON.parse(oresponse);
-
-       
+        jsonConsulta = JSON.parse(oresponse)
         oret();
       } else {
 
@@ -60,10 +45,7 @@
       }
     }
     basicRequest("GET", _CT_SERVER_NFE + '?' + params, params, fretornoExibirRps);
-
-  }
-
-  
+  };
   this.validarRps = function (idrps, cdfilial, oret) {
 
     var dados = {
@@ -95,19 +77,15 @@
     basicRequest("PUT", _CT_SERVER_NFE + '?' + params, params, fcalback);
 
   }
-  
-  //RETORNAR LISTA DE RPS PENDENTES  COM ERRO OU NÃO ENVIADAS
-  
-
   this.listar = function (oretlistar, astatus) {
 
     var fcalback = function (oresponse) {
       if (oresponse !== "") {
         jsonConsulta = null;
         if (IsJsonString(oresponse)) {
-          jsonConsulta = JSON.parse(oresponse);          
+          jsonConsulta = JSON.parse(oresponse);
 
-            oretlistar(jsonConsulta);
+          oretlistar(jsonConsulta);
 
         } else {
           doalert('error', 'Erro inteno', oresponse);
@@ -118,9 +96,7 @@
     params = "{}";
     basicRequest("GET", _CT_SERVER_NFE + '?' + params, params, fcalback);
 
-  }
-
-  
+  };
   this.cancelarNfe = function (chave, protocolo, oret) {
 
     var dados = {
@@ -150,10 +126,7 @@
       }
     }
     basicRequest("PUT", _CT_SERVER_NFE + '?' + params, params, fcalback);
-
-
-  }
-  
+  };
   this.imprimirNfse = function (idrps, cdfilial, oret) {
 
     var dados = {
@@ -164,24 +137,22 @@
     };
     params = JSON.stringify(dados);
     var fcalback = function (oresponse) {
-      
+
       if (oresponse !== "") {
         jsonResult = JSON.parse(oresponse);
         if (typeof jsonResult.codretorno == "undefined") {
-         oret('');             
+          oret('');
           doalert('error', 'Imprimir nfse', 'Erro:Json não valido na resposta do servidor');
         } else {
-             oret(jsonResult.arquivo)
-            
-            
+          oret(jsonResult.arquivo)
+
+
 
         }
       }
     }
     basicRequest("PUT", _CT_SERVER_NFE + '?' + params, params, fcalback);
 
-
   }
-  
-  this.gravar = function (idRps, cdFilial, oret) {  }
+  this.gravar = function (idRps, cdFilial, oret) { }
 }

@@ -32,8 +32,6 @@ object fconsumer: Tfconsumer
     object tabgerarXml: TTabSheet
       Caption = 'gera'#231'ao Xml NFE'
       ImageIndex = 2
-      ExplicitLeft = 8
-      ExplicitTop = 22
       object Label16: TLabel
         Left = 16
         Top = 32
@@ -312,8 +310,8 @@ object fconsumer: Tfconsumer
         object Label20: TLabel
           Left = 16
           Top = 96
-          Width = 61
-          Height = 16
+          Width = 24
+          Height = 13
           Caption = 'Serie'
         end
         object Label21: TLabel
@@ -327,7 +325,7 @@ object fconsumer: Tfconsumer
           Left = 88
           Top = 29
           Width = 88
-          Height = 23
+          Height = 21
           Alignment = taRightJustify
           TabOrder = 0
           Text = '669'
@@ -337,7 +335,7 @@ object fconsumer: Tfconsumer
           Left = 88
           Top = 61
           Width = 88
-          Height = 23
+          Height = 21
           Alignment = taRightJustify
           TabOrder = 1
           Text = '700'
@@ -355,7 +353,7 @@ object fconsumer: Tfconsumer
           Left = 88
           Top = 90
           Width = 88
-          Height = 23
+          Height = 21
           Alignment = taRightJustify
           TabOrder = 3
           Text = '1'

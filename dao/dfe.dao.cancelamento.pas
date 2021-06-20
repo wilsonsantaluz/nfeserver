@@ -42,14 +42,13 @@ type
     function getCancelamento(param: TJSONObject): TCancelamento;
     function listCancelamentos(param: TJSONObject): TCancelamentos;
 
-
   end;
 
 implementation
 
 { TDaoNfe }
-{----------------------------------------------------------------------------}
-function  TDaoCancelamento.getCancelamento(param: TJSONObject): TCancelamento;
+{ ---------------------------------------------------------------------------- }
+function TDaoCancelamento.getCancelamento(param: TJSONObject): TCancelamento;
 var
   oCrs: IMongoCursor;
   s: string;
@@ -62,7 +61,7 @@ begin
     collection := FCon.Databases[_Db].GetCollection(_ColectionCancelamentos);
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oQry.Match(param.ToJSON);
-    oCrs := collection.Find(oQry, []) ;
+    oCrs := collection.Find(oQry, []);
   end
   else
   begin
@@ -70,7 +69,7 @@ begin
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oCrs := collection.Find(oQry, [])
   end;
-  result:= TCancelamento.create();
+  result := TCancelamento.create();
   if oCrs.Next then
   begin
     s := oCrs.Doc.AsJSON;
@@ -78,8 +77,10 @@ begin
   end;
 
 end;
-{----------------------------------------------------------------------------}
-function  TDaoCancelamento.gravarCancelamento(pCancelamento: TCancelamento): Boolean;
+
+{ ---------------------------------------------------------------------------- }
+function TDaoCancelamento.gravarCancelamento(pCancelamento
+  : TCancelamento): Boolean;
 var
   oText: string;
   oDoc: TMongoDocument;
@@ -106,8 +107,8 @@ begin
   end;
 end;
 
-{----------------------------------------------------------------------------}
-function  TDaoCancelamento.listCancelamentos(param: TJSONObject): TCancelamentos;
+{ ---------------------------------------------------------------------------- }
+function TDaoCancelamento.listCancelamentos(param: TJSONObject): TCancelamentos;
 var
   oCrs: IMongoCursor;
   s: string;
@@ -120,7 +121,7 @@ begin
     collection := FCon.Databases[_Db].GetCollection(_ColectionCancelamentos);
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oQry.Match(param.ToJSON);
-    oCrs := collection.Find(oQry, []) ;
+    oCrs := collection.Find(oQry, []);
   end
   else
   begin
@@ -129,15 +130,18 @@ begin
     oCrs := collection.Find(oQry, [])
   end;
 
-  Result := TCancelamentos.create;
+  result := TCancelamentos.create;
+  oCancelamento := TCancelamento.create;
+  result.Add(oCancelamento);
   while oCrs.Next do
   begin
     s := oCrs.Doc.AsJSON;
 
     oCancelamento := Tjson.JsonToObject<TCancelamento>(s);
-    Result.Add(oCancelamento);
+    result.Add(oCancelamento);
   end;
 
 end;
-{----------------------------------------------------------------------------}
+
+{ ---------------------------------------------------------------------------- }
 end.

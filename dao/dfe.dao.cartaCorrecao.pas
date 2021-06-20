@@ -130,6 +130,8 @@ begin
   end;
 
   Result := TcartasCorrecao.create;
+  oCartaCorrecao:=TcartaCorrecao.Create;
+  Result.Add(oCartaCorrecao);
   while oCrs.Next do
   begin
     s := oCrs.Doc.AsJSON;

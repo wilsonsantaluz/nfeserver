@@ -46,14 +46,14 @@ function getEmpresas() {
                 $('#bairro').val(jsonConsulta.listHelper[0].bairro);
                 $('#cidade').val(jsonConsulta.listHelper[0].cidade);
                 $('#codMunicipio').val(jsonConsulta.listHelper[0].codMunicipio);
-                $('#uf').val( jsonConsulta.listHelper[0].uf);
-               
+                $('#uf').val(jsonConsulta.listHelper[0].uf);
+
                 $('#complemento').val(jsonConsulta.listHelper[0].complemento);
                 $('#numero').val(jsonConsulta.listHelper[0].numero);
                 $('#telefone').val(jsonConsulta.listHelper[0].telefone);
                 $('#inscricaoMunicipal').val(jsonConsulta.listHelper[0].inscricaoMunicipal);
                 $('#inscricaoEstadual').val(jsonConsulta.listHelper[0].inscricaoEstadual);
-                $('#nomecertificadoPfx').val(jsonConsulta.listHelper[0].nomecertificadoPfx);                
+                $('#nomecertificadoPfx').val(jsonConsulta.listHelper[0].nomecertificadoPfx);
                 b64 = jsonConsulta.listHelper[0].certificadoPfx;
                 nomearquivo = jsonConsulta.listHelper[0].nomecertificadoPfx;
                 $('#senhaPfx').val(jsonConsulta.listHelper[0].senhaPfx);
@@ -85,7 +85,7 @@ function getEmpresas() {
     $('#cidade').val('');
     $('#codMunicipio').val('');
     $('#complemento').val('');
-   
+
     $('#numero').val('0');
     $('#telefone').val('');
     $('#inscricaoMunicipal').val('');
@@ -103,7 +103,7 @@ function getEmpresas() {
 //-----------------------------------------------------------------------------------------------------------------//
 function setEmpresa() {
 
-    var setEmpresaCallback = function(oresponse) {
+    var setEmpresaCallback = function (oresponse) {
         $('#loading-indicator').hide();
         if (oresponse !== "") {
             jsonResult = JSON.parse(oresponse);
@@ -123,7 +123,7 @@ function setEmpresa() {
         };
     };
 
-    var preparePost = function() {
+    var preparePost = function () {
 
         var pdados = {
             "cnpj": $('#cnpj').val(),
@@ -137,21 +137,21 @@ function setEmpresa() {
             "complemento": $('#complemento').val(),
             "uf": $('#uf').val(),
             "numero": $('#numero').val(),
-           
+
             "telefone": $('#telefone').val(),
             "inscricaoMunicipal": $('#inscricaoMunicipal').val(),
             "inscricaoEstadual": $('#inscricaoEstadual').val(),
             "nomecertificadoPfx": nomearquivo,
-            "certificadoPfx":b64,
+            "certificadoPfx": b64,
             "senhaPfx": $('#senhaPfx').val(),
             "validade": $('#validade').val()
         };
-            odados =pdados;
-            var oparam = JSON.stringify(pdados);
-            $('#loading-indicator').show();
-            basicRequest("POST", _CT_SERVER_NFE_EMPRESA,oparam , setEmpresaCallback);
-        }
-  
+        odados = pdados;
+        var oparam = JSON.stringify(pdados);
+        $('#loading-indicator').show();
+        basicRequest("POST", _CT_SERVER_NFE_EMPRESA, oparam, setEmpresaCallback);
+    }
+
     if ($('#cnpj').val() == '') {
         alert('Cnpj e obrigatorio');
         return
@@ -164,18 +164,18 @@ function setEmpresa() {
         alert('Validade do certificado obrigatoria');
         return
     };
-  
+
     var file = inputPfx.files[0];
     if (file) {
-        
-       
+
+
         reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
             nomearquivo = file.name;
             b64 = reader.result.replace(/^data:.+;base64,/, '');
             console.log('conteudo base 64 é  ' + b64);
             preparePost();
-          
+
         };
         reader.readAsDataURL(file);
 
@@ -186,7 +186,7 @@ function setEmpresa() {
 
 }
 //-----------------------------------------------------------------------------------------------------------------//
-var listEmpresas = function() {
+var listEmpresas = function () {
     function listEmpresasCallback(oresponse) {
         $('#loading-indicator').hide();
 
@@ -196,44 +196,44 @@ var listEmpresas = function() {
 
             jsonConsulta = JSON.parse(oresponse);
             $("#selectfiliais").empty();
-          
-            $("#selectfiliais").append(" <option value = '" +'0' + "' > " + 'Incluir novo/Limpar' +      "</option>");
-                for (i = 0; i < jsonConsulta.listHelper.length; i++) {
-                    var id = jsonConsulta.listHelper[i].cnpj;
-                    var name = jsonConsulta.listHelper[i].cnpj + '-' + jsonConsulta.listHelper[i].razaoSocial
-                    $("#selectfiliais").append(" <option value = '" + id + "' > " + name +      "</option>");
-                }
+
+            $("#selectfiliais").append(" <option value = '" + '0' + "' > " + 'Incluir novo/Limpar' + "</option>");
+            for (i = 0; i < jsonConsulta.listHelper.length; i++) {
+                var id = jsonConsulta.listHelper[i].cnpj;
+                var name = jsonConsulta.listHelper[i].cnpj + '-' + jsonConsulta.listHelper[i].razaoSocial
+                $("#selectfiliais").append(" <option value = '" + id + "' > " + name + "</option>");
             }
+        }
 
-        };
-        $('#loading-indicator').show();
+    };
+    $('#loading-indicator').show();
 
-        basicRequest("GET", _CT_SERVER_NFE_EMPRESA, "", listEmpresasCallback);
+    basicRequest("GET", _CT_SERVER_NFE_EMPRESA, "", listEmpresasCallback);
 
-    
+
 };
 
 //*----------------------------------------------------------------------------------------------
 
-empresaConfigMain = function() {
+empresaConfigMain = function () {
     "use strict";
     $('#small-version').text("version 21.06.02.1900");
     return {
 
-        init: function() {
+        init: function () {
 
 
 
             inputPfx = document.querySelector('input[type=file]');
-            $("#empresagravar").click(function() {
+            $("#empresagravar").click(function () {
                 setEmpresa();
             });
 
-            $("#empresainserir").click(function() {
+            $("#empresainserir").click(function () {
                 prepareInsert();
             });
 
-            $('#selectfiliais').change(function() {
+            $('#selectfiliais').change(function () {
 
                 ocnpj = $('#selectfiliais').val();
                 if (ocnpj == 0) {
@@ -243,11 +243,11 @@ empresaConfigMain = function() {
                 setTimeout(getEmpresas(ocnpj), 1000);
             });
 
-            $("#empresareload").click(function() {
+            $("#empresareload").click(function () {
                 $('#selectfiliais').val(0).change();
             });
-            $(document).ready(function() {
-
+            $(document).ready(function () {
+                clearTimeout(vupdatepanel);
                 setTimeout(listEmpresas(), 10);
                 prepareForm.init();
 
@@ -257,5 +257,5 @@ empresaConfigMain = function() {
 }();
 
 /*----------------------------------------------------------------------------------------------
-  
+
 -----------------------------------------------------------------------------------------------*/

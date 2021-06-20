@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------------------------------------
-                                         linx 2021
+                                         WLS 2021
                                       wilson santa luz
 ----------------------------------------------------------------------------------------------
 */
@@ -8,7 +8,7 @@ var objtblEmitidos;
 var indcol = 0;
 var otimer;
 
-var FNFe = new TNFe_class(0);
+var FclsNfe = new nfeClass(0);
 var versionFile ="21.06.10.1000";
 
 function popularModal() {
@@ -27,7 +27,7 @@ function cancelarNfse(codigo, cdfilial) {
     listarNotas();
   }
   $('#loading-indicator').show();
-  FNFe.cancelarNfe(codigo, cdfilial, fcalback);
+  FclsNfe .cancelarNfe(codigo, cdfilial, fcalback);
 };
 function gravarNFe (){
   function oret(cod){
@@ -40,7 +40,7 @@ function gravarNFe (){
             } ;
   };
   $('#loading-indicator').show();  
-  FNFe.gravar(glbidNFe, glbcdfilial, oret);     
+  FclsNfe .gravar(glbidNFe, glbcdfilial, oret);     
 };
 function exibirNota(ichave) {
   function oret() {
@@ -51,15 +51,13 @@ function exibirNota(ichave) {
       var FobjModal = $('#htmlobjModal');
       FobjModal.remove();
       $(html).appendTo('body').modal();
-      popularModal();
-     
+      popularModal();    
     
     });
-
   };
   glbidNFe =ichave;
   
-  FNFe.exibirNFe(ichave, oret, FNFe);
+  FclsNfe .exibirNFe(ichave, oret, FclsNfe );
 
 }
 
@@ -97,7 +95,7 @@ function listarNotas() {
   objtblEmitidos.rows.add(prep_arrray);
   objtblEmitidos.draw();
   $('#loading-indicator').show(); 
-  FNFe.listar(oretlistar, ostatus);
+  FclsNfe .listar(oretlistar, ostatus);
 };
 function imprimirNFse(codigo,filial){
    function fcalback(arquivo) {
@@ -114,7 +112,7 @@ function imprimirNFse(codigo,filial){
     };    
   }
   $('#loading-indicator').show(); 
-  FNFe.imprimirNfse(codigo, filial, fcalback);
+  FclsNfe .imprimirNfse(codigo, filial, fcalback);
 }
 
 /*----------------------------------------------------------------------------------------------
@@ -166,8 +164,6 @@ var configDataTable = function () {
             listarNotas()
           }
         }
-
-
       ],
       responsive: true,
       autoFill: true,
@@ -222,9 +218,6 @@ var configDataTable = function () {
         {
           "sTitle": "Protocolo"
         }
-
-
-
       ],
       
 
@@ -245,7 +238,7 @@ var configDataTable = function () {
             "</ul> " +
             "</div> "
 
-        }       
+        }      
 
       ],
       language: {
@@ -354,8 +347,12 @@ notaviewMain = function () {
       });
 	
       $( document ).ready(function() {       
+        clearTimeout(vupdatepanel );
         setTimeout(listarNotas(), 1000);
-      });      
+      });
+     $(document).unload(function () {
+  
+      });        
     }
   };
 }();

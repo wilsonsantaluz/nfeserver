@@ -38,30 +38,32 @@
                </div>
                <h4 class="panel-title">Cancelamentos</h4>
             </div>
-            <table id="data-table-cancelados" class="table table-striped table-bordered" style ="padding:10px">
+            <table id="data-table-cancelamentos" class="table table-striped table-bordered" style ="padding:10px">
                <thead>
                   <tr>
                      <th> sel</th>
                      <th> Cnpj</th>
-                     <th> numero</th>
-                     <th> Serie</th>
+                     <th> Ambiente</th>
                      <th> Chave</th>
+                     <th> Numero</th>
+					 <th> Seríe</th>
                      <th> Data</th>
                      <th> Status</th>
                      <th> Motivo</th>
                      <th> Protocolo</th>
                      <th> justificativa</th>
-                     <th> xml</th>
+                     <th> Protocolo Canc.</th>
                   </tr>
                </thead>
                <tbody>
                   <tr class="odd gradeX">
+				    <td>0</td>
                      <td>0</td>
                      <td>''</td>
                      <td>0</td>
                      <td>0</td>
                      <td>''</td>
-                     <td>1889-01-01 00:00:00</td>
+                     <td>''</td>
                      <td>0</td>
                      <td>''</td>
                      <td>''</td>
@@ -100,9 +102,9 @@
                                 $.getScript('assets/plugins/masked-input/masked-input.min.js').done(function () {
                                   $.getScript('assets/js2/util/util.forms.js').done(function () {
                                     $.getScript('assets/js2/nfe_app.js').done(function () {
-                                      $.getScript('assets/js2/classes/nfe_class.js').done(function () {
+                                      $.getScript('assets/js2/classes/cancelamento_class.js').done(function () {
                                         $.getScript('assets/js2/view/nfe_view_cancelamentos.js').done(function () {
-                                          cancelmentosviewMain.init();
+                                          cancelamentoviewMain.init();
                                         });
                                       });
                                     });

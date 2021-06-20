@@ -1,8 +1,11 @@
 
   _HOST ='http://localhost:4475';
 
-var _CT_SERVER_NFE         =  _HOST + '/dfeapi/nfe';
-var _CT_SERVER_NFE_INFO    =  _HOST +'/dfeapi/nfe/info';
+var _CT_SERVER_NFE          =  _HOST + '/dfeapi/nfe';
+var _CT_SERVER_INU          =  _HOST + '/dfeapi/inutilizacoes';
+var _CT_SERVER_CANC         =  _HOST + '/dfeapi/cancelamentos';
+var _CT_SERVER_CARTA        =  _HOST + '/dfeapi/cartaCorrecao';
+var _CT_SERVER_NFE_INFO     =  _HOST +'/dfeapi/nfe/info';
 var _CT_SERVER_NFE_EMPRESA  =  _HOST + '/dfeapi/nfe/empresa';
 var _CT_SERVER_NFSE_WEBSOCK = 'http://localhost:30086';
 

@@ -1625,49 +1625,49 @@ end; }
 procedure TRLPreviewForm.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
-    KEY_ESCAPE: SpeedButtonClose.Click;
-    KEY_HOME: if ssCtrl in Shift then
+    vk_ESCAPE: SpeedButtonClose.Click;
+    vk_HOME: if ssCtrl in Shift then
                   Preview.FirstPage
                 else
                   Preview.PageLeft;
-    KEY_PRIOR: if ssCtrl in Shift then
+    vk_PRIOR: if ssCtrl in Shift then
                   Preview.PageTop
                 else
                   Preview.PriorPage;
-    KEY_NEXT: if ssCtrl in Shift then
+    vk_NEXT: if ssCtrl in Shift then
                   Preview.PageBottom
                 else
                   Preview.NextPage;
-    KEY_END: if ssCtrl in Shift then
+    vk_END: if ssCtrl in Shift then
                   Preview.LastPage
                 else
                   Preview.PageRight;
-    KEY_UP: if ssCtrl in Shift then
+    vk_UP: if ssCtrl in Shift then
                   Preview.HalfPageUp
                 else
                   Preview.ScrollUp;
-    KEY_DOWN: if ssCtrl in Shift then
+    VK_DOWN: if ssCtrl in Shift then
                   Preview.HalfPageDown
                 else
                   Preview.ScrollDown;
-    KEY_LEFT: if ssCtrl in Shift then
+    VK_LEFT: if ssCtrl in Shift then
                   Preview.HalfPageLeft
                 else
                   Preview.ScrollLeft;
-    KEY_RIGHT: if ssCtrl in Shift then
+    VK_RIGHT: if ssCtrl in Shift then
                   Preview.HalfPageRight
                 else
                   Preview.ScrollRight;
-    KEY_PLUS,
-    KEY_NUM_PLUS: if ssCtrl in Shift then
+    VK_OEM_PLUS
+   : if ssCtrl in Shift then
                   Preview.ZoomIn;
-    KEY_SUBTRACT,
-    KEY_NUM_SUBTRACT: if ssCtrl in Shift then
+    VK_SUBTRACT
+    : if ssCtrl in Shift then
                   Preview.ZoomOut;
     Ord('0'): if ssCtrl in Shift then
                   Preview.ZoomFactor := DefaultZoomFactor;
     Ord('F'),
-    KEY_F3: if ssCtrl in Shift then
+    VK_F3: if ssCtrl in Shift then
                   ShowFindDialog
                 else
                   Exit;

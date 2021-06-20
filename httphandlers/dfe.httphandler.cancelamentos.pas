@@ -22,7 +22,7 @@ uses
   IdHTTP;
 
 type
-  TCancelamentoHttpHandler = class(THttpServerBase)
+  TCancelamentosHttpHandler = class(THttpServerBase)
   private
 
     FfilterPath: string;
@@ -47,15 +47,15 @@ uses
 
 
 
-constructor  TCancelamentoHttpHandler.create;
+constructor  TCancelamentosHttpHandler.create;
 begin
   OnProcessRequest := processrequest;
-  FfilterPath := '/dfeapi/cancelamento';
+  FfilterPath := '/dfeapi/cancelamentos';
 end;
 { ------------------------------------------------------------------------------ }
 
 
-procedure  TCancelamentoHttpHandler.listaCancelamento;
+procedure  TCancelamentosHttpHandler.listaCancelamento;
 var
   controller: TNnfeController;
 begin
@@ -83,7 +83,7 @@ end;
 
 { ------------------------------------------------------------------------------ }
 
-procedure  TCancelamentoHttpHandler.processRequest;
+procedure  TCancelamentosHttpHandler.processRequest;
 begin
   if assigned(RequestInfo) then
   begin

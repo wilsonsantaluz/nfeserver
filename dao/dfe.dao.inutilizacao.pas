@@ -42,14 +42,13 @@ type
     function getInutilizacao(param: TJSONObject): TInutilizacao;
     function listInutilizacaos(param: TJSONObject): TInutilizacoes;
 
-
   end;
 
 implementation
 
 { TDaoNfe }
-{----------------------------------------------------------------------------}
-function  TDaoInutilizacao.getInutilizacao(param: TJSONObject): TInutilizacao;
+{ ---------------------------------------------------------------------------- }
+function TDaoInutilizacao.getInutilizacao(param: TJSONObject): TInutilizacao;
 var
   oCrs: IMongoCursor;
   s: string;
@@ -62,7 +61,7 @@ begin
     collection := FCon.Databases[_Db].GetCollection(_ColectionInutilizacao);
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oQry.Match(param.ToJSON);
-    oCrs := collection.Find(oQry, []) ;
+    oCrs := collection.Find(oQry, []);
   end
   else
   begin
@@ -70,7 +69,7 @@ begin
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oCrs := collection.Find(oQry, [])
   end;
-  result:= TInutilizacao.create();
+  result := TInutilizacao.create();
   if oCrs.Next then
   begin
     s := oCrs.Doc.AsJSON;
@@ -78,8 +77,10 @@ begin
   end;
 
 end;
-{----------------------------------------------------------------------------}
-function  TDaoInutilizacao.gravarInutilizacao(pInutilizacao: TInutilizacao): Boolean;
+
+{ ---------------------------------------------------------------------------- }
+function TDaoInutilizacao.gravarInutilizacao(pInutilizacao
+  : TInutilizacao): Boolean;
 var
   oText: string;
   oDoc: TMongoDocument;
@@ -106,8 +107,8 @@ begin
   end;
 end;
 
-{----------------------------------------------------------------------------}
-function  TDaoInutilizacao.listInutilizacaos(param: TJSONObject): TInutilizacoes;
+{ ---------------------------------------------------------------------------- }
+function TDaoInutilizacao.listInutilizacaos(param: TJSONObject): TInutilizacoes;
 var
   oCrs: IMongoCursor;
   s: string;
@@ -120,7 +121,7 @@ begin
     collection := FCon.Databases[_Db].GetCollection(_ColectionInutilizacao);
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oQry.Match(param.ToJSON);
-    oCrs := collection.Find(oQry, []) ;
+    oCrs := collection.Find(oQry, []);
   end
   else
   begin
@@ -129,15 +130,19 @@ begin
     oCrs := collection.Find(oQry, [])
   end;
 
-  Result := TInutilizacoes.create;
-  while oCrs.Next do
+  result := TInutilizacoes.create;
+  if oCrs.Next then
   begin
-    s := oCrs.Doc.AsJSON;
+    while oCrs.Next do
+    begin
+      s := oCrs.Doc.AsJSON;
 
-    oInutilizacao := Tjson.JsonToObject<TInutilizacao>(s);
-    Result.Add(oInutilizacao);
+      oInutilizacao := Tjson.JsonToObject<TInutilizacao>(s);
+      result.Add(oInutilizacao);
+    end;
   end;
 
 end;
-{----------------------------------------------------------------------------}
+
+{ ---------------------------------------------------------------------------- }
 end.
