@@ -128,14 +128,10 @@ begin
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oCrs := collection.Find(oQry, [])
   end;
-
   Result := TcartasCorrecao.create;
-  oCartaCorrecao:=TcartaCorrecao.Create;
-  Result.Add(oCartaCorrecao);
   while oCrs.Next do
   begin
     s := oCrs.Doc.AsJSON;
-
     oCartaCorrecao := Tjson.JsonToObject<TCartaCorrecao>(s);
     Result.Add(oCartaCorrecao);
   end;

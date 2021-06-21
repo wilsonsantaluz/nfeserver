@@ -23,7 +23,7 @@ inutilizacaoView = function() {
                     jsonConsulta.listHelper[i].xmotivo,
                     jsonConsulta.listHelper[i].protocolo
                 ];
-                array_notas.push(inutilizacao);
+                array_inutilizacoes.push(inutilizacao);
             }
             objTabela.clear();
             objTabela.rows.add(array_inutilizacoes);

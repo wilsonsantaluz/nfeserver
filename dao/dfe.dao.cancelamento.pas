@@ -10,6 +10,7 @@ Uses
   system.JSON,
   dfe.dao.base,
   dfe.model.cancelamento,
+  dfe.model.nfe,
   FireDAC.Stan.Option,
   FireDAC.Stan.Error,
   FireDAC.UI.Intf,
@@ -41,7 +42,7 @@ type
     function gravarCancelamento(pCancelamento: TCancelamento): Boolean;
     function getCancelamento(param: TJSONObject): TCancelamento;
     function listCancelamentos(param: TJSONObject): TCancelamentos;
-
+    procedure testeUpdate(chave: string);
   end;
 
 implementation
@@ -104,6 +105,16 @@ begin
     finally
       oDoc.Free;
     end;
+    FQdata.CollectionName := _ColectionNotas;
+    FQdata.DatabaseName := _Db;
+    FQdata.QMatch := '{"chave": "' + pCancelamento.chave + '"}';
+    FQdata.Open;
+    if FQdata.RecordCount > 0 then
+    begin
+      FQdata.edit;
+      FQdata.FieldByName('cancelada').AsBoolean := true;
+      FQdata.Post;
+    end;
   end;
 end;
 
@@ -129,17 +140,21 @@ begin
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oCrs := collection.Find(oQry, [])
   end;
-
   result := TCancelamentos.create;
-  oCancelamento := TCancelamento.create;
-  result.Add(oCancelamento);
   while oCrs.Next do
   begin
     s := oCrs.Doc.AsJSON;
-
     oCancelamento := Tjson.JsonToObject<TCancelamento>(s);
     result.Add(oCancelamento);
   end;
+end;
+
+procedure TDaoCancelamento.testeUpdate(chave: string);
+ var
+  oCrs: IMongoCursor;
+
+begin
+
 
 end;
 

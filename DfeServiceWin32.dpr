@@ -48,7 +48,10 @@ uses
   dfe.dao.empresa in 'dao\dfe.dao.empresa.pas',
   dfe.lib.acbr.config in 'lib\dfe.lib.acbr.config.pas',
   dfe.httphandler.empresa in 'httphandlers\dfe.httphandler.empresa.pas',
-  nfe.controller.empresa in 'controller\nfe.controller.empresa.pas';
+  nfe.controller.empresa in 'controller\nfe.controller.empresa.pas',
+  dfe.httphandler.cartaCorrecao in 'httphandlers\dfe.httphandler.cartaCorrecao.pas',
+  dfe.httphandler.inutilizacoes in 'httphandlers\dfe.httphandler.inutilizacoes.pas',
+  dfe.httphandler.cancelamentos in 'httphandlers\dfe.httphandler.cancelamentos.pas';
 
 {$R *.RES}
 

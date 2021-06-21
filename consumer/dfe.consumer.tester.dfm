@@ -26,7 +26,7 @@ object fconsumer: Tfconsumer
     Top = 0
     Width = 886
     Height = 680
-    ActivePage = tabgerarXml
+    ActivePage = tabclass
     Align = alClient
     TabOrder = 1
     object tabgerarXml: TTabSheet

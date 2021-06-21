@@ -26,6 +26,7 @@ Type
     FdataValidacao: Tdatetime;
     FdataProcessamento: Tdatetime;
     Fprotocolo: string;
+    Fcancelada:Boolean;
 
   public
     constructor create(param: string);
@@ -45,6 +46,8 @@ Type
       write FdataProcessamento;
     property protocolo: string read Fprotocolo write Fprotocolo;
     property digitoval: string read Fdigitoval write Fdigitoval;
+    property cancelada: Boolean read Fcancelada write Fcancelada;
+
   end;
 
 type

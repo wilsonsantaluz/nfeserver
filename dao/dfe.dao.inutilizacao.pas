@@ -129,17 +129,12 @@ begin
     oQry := TMongoQuery.create(collection.Env).Limit(500);
     oCrs := collection.Find(oQry, [])
   end;
-
   result := TInutilizacoes.create;
-  if oCrs.Next then
+  while oCrs.Next do
   begin
-    while oCrs.Next do
-    begin
-      s := oCrs.Doc.AsJSON;
-
-      oInutilizacao := Tjson.JsonToObject<TInutilizacao>(s);
-      result.Add(oInutilizacao);
-    end;
+    s := oCrs.Doc.AsJSON;
+    oInutilizacao := Tjson.JsonToObject<TInutilizacao>(s);
+    result.Add(oInutilizacao);
   end;
 
 end;

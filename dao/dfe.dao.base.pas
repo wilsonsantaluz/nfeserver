@@ -44,6 +44,7 @@ uses
   System.JSON.Readers,
   System.Diagnostics,
   FireDAC.Stan.util,
+  FireDAC.Phys.MongoDBDataSet,
   FireDAC.Comp.DataSet;
 
 const
@@ -56,6 +57,7 @@ const
   _ColectionEmpresas = 'empresas';
   _ColectionCancelamentos = 'cancelamentos';
   _ColectionLogs = 'nfelogs';
+  _ColectionErros = 'erros';
   _ColectionInutilizacao = 'inutilizacoes';
   _ColectionCartaCorrecao = 'cartacorrecao';
 
@@ -68,10 +70,11 @@ type
   public
     { Public declarations }
     FDConnection: TFDConnection;
-    //FDGUIxWaitCursor: TFDGUIxWaitCursor;
+    // FDGUIxWaitCursor: TFDGUIxWaitCursor;
     FDPhysMongoDriverLink: TFDPhysMongoDriverLink;
     FEnv: TMongoEnv;
     FCon: TMongoConnection;
+    FQdata: TFDMongoQuery;
     Class procedure SetPoolDb();
     constructor create;
     destructor Destroy; override;
@@ -90,6 +93,8 @@ begin
   FDPhysMongoDriverLink := TFDPhysMongoDriverLink(nil);
   FDConnection.LoginPrompt := false;
   FDConnection.DriverName := 'Mongo';
+  FQdata := TFDMongoQuery.create(Nil);
+  FQdata.Connection := FDConnection;
 
   try
     FDConnection.Connected := True;
@@ -112,7 +117,7 @@ begin
     FDConnection.Close;
     FreeAndNil(FDConnection);
     FreeAndNil(FDPhysMongoDriverLink);
-
+    FreeAndNil(FQdata);
   except
     on e: Exception do
       gravalog(e.Message);

@@ -47,12 +47,15 @@ implementation
 constructor THttpHandlerBase.create;
 begin
   inherited;
+
   FDashBoadHttpHandler := TDashBoadHttpHandler.create();
   FNfeHttpHandler := TNfeHttpHandler.create();
   FEmpresaHttpHandler := TEmpresaHttpHandler.create();
   FInutilizacaoHttpHandler := TInutilizacoesHttpHandler.create;
   FCancelamentosHttpHandler := TCancelamentosHttpHandler.create;
   FCartaCorrecaoHttpHandler :=TCartaCorrecaoHttpHandler.create;
+
+
 end;
 
 { ------------------------------------------------------------------------------ }

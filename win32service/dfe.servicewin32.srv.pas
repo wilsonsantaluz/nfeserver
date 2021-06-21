@@ -89,10 +89,8 @@ end;
 procedure listenNfe();
 begin
   try
-
     TdfeDaoBase.SetPoolDb();
     THttpHandlerBase.create;
-
   except
     on E: Exception do
       GlobalLog('ERRO AO INICIAR LINSTEN NFE SERVICE' + E.Message);
@@ -106,7 +104,7 @@ begin
     BeginThread(Nil, 0, @listenNfe, nil, 0, FidlistenNfe);
   except
     on E: Exception do
-      GlobalLog('ERRO AO CRIAR LEITURA NFE' + E.Message);
+      GlobalLog('ERRO AO CRIAR SERVIÇO NFE' + E.Message);
   end;
 end;
 

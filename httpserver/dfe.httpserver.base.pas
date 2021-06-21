@@ -6,12 +6,12 @@ uses
   math,
   System.SysUtils,
   IdCoder3to4,
+  Winsock,
   System.JSON,
   Variants,
   Classes,
   dfe.lib.util,
   System.ZLib,
-
   IdContext,
   IdCustomHTTPServer,
   IdBaseComponent,
@@ -65,6 +65,7 @@ type
     // deve ser implementado nas implementações
     procedure processrequest(); virtual;
     procedure setResponse(coderetorno, respno: integer; msg: string);
+    procedure setUpwebTemplate();
   published
     property Context: TIdContext read FContext write FContext;
     property RequestInfo: TIdHTTPRequestInfo read FRequestInfo
@@ -91,6 +92,7 @@ begin
   Fserver.OnCommandOther := FserverCommandOther;
   Fserver.OnCommandGet := FserverCommandGet;
   Fserver.Active := true;
+  setupWebtemplate();
 end;
 
 { ------------------------------------------------------------------------------ }
@@ -326,6 +328,54 @@ begin
   ResponseInfo.ResponseNo := respno;
   ResponseInfo.ContentText := '{"codretorno":' + IntToStr(coderetorno) +
     ' ,"msg":"' + msg + '"}'
+
+end;
+function GetLocalIP: string;
+type
+  TaPInAddr = array [0..10] of PInAddr;
+  PaPInAddr = ^TaPInAddr;
+var
+  phe: PHostEnt;
+  pptr: PaPInAddr;
+  Buffer: array [0..63] of Ansichar;
+  i: Integer;
+  GInitData: TWSADATA;
+begin
+  WSAStartup($101, GInitData);
+  Result := '';
+  GetHostName(Buffer, SizeOf(Buffer));
+  phe := GetHostByName(Buffer);
+  if phe = nil then
+    Exit;
+  pptr := PaPInAddr(phe^.h_addr_list);
+  i := 0;
+  while pptr^[i] <> nil do
+  begin
+    Result := StrPas(inet_ntoa(pptr^[i]^));
+    Inc(i);
+  end;
+  WSACleanup;
+end;
+procedure THttpServerBase.setUpwebTemplate;
+var
+  ofile:string;
+  lst:TStringList;
+  vserver:string;
+begin
+  ofile:=  ExtractFilePath(GetModuleName(HInstance)) + _SERVERROOT +
+          '\assets\js2\nfe_app.js';
+  if fileexists(ofile) then
+  begin
+     lst:=TStringList.Create();
+     lst.LoadFromFile(ofile);
+     if pos ('{nodefined}', lst[0]) > 0  then
+     begin
+       vserver:='http://'+GetLocalIP;
+       lst[0]:='var _HOST = '+QuotedStr( vserver +':'+inttostr( _HTTP_PORT) )+ '  //{nodefined}';
+       lst.SaveToFile(ofile);
+       FreeAndNil(lst);
+     end;
+  end;
 
 end;
 

@@ -22,6 +22,7 @@ Uses
   FireDAC.Phys.MongoDB,
   FireDAC.Comp.UI,
   Data.DB,
+  dfe.model.nfe,
   FireDAC.Comp.Client,
   FireDAC.Phys.MongoDBWrapper,
   system.JSON.Types,
@@ -31,9 +32,17 @@ Uses
   system.JSON.Readers,
   system.Diagnostics,
   FireDAC.Stan.Util,
-  Xsuperobject,
-
   classes;
+
+type
+  TRetornoInfo = class
+  private
+    F_id: TDateTime;
+    Fcount: integer;
+  public
+    property _id: TDateTime read F_id write F_id;
+    property count: integer read Fcount write Fcount;
+  end;
 
 type
   TDaoInfoNfe = class(TdfeDaoBase)
@@ -52,53 +61,58 @@ implementation
 function TDaoInfoNfe.getInfoNfe: TinfoNfe;
 var
   oCrs: IMongoCursor;
-  s: string;
-  oinfo: TinfoNfe;
+  oret: TRetornoInfo;
   oQry: TMongoQuery;
   collection: TMongoCollection;
+  oanalisse: Tanalissemensal;
 
 begin
-  collection := FCon.Databases[_Db].GetCollection(_ColectionInfo);
-  oQry := TMongoQuery.create(collection.Env).Limit(500);
-  oCrs := collection.Find(oQry, []);
-
   result := TinfoNfe.create();
-  if oCrs.Next then
+  result.notasEmitidas := FCon[_db][_ColectionNotas].count().value();
+  result.notasCanceladas := FCon[_db][_ColectionCancelamentos].count().value();
+  result.notasInutilizadas := FCon[_db][_ColectionInutilizacao].count().value();
+  result.errosEmissao := FCon[_db][_ColectionErros].count().value();
+
+  oCrs := FCon[_db][_ColectionNotas].Aggregate().Match.Add('cancelada',
+    false).&End
+
+    .Group.Add('_id', '$dataEmissao').BeginObject('count').Add('$sum', 1)
+
+    .EndObject.&End;
+
+  while oCrs.Next do
   begin
-    s := oCrs.Doc.AsJSON;
-    result := TJSON.Parse<TinfoNfe>(s);
-    s := result.analissemensal[0].tipo;
+    oanalisse := Tanalissemensal.create;
+    oret := REST.JSON.Tjson.JsonToObject<TRetornoInfo>(oCrs.Doc.AsJSON);
+    oanalisse.tipo := 'VALIDADAS';
+    oanalisse.valor := oret.count;
+    oanalisse.Data := oret._id;
+    result.analissemensal.Add(oanalisse);
   end;
+
+  oCrs := FCon[_db][_ColectionNotas].Aggregate().Match.Add('cancelada',
+    true).&End
+
+    .Group.Add('_id', '$dataEmissao').BeginObject('count').Add('$sum', 1)
+
+    .EndObject.&End;
+
+  while oCrs.Next do
+  begin
+    oanalisse := Tanalissemensal.create;
+    oret := REST.JSON.Tjson.JsonToObject<TRetornoInfo>(oCrs.Doc.AsJSON);
+    oanalisse.tipo := 'CANCELADAS';
+    oanalisse.valor := oret.count;
+    oanalisse.Data := oret._id;
+    result.analissemensal.Add(oanalisse);
+  end;
+
 end;
 
 { ---------------------------------------------------------------------------- }
 procedure TDaoInfoNfe.setInfoNfe(value: TinfoNfe);
-var
-  oText: string;
-  oDoc: TMongoDocument;
-  oCol: TMongoCollection;
 begin
-  if Assigned(value) then
-  begin
-    oCol := FCon[_Db][_ColectionInfo];
-    oCol.RemoveAll;
-    // oText := REST.JSON.Tjson.ObjectToJsonString(value);
-    oText := TJSON.Stringify<TinfoNfe>(value);
-    oDoc := FEnv.NewDoc;
-    try
-      oCol.BeginBulk;
-      try
-        oDoc.AsJSON := oText;
-        oCol.Insert(oDoc);
-        oCol.EndBulk;
-      except
-        oCol.CancelBulk;
-        raise;
-      end;
-    finally
-      oDoc.Free;
-    end;
-  end;
+  {TODO}
 end;
 
 end.

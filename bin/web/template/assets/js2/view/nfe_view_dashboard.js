@@ -171,7 +171,7 @@ var updateHistoricoNfse = function (ojson) {
                 '"Emitidas" : ' + vvalidadas + ',' +
                 '"Canceladas" : ' + vcanceladas +
                 ' }';
-            if (dados == '') {
+            if (dados == '[') {
                 dados = '[ ' + linha
             } else {
                 dados = dados + ',' + linha;
@@ -280,15 +280,7 @@ var handleNotificacao = function () {
     });
 };
 
-3
-$(document).unload(function () {
-    console.log('document unload');
-});
 
-$(document).ready(function () {
-    console.log("ready!");
-
-});
 var DashboardV2 = function () {
     $('#small-version').text("version 21.04.17.1900");
     "use strict";
