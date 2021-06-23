@@ -198,8 +198,6 @@
         <DCCReference Include="dao\dfe.dao.infoNfe.pas"/>
         <DCCReference Include="dao\dfe.dao.empresa.pas"/>
         <DCCReference Include="controller\nfe.controller.empresa.pas"/>
-        <DCCReference Include="components\superobject\XSuperJSON.pas"/>
-        <DCCReference Include="components\superobject\XSuperObject.pas"/>
         <DCCReference Include="lib\dfe.lib.constants.pas"/>
         <DCCReference Include="lib\dfe.lib.jsontoXml.pas"/>
         <DCCReference Include="lib\dfe.lib.normalize.pas"/>

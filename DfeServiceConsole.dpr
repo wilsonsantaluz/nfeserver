@@ -27,8 +27,7 @@ uses
   dfe.dao.infoNfe in 'dao\dfe.dao.infoNfe.pas',
   dfe.dao.empresa in 'dao\dfe.dao.empresa.pas',
   nfe.controller.empresa in 'controller\nfe.controller.empresa.pas',
-  XSuperJSON in 'components\superobject\XSuperJSON.pas',
-  XSuperObject in 'components\superobject\XSuperObject.pas',
+ 
   dfe.lib.constants in 'lib\dfe.lib.constants.pas',
   dfe.lib.jsontoXml in 'lib\dfe.lib.jsontoXml.pas',
   dfe.lib.normalize in 'lib\dfe.lib.normalize.pas',

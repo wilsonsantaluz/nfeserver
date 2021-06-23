@@ -94,10 +94,7 @@ begin
 
   oCrs := FCon[_db][_ColectionNotas].Aggregate().Match.Add('cancelada',
     true).&End
-    .project()
-        .andExpression('year(timeCreated)').as('year')
-        .andExpression('month(timeCreated)').as('month')
-        .andExpression('dayOfMonth(timeCreated)').as('day')
+
 
     .Group.Add('_id', '$dataEmissao').BeginObject('count').Add('$sum', 1)
 
