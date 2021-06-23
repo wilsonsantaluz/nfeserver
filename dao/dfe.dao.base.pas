@@ -88,15 +88,15 @@ implementation
 
 constructor TdfeDaoBase.create;
 begin
-  FDConnection := TFDConnection.create(Nil);
-
-  FDPhysMongoDriverLink := TFDPhysMongoDriverLink(nil);
-  FDConnection.LoginPrompt := false;
-  FDConnection.DriverName := 'Mongo';
-  FQdata := TFDMongoQuery.create(Nil);
-  FQdata.Connection := FDConnection;
-
   try
+    FDConnection := TFDConnection.create(Nil);
+
+    FDPhysMongoDriverLink := TFDPhysMongoDriverLink(nil);
+    FDConnection.LoginPrompt := false;
+    FDConnection.DriverName := 'Mongo';
+    FQdata := TFDMongoQuery.create(Nil);
+    FQdata.Connection := FDConnection;
+
     FDConnection.Connected := True;
   except
     on e: Exception do

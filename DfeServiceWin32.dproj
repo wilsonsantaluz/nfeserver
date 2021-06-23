@@ -117,6 +117,7 @@
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <DCC_UnitSearchPath>.\components\acbr\ACBrIntegrador;.\components\acbr\ACBrDFe\ACBrNFe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes;.\components\acbr\ACBrDFe\ACBrNFe\PCNNFe;.\components\acbr\ACBrComum;.\components\acbr\ACBrOpenSSL;.\components\acbr\PCNComum;.\components\acbr\Terceiros;.\components\acbr\Terceiros\Ole;.\components\acbr\Terceiros\CodeGear;.\components\acbr\Terceiros\GZIPUtils;.\components\acbr\Terceiros\LibXmlSec;.\components\acbr\Terceiros\JsonDataObjects;.\components\acbr\Terceiros\JsonDataObjects\Source;.\components\acbr\Terceiros\ZLibExGZ;.\components\acbr\ACBrDFe;.\components\acbr\Terceiros\synalist;.\components\acbr\Terceiros\FastStringReplace;.\components\acbr\ACBrDiversos;.\components\acbr\ACBrTCP;.\components\acbr\ACBrIntegrador\pcnVFPe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE;.\components\acbr\Terceiros\DelphiZXingQRCode;.\components\fortes\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_ExeOutput>.\bin</DCC_ExeOutput>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

@@ -6,6 +6,7 @@ Uses
   windows,
   sysutils,
   REST.JSON.Types,
+  math,
   REST.JSON,
   system.JSON,
   dfe.dao.base,
@@ -82,6 +83,7 @@ begin
 
   while oCrs.Next do
   begin
+   randomize();
     oanalisse := Tanalissemensal.create;
     oret := REST.JSON.Tjson.JsonToObject<TRetornoInfo>(oCrs.Doc.AsJSON);
     oanalisse.tipo := 'VALIDADAS';
@@ -92,6 +94,10 @@ begin
 
   oCrs := FCon[_db][_ColectionNotas].Aggregate().Match.Add('cancelada',
     true).&End
+    .project()
+        .andExpression('year(timeCreated)').as('year')
+        .andExpression('month(timeCreated)').as('month')
+        .andExpression('dayOfMonth(timeCreated)').as('day')
 
     .Group.Add('_id', '$dataEmissao').BeginObject('count').Add('$sum', 1)
 
