@@ -68,8 +68,6 @@ begin
       try
          ResponseInfo.ContentText := controller.getEmpresa(jValue);
 
-        // setResponse(200, 200, controller.getEmpresa(jValue));
-
       except
         on E: Exception do
         begin
@@ -98,8 +96,7 @@ begin
       CoInitialize(nil);
 {$ENDIF MSWINDOWS}
       try
-         setResponse(200, 200, controller.apagarEmpresa(jValue));
-
+         ResponseInfo.ContentText := controller.apagarEmpresa(jValue);
       except
         on E: Exception do
         begin

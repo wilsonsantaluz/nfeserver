@@ -12,7 +12,7 @@ uses
   dfe.dao.empresa,
 
   dfe.model.infonfe,
-  dfe.dao.infoNfe,
+  dfe.dao.infonfe,
   dfe.lib.util,
   dfe.model.empresa;
 
@@ -21,28 +21,28 @@ type
   private
     Fmodel: TEmpresa;
   public
-    function gravarEmpresa(json: TJSONObject): string;
-    function apagarEmpresa(json: TJSONObject): string;
-    function getEmpresa(json: TJSONObject): string;
-    function listarEmpresa(json: TJSONObject): string;
+    function gravarEmpresa(JSON: TJSONObject): string;
+    function apagarEmpresa(JSON: TJSONObject): string;
+    function getEmpresa(JSON: TJSONObject): string;
+    function listarEmpresa(JSON: TJSONObject): string;
 
   end;
 
 implementation
 
 { TEmpresaController }
-{-----------------------------------------------------------------------------}
-function TEmpresaController.apagarEmpresa(json: TJSONObject): string;
+{ ----------------------------------------------------------------------------- }
+function TEmpresaController.apagarEmpresa(JSON: TJSONObject): string;
 var
   dao: TDaoEmpresa;
-  empresa:TEmpresa;
+  empresa: TEmpresa;
 begin
   dao := TDaoEmpresa.create;
   try
-     empresa:=TEmpresa.Create('');
-     empresa:=TJson.JsonToObject<TEmpresa> (json) ;
-     dao.apagarEmpresa(empresa) ;
-     result:='Empresa '+ empresa.cnpj +' excluida';
+    empresa := TEmpresa.create('');
+    empresa := TJson.JsonToObject<TEmpresa>(JSON);
+    dao.apagarEmpresa(empresa);
+    result := 'Empresa ' + empresa.cnpj + ' excluida';
   finally
     if assigned(empresa) then
       FreeAndNil(empresa);
@@ -50,9 +50,8 @@ begin
   end;
 end;
 
-
-{-----------------------------------------------------------------------------}
-function TEmpresaController.getEmpresa(json: TJSONObject): string;
+{ ----------------------------------------------------------------------------- }
+function TEmpresaController.getEmpresa(JSON: TJSONObject): string;
 var
   dao: TDaoEmpresa;
   empresas: Tempresas;
@@ -60,10 +59,10 @@ begin
   dao := TDaoEmpresa.create;
   try
     if assigned(JSON) then
-    empresas:= dao.listEmpresas(JSON)
+      empresas := dao.listEmpresas(JSON)
     else
-     empresas:= dao.listEmpresas(Nil);
-    result := tjson.ObjectToJsonString(empresas);
+      empresas := dao.listEmpresas(Nil);
+    result := TJson.ObjectToJsonString(empresas);
   finally
     if assigned(empresas) then
       FreeAndNil(empresas);
@@ -71,33 +70,40 @@ begin
   end;
 
 end;
-{-----------------------------------------------------------------------------}
-function TEmpresaController.gravarEmpresa(json: TJSONObject): string;
+
+{ ----------------------------------------------------------------------------- }
+function TEmpresaController.gravarEmpresa(JSON: TJSONObject): string;
 var
   dao: TDaoEmpresa;
-  empresa:TEmpresa;
+  empresa: TEmpresa;
 
 begin
   dao := TDaoEmpresa.create;
   try
-     empresa:=TEmpresa.Create('');
-     empresa:=TJson.JsonToObject<TEmpresa> (json) ;
-     if (empresa.cnpj ='') or (Length(sonumeros( empresa.cnpj)) <>14) then
-       raise Exception.Create('Cnpj não informado ou invalido -> '+empresa.cnpj);
-     if empresa.razaoSocial  ='' then
-       raise Exception.Create('Razão social não informada');
-
-
-     dao.gravarEmpresa(empresa) ;
-     result:='Empresa '+ empresa.cnpj +' gravada/atualizada';
+    empresa := TEmpresa.create('');
+    empresa := TJson.JsonToObject<TEmpresa>(JSON);
+    if (empresa.cnpj = '') or (Length(sonumeros(empresa.cnpj)) <> 14) then
+      raise Exception.create('Cnpj não informado ou invalido -> ' +
+        empresa.cnpj);
+    if empresa.razaoSocial = '' then
+      raise Exception.create('Razão social não informada');
+    if empresa.certificadoPfx = '' then
+      raise Exception.create('Arquivo pfx não informado');
+    if empresa.senhaPfx = '' then
+      raise Exception.create('Senha do arquivo pfx não informada');
+    if empresa.validade = 0 then
+      raise Exception.create('Validade do arquivo pfx não informada');
+    dao.gravarEmpresa(empresa);
+    result := 'Empresa ' + empresa.cnpj + ' gravada/atualizada';
   finally
     if assigned(empresa) then
       FreeAndNil(empresa);
     FreeAndNil(dao);
   end;
 end;
-{-----------------------------------------------------------------------------}
-function TEmpresaController.listarEmpresa(json: TJSONObject): string;
+
+{ ----------------------------------------------------------------------------- }
+function TEmpresaController.listarEmpresa(JSON: TJSONObject): string;
 var
   dao: TDaoEmpresa;
   empresas: Tempresas;
@@ -105,15 +111,16 @@ begin
   dao := TDaoEmpresa.create;
   try
     if assigned(JSON) then
-    empresas:= dao.listEmpresas(JSON)
+      empresas := dao.listEmpresas(JSON)
     else
-     empresas:= dao.listEmpresas(Nil);
-    result := tjson.ObjectToJsonString(empresas);
+      empresas := dao.listEmpresas(Nil);
+    result := TJson.ObjectToJsonString(empresas);
   finally
     if assigned(empresas) then
       FreeAndNil(empresas);
     FreeAndNil(dao);
   end;
 end;
-{-----------------------------------------------------------------------------}
+
+{ ----------------------------------------------------------------------------- }
 end.

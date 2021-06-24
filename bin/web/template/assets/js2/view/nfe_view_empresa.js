@@ -100,6 +100,40 @@ function getEmpresas() {
     $('#loading-indicator').show();
     basicRequest("GET", _CT_SERVER_NFE_EMPRESA + '?' + oparam, oparam, getEmpresasCallback);
 }
+function deleteEmpresa() {
+	 function deleteEmpresaCallback(oresponse) {
+        $('#loading-indicator').hide();
+        if (oresponse !== "") {
+            jsonResult = JSON.parse(oresponse);
+            if (typeof jsonResult.codretorno == "undefined") {
+                doalert('error', 'Erro inteno', 'Erro:Json não valido na resposta do servidor');
+            } else {
+                if (jsonResult.codretorno == 200) {
+                    listEmpresas ();
+					getEmpresas();
+					
+                    doalert('success', 'Exclusão', jsonResult.codretorno + ' - ' + jsonResult.msg);
+
+
+                } else {
+                    doalert('info', ' Exclusão', jsonResult.codretorno + ' - ' + jsonResult.msg);
+
+                }
+            };
+        };
+    };
+	if ($('#cnpj').val() == '') {
+        alert('Cnpj é obrigatorio');
+        return
+    };
+    $('#loading-indicator').show();
+	 var dados = {
+        "cnpj": ocnpj
+    };
+    var oparam = JSON.stringify(dados);
+    basicRequest("DELETE", _CT_SERVER_NFE_EMPRESA + '?' + oparam, oparam, deleteEmpresaCallback);
+	
+}	
 //-----------------------------------------------------------------------------------------------------------------//
 function setEmpresa() {
 
@@ -111,7 +145,9 @@ function setEmpresa() {
                 doalert('error', 'Erro inteno', 'Erro:Json não valido na resposta do servidor');
             } else {
                 if (jsonResult.codretorno == 200) {
-                    getEmpresas();
+                    listEmpresas ();
+					getEmpresas();
+					
                     doalert('success', 'Gravação de parametros', jsonResult.codretorno + ' - ' + jsonResult.msg);
 
 
@@ -225,11 +261,14 @@ empresaConfigMain = function () {
 
 
             inputPfx = document.querySelector('input[type=file]');
-            $("#empresagravar").click(function () {
+            $("#empresaGravar").click(function () {
                 setEmpresa();
             });
+			 $("#empresaExcluir").click(function () {
+                deleteEmpresa();
+            });
 
-            $("#empresainserir").click(function () {
+            $("#empresaInserir").click(function () {
                 prepareInsert();
             });
 
@@ -239,11 +278,12 @@ empresaConfigMain = function () {
                 if (ocnpj == 0) {
                     prepareInsert();
                     return;
-                };
-                setTimeout(getEmpresas(ocnpj), 1000);
+                } else {
+                  setTimeout(getEmpresas(ocnpj), 1000);
+				}  
             });
 
-            $("#empresareload").click(function () {
+            $("#empresaReload").click(function () {
                 $('#selectfiliais').val(0).change();
             });
             $(document).ready(function () {
