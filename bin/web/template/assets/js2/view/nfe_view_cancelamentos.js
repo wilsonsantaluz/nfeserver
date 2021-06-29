@@ -6,8 +6,11 @@ cancelamentoView = function() {
 
     //-------------------------------------------------------------------------------
     this.listarcancelamentos = function() {
-        function oretlistar(jsonConsulta) {
-            var array_cancelamentos = [];
+     
+	  try {
+	  function oretlistar(jsonConsulta) {
+           $('#loading-indicator').hide();             
+		   var array_cancelamentos = [];
             for (var i = 0; i < jsonConsulta.listHelper.length; i++) {
                 var cancelamento = [
                     '',
@@ -34,9 +37,13 @@ cancelamentoView = function() {
         objTabela.clear();
         var prep_arrray = [];
         objTabela.rows.add(prep_arrray);
-        objTabela.draw();
-        $('#loading-indicator').show();
+        objTabela.draw();      
         cancClass.listar(oretlistar, ostatus);
+	  }
+     catch(err) {
+		   
+		 $('#loading-indicator').hide(); 
+	 } 
     };
     /*----------------------------------------------------------------------------------------------
                                       PREPARAR O DATATABLE
@@ -113,19 +120,14 @@ cancelamentoView = function() {
                     },
                     {
                         "sTitle": "Numero",
-                        "sClass": "calingleft",
-                        render: function(data, type, row) {
-                            return padleft(row[4], 6);
-                        }
+                        "sClass": "calingleft"
+                        
                     },
 					{
                         "sTitle": "Serie"
                     },
 					{
-                        "sTitle": "Data",
-						 render:  function (data, type, row) {
-                          return    isostrtodate( row[6])
-                        }
+                        "sTitle": "Data"
                     },
                    
                     {
@@ -220,7 +222,7 @@ cancelamentoviewMain = function() {
             oclass.configDataTable();
             $(document).ready(function() {
                 $("#data-table-cancelamentos_wrapper").css("padding", "15px");
-                setTimeout(oclass.listarcancelamentos(), 1000);
+                setTimeout(oclass.listarcancelamentos(), 3000);
 
 
 

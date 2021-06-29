@@ -17,7 +17,7 @@ function cancelamentoClass(params) {
         if (typeof params === 'undefined' || params == '') {
             params = "{}";
         };
-        basicRequest("GET", _CT_SERVER_CANC+ '?' + params, params, fcalback);
+        basicRequest("GET", _CT_SERVER_CANC + '?' + params, params, fcalback);
 
     };
 
