@@ -3,7 +3,7 @@ object fconsumer: Tfconsumer
   Top = 0
   Caption = 'Rest test'
   ClientHeight = 721
-  ClientWidth = 886
+  ClientWidth = 985
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +16,7 @@ object fconsumer: Tfconsumer
   object Panel2: TPanel
     Left = 0
     Top = 680
-    Width = 886
+    Width = 985
     Height = 41
     Align = alBottom
     TabOrder = 0
@@ -24,9 +24,9 @@ object fconsumer: Tfconsumer
   object pagutils: TPageControl
     Left = 0
     Top = 0
-    Width = 886
+    Width = 985
     Height = 680
-    ActivePage = tabclass
+    ActivePage = tabgerarXml
     Align = alClient
     TabOrder = 1
     object tabgerarXml: TTabSheet
@@ -42,7 +42,7 @@ object fconsumer: Tfconsumer
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 878
+        Width = 977
         Height = 17
         Align = alTop
         TabOrder = 0
@@ -142,7 +142,7 @@ object fconsumer: Tfconsumer
           Text = '9018225902'
         end
         object btgerarNfeTeste: TButton
-          Left = 8
+          Left = 3
           Top = 238
           Width = 75
           Height = 25
@@ -377,13 +377,46 @@ object fconsumer: Tfconsumer
         TabOrder = 4
         Text = '03075319000174'
       end
+      object GroupBox4: TGroupBox
+        Left = 544
+        Top = 343
+        Width = 377
+        Height = 193
+        Caption = 'Consulta'
+        TabOrder = 5
+        object Label22: TLabel
+          Left = 16
+          Top = 34
+          Width = 31
+          Height = 13
+          Caption = 'Chave'
+        end
+        object edtconsulta: TEdit
+          Left = 16
+          Top = 53
+          Width = 321
+          Height = 21
+          Alignment = taCenter
+          TabOrder = 0
+          Text = '41210605651966001184550060006762371639684850'
+        end
+        object btconsultar: TButton
+          Left = 16
+          Top = 104
+          Width = 75
+          Height = 25
+          Caption = 'consultar'
+          TabOrder = 1
+          OnClick = btconsultarClick
+        end
+      end
     end
     object tabclass: TTabSheet
       Caption = 'Rest testes'
       object grouprequest: TGroupBox
         Left = 0
         Top = 49
-        Width = 878
+        Width = 977
         Height = 603
         Align = alClient
         Caption = ' path  -> /dfeapi/nfe'
@@ -391,16 +424,17 @@ object fconsumer: Tfconsumer
         object Splitter1: TSplitter
           Left = 2
           Top = 244
-          Width = 874
+          Width = 973
           Height = 0
           Cursor = crVSplit
           Align = alTop
           ExplicitTop = 145
+          ExplicitWidth = 874
         end
         object Splitter2: TSplitter
           Left = 2
           Top = 241
-          Width = 874
+          Width = 973
           Height = 3
           Cursor = crVSplit
           Align = alTop
@@ -410,7 +444,7 @@ object fconsumer: Tfconsumer
         object memorequest: TMemo
           Left = 2
           Top = 50
-          Width = 874
+          Width = 973
           Height = 191
           Align = alTop
           Color = clBlack
@@ -426,7 +460,7 @@ object fconsumer: Tfconsumer
         object Panel3: TPanel
           Left = 2
           Top = 563
-          Width = 874
+          Width = 973
           Height = 38
           Align = alBottom
           TabOrder = 1
@@ -452,7 +486,7 @@ object fconsumer: Tfconsumer
         object memoviewxml: TMemo
           Left = 2
           Top = 377
-          Width = 874
+          Width = 973
           Height = 186
           Align = alClient
           Color = clBlack
@@ -469,7 +503,7 @@ object fconsumer: Tfconsumer
         object Panel5: TPanel
           Left = 2
           Top = 15
-          Width = 874
+          Width = 973
           Height = 35
           Align = alTop
           TabOrder = 3
@@ -500,7 +534,7 @@ object fconsumer: Tfconsumer
         object memoresponse: TMemo
           Left = 2
           Top = 244
-          Width = 874
+          Width = 973
           Height = 133
           Align = alTop
           Color = clBlack
@@ -518,7 +552,7 @@ object fconsumer: Tfconsumer
       object Panel4: TPanel
         Left = 0
         Top = 0
-        Width = 878
+        Width = 977
         Height = 49
         Align = alTop
         TabOrder = 1
@@ -571,14 +605,14 @@ object fconsumer: Tfconsumer
       object TPanel
         Left = 518
         Top = 0
-        Width = 360
+        Width = 459
         Height = 652
         Align = alClient
         TabOrder = 1
         object memojson: TMemo
           Left = 1
           Top = 1
-          Width = 358
+          Width = 457
           Height = 650
           Align = alClient
           Color = clBlack

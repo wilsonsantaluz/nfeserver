@@ -253,7 +253,17 @@ begin
     Try
       Fnota.dataProcessamento := now;
       prepararNfe();
-      Facbr.WebServices.Envia(1, true);
+      //PARA ESTES ESTADOS USA ENVIO ASINCRONO
+      if (Facbr.NotasFiscais[0].nfe.Ide.cUF = 35) or
+        ((Facbr.NotasFiscais[0].nfe.Ide.cUF = 29)) then
+      begin
+        Facbr.WebServices.Envia(0, true);
+      end
+      else
+      begin
+        Facbr.WebServices.Envia(1, true);
+      end;
+
     except
       on e: exception do
       begin

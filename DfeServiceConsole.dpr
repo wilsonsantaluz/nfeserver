@@ -54,16 +54,11 @@ uses
   dfe.httphandler.inutilizacoes in 'httphandlers\dfe.httphandler.inutilizacoes.pas',
   dfe.httphandler.cartaCorrecao in 'httphandlers\dfe.httphandler.cartaCorrecao.pas',
   dfe.httphandler.cancelamentos in 'httphandlers\dfe.httphandler.cancelamentos.pas';
-
 var
   terminate: Boolean;
-
-
-
 begin
   try
     terminate:=false;
-
     Writeln(' NFE CONSOLE SERVICE 2021                                      ');
     Writeln(' Runing on port:  ' + inttostr(_HTTP_PORT));
     Writeln('---------------------------------------------------------------');

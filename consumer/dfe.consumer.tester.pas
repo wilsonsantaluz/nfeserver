@@ -48,6 +48,7 @@ uses
   dfe.model.cancelamento,
   dfe.model.cartaCorrecao,
   dfe.model.cartaCorrecaoRequest,
+
   dfe.model.validacaoResponse
 
     ;
@@ -122,15 +123,25 @@ type
     edtserieinu: TEdit;
     Label21: TLabel;
     edtanoinu: TEdit;
+    GroupBox4: TGroupBox;
+    edtconsulta: TEdit;
+    Label22: TLabel;
+    btconsultar: TButton;
     procedure bt_xmltojsonClick(Sender: TObject);
     procedure bt_jsontoxmlClick(Sender: TObject);
     procedure cboperacaoChange(Sender: TObject);
     procedure btgerarJsonClick(Sender: TObject);
     procedure btenviarClick(Sender: TObject);
     procedure btgerarNfeTesteClick(Sender: TObject);
+    procedure getXmlDanfe(chave: string);
+    procedure btconsultarClick(Sender: TObject);
+
   private
     { Private declarations }
+    FdanfeBase64: string;
     procedure processarRetorno(Sender: TObject);
+    procedure processarRetornoConsulta(Sender: TObject);
+
     procedure ImprimirDanfeRetornado(danfeBase64, name: string);
   public
     { Public declarations }
@@ -149,6 +160,43 @@ uses
 
   dfe.lib.XmltoJson, dfe.lib.jsontoXml;
 {$R *.dfm}
+
+procedure Tfconsumer.getXmlDanfe(chave: string);
+var
+  outfile: TFileStream;
+  strfile: TStringStream;
+  sfile: string;
+  astrean: TStringStream;
+  danfeBase64: string;
+  Client: ThttpClient;
+begin
+  FdanfeBase64 := '';
+  Client := ThttpClient.Create(true);
+  Client.host := edtendereco.Text;
+  Client.Param := '{"chave":"' + chave + '"}';
+  Client.TipoRequest := vget;
+  Client.Paht := '/dfeapi/nfe';
+  Client.OnTerminate := processarRetornoConsulta;
+  Client.FreeOnTerminate := true;
+  Client.resume;
+  edtnumeronota.Text := '';
+
+  if FdanfeBase64 <> '' then
+  begin
+    sfile := ExtractFilePath(GetModuleName(HInstance)) + name;
+    astrean := TStringStream.Create(danfeBase64);
+    outfile := TFileStream.Create(sfile, fmCreate or fmOpenRead);
+    try
+      TNetEncoding.base64.Decode(astrean, outfile);
+      FreeAndNil(outfile);
+      ShellExecute(Handle, nil, PChar(sfile), nil, nil, SW_SHOWNORMAL);
+    finally
+      FreeAndNil(outfile);
+      FreeAndNil(astrean);
+    end;
+  end;
+
+end;
 
 { ----------------------------------------------------------------------------- }
 procedure Tfconsumer.bt_xmltojsonClick(Sender: TObject);
@@ -183,8 +231,8 @@ begin
     raise Exception.Create('Serie da nota deve ser informado');
   if soNumeros(edtCodNumerico.Text) = '' then
     raise Exception.Create('Código numerico da nota deve ser informado');
-
-  schave := MontaChaveAcessoNFe(41, dataEmiss, edtcnpj.Text, 55,
+   //SAO PAULO
+  schave := MontaChaveAcessoNFe(35, dataEmiss, edtcnpj.Text, 55,
     strtoint(edtserienota.Text), strtoint(edtnumeronota.Text),
     strtoint(edtCodNumerico.Text), 2);
   // Criar o objeto com o databinding mapeado
@@ -199,7 +247,7 @@ begin
   nota.InfNFe.Versao := '4.00';
   with nota.InfNFe.Ide do
   begin
-    cUF := '41';
+    cUF := '35';
     cNF := edtCodNumerico.Text;
     natOp := 'VENDA PRODUTO';
     Mod_ := '55';
@@ -209,7 +257,7 @@ begin
     dhSaiEnt := DateToISO8601(dataEmiss, false);
     tpNF := '1';
     idDest := '1';
-    cMunFG := '4103701';
+    cMunFG := '3505708';
     tpImp := '1';
     tpEmis := '1'; // NORMAL
     cDV := '0';
@@ -230,8 +278,8 @@ begin
     enderEmit.xBairro := 'JD RIVIERA';
     enderEmit.cMun := '4103701';
     enderEmit.xMun := 'CAMBE';
-    enderEmit.UF := 'PR';
-    enderEmit.CEP := '86187025';
+    enderEmit.UF := 'SP';
+    enderEmit.CEP := '3505708';
     enderEmit.cPais := '1058';
     enderEmit.xPais := 'BRASIL';
     IE := edtie.Text;
@@ -246,9 +294,9 @@ begin
     enderDest.xLgr := 'UNKNOW STREET';
     enderDest.nro := '780';
     enderDest.xBairro := 'BIGORRILHO';
-    enderDest.cMun := '4106902';
-    enderDest.xMun := 'CURITIBA';
-    enderDest.UF := 'PR';
+    enderDest.cMun := '3505708';
+    enderDest.xMun := 'SAO PAULO';
+    enderDest.UF := 'SP';
     enderDest.CEP := '80730402';
     enderDest.cPais := '1058';
     enderDest.xPais := 'BRASIL';
@@ -521,7 +569,27 @@ begin
   end;
 end;
 
+procedure Tfconsumer.processarRetornoConsulta(Sender: TObject);
+var
+  sresult: string;
+  Fclient: ThttpClient;
+
+begin
+  Fclient := ThttpClient(Sender);
+  if assigned(Fclient) then
+  begin
+    sresult := Fclient.response;
+    FdanfeBase64 := sresult;
+  end;
+end;
+
 { ------------------------------------------------------------------------------ }
+procedure Tfconsumer.btconsultarClick(Sender: TObject);
+begin
+
+  getXmlDanfe(edtChave.Text)
+end;
+
 procedure Tfconsumer.btenviarClick(Sender: TObject);
 var
   operacao: string;
@@ -561,7 +629,7 @@ begin
   case cboperacao.ItemIndex of
     0: // VALIDACAO
       begin
-        
+
         btgerarNfeTeste.Click;
         base64 := TBase64Encoding.Create;
         reqValidar := TValidacaoRequest.Create;
@@ -603,11 +671,11 @@ begin
         reqInutilizar := TInutilizacaoRequest.Create;
         try
           reqInutilizar.CNPJ := edtcnpj.Text;
-          reqInutilizar.numeroInicial :=strtoint( edtnuninicial.Text);
-          reqInutilizar.numeroFinal :=strtoint(edtnunfinal.Text);
-          reqInutilizar.serie :=strtoint( edtserieinu.Text);
+          reqInutilizar.numeroInicial := strtoint(edtnuninicial.Text);
+          reqInutilizar.numeroFinal := strtoint(edtnunfinal.Text);
+          reqInutilizar.serie := strtoint(edtserieinu.Text);
           reqInutilizar.modelo := 55;
-          reqInutilizar.justificativa := edtjustinu.Text ;
+          reqInutilizar.justificativa := edtjustinu.Text;
           reqInutilizar.ano := strtoint(edtanoinu.Text);
 
           memorequest.lines.Text := Tjson.ObjectToJsonString(reqInutilizar);
@@ -621,11 +689,11 @@ begin
       begin
         reqCartaCorrecao := TcartaCorrecaoRequest.Create;
         try
-          reqCartaCorrecao.CNPJ := edtcnpj.Text ;
-          reqCartaCorrecao.chave :=edtChave.Text ;
+          reqCartaCorrecao.CNPJ := edtcnpj.Text;
+          reqCartaCorrecao.chave := edtChave.Text;
           reqCartaCorrecao.dataHora := Now;
           reqCartaCorrecao.sequencia := strtoint(edtsequencia.Text);
-          reqCartaCorrecao.xcorrecao := edtcorrecao.text;
+          reqCartaCorrecao.xcorrecao := edtcorrecao.Text;
           memorequest.lines.Text := Tjson.ObjectToJsonString(reqCartaCorrecao);
         finally
           FreeAndNil(reqCartaCorrecao);
