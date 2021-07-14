@@ -67,7 +67,6 @@ type
     procedure checarContigenciaManual();
     function gerarDanfeBase64: string;
   public
-
     FdadosConsulta: TdadosConsulta;
     function consultaChave(ochave: string): string;
     procedure validar();
@@ -123,11 +122,9 @@ begin
     dao := TDaoNfe.create();
     try
       tmpNota := dao.getNota(opesquisa);
-
       if tmpNota.protocolo <> '' then
       begin
         setnotaByConsulta(tmpNota);
-
       end
       else
         validar();
@@ -147,7 +144,6 @@ end;
 
 destructor TNfeValidar.Destroy;
 begin
-
   if Assigned(Facbr) then
     FreeAndNil(Facbr);
   if Assigned(Fempresa) then
@@ -170,7 +166,6 @@ begin
       Fdanfe.MostraPreview := false;
       if FileExists(ExtractFilePath(GetModuleName(HInstance)) + 'logo\logo.bmp')
       then
-
         Fdanfe.Logo := ExtractFilePath(GetModuleName(HInstance)) +
           'logo\logo.bmp';
       Fdanfe.MostraStatus := false;
@@ -198,11 +193,9 @@ end;
 
 { ----------------------------------------------------------------------------- }
 procedure TNfeValidar.mydebug(msg: string);
-
 begin
   OutputDebugString(pchar(msg));
   gravalog(msg);
-
 end;
 
 procedure TNfeValidar.prepararNfe;
@@ -223,12 +216,10 @@ begin
       mydebug('[Erro assinatura] ' + e.Message);
     end;
   end;
-
 end;
 
 procedure TNfeValidar.setnotaByConsulta(source: Tnota);
 begin
-
   Fnota.chave := source.chave;
   Fnota.dataEmissao := source.dataEmissao;
   Fnota.xml := source.xml;
@@ -246,33 +237,44 @@ procedure TNfeValidar.validar;
 var
   schave: string;
   dao: TDaoNfe;
+  sRetorno: string;
 begin
   try
     schave := Facbr.NotasFiscais[0].nfe.infNFe.ID;
-
     Try
       Fnota.dataProcessamento := now;
       prepararNfe();
-      //PARA ESTES ESTADOS USA ENVIO ASINCRONO
+      // PARA ESTES ESTADOS USA ENVIO ASINCRONO
       if (Facbr.NotasFiscais[0].nfe.Ide.cUF = 35) or
         ((Facbr.NotasFiscais[0].nfe.Ide.cUF = 29)) then
       begin
-        Facbr.WebServices.Envia(0, true);
+        // LOTE/METODO/COMPACTAR
+        Facbr.WebServices.Envia(0, false, false);
+        FcStat := Facbr.WebServices.Retorno.cstat;
+        sMsg := Facbr.WebServices.Retorno.xmotivo;
+        sRetorno := Facbr.WebServices.Retorno.RetWS;
       end
       else
       begin
-        Facbr.WebServices.Envia(1, true);
+        Facbr.WebServices.Envia(0, true, false);
+        FcStat := Facbr.WebServices.Enviar.cstat;
+        sMsg := Facbr.WebServices.Enviar.xmotivo;
+        sRetorno := Facbr.WebServices.Enviar.RetWS;
       end;
-
     except
       on e: exception do
       begin
         mydebug('[Erro validacao] ' + e.Message);
         FcStat := 5001;
+        if Facbr.WebServices.Enviar.cstat > 0 then
+          FcStat := Facbr.WebServices.Enviar.cstat;
         sMsg := e.Message;
+        if Facbr.WebServices.Enviar.xmotivo <> '' then
+          sMsg := Facbr.WebServices.Enviar.xmotivo;
+
       end;
     end;
-    if Facbr.WebServices.Enviar.cstat = 204 then
+    if FcStat = 204 then
     begin
       consultaChave(schave);
       if FdadosConsulta.nProt <> '' then
@@ -287,23 +289,14 @@ begin
         Facbr.NotasFiscais.Items[0].nfe.procNFe.digVal := FdadosConsulta.digito;
         Facbr.NotasFiscais.Items[0].nfe.procNFe.dhRecbto := FdadosConsulta.data;
         Fnota.xml := Facbr.NotasFiscais[0].GerarXML;
-
       end;
     end
     else
     begin
 
-      FcStat := Facbr.WebServices.Enviar.cstat;
-      sMsg := Facbr.WebServices.Enviar.xmotivo;
-      if Facbr.WebServices.Retorno.msg <> '' then
-        sMsg := Facbr.WebServices.Retorno.msg;
-      if Facbr.WebServices.Retorno.cstat > 0 then
-        FcStat := Facbr.WebServices.Retorno.cstat;
-
-      Fnota.xmlRetorno := Facbr.WebServices.Enviar.RetWS;
+      Fnota.xmlRetorno := sRetorno;
       if Facbr.WebServices.Retorno.RetornoWS <> '' then
         Fnota.xmlRetorno := Facbr.WebServices.Retorno.RetornoWS;
-
     end;
   finally
     Fnota.status := FcStat;
@@ -319,6 +312,7 @@ begin
       Fnota.chave := soNumeros(Facbr.NotasFiscais.Items[0].nfe.procNFe.chNFe);
       Fnota.xml := Facbr.NotasFiscais[0].GerarXML;
       FdanfeBase64 := gerarDanfeBase64;
+      Fnota.DANFE := FdanfeBase64;
     end;
     // GRAVAR SOMENTE SE NÃO FOR DUPLICIDADE
     if Facbr.WebServices.Enviar.cstat <> 204 then
@@ -341,7 +335,6 @@ begin
     if Facbr.NotasFiscais[0].nfe.Ide.cUF in [12, 27, 16, 52, 32, 31, 25, 33, 24,
       11, 14, 43, 42, 28, 35, 17] then
     begin
-
       Facbr.NotasFiscais[0].nfe.Ide.tpEmis := teSVCAN;
       Facbr.Configuracoes.Geral.FormaEmissao := teSVCAN;
     end
@@ -350,7 +343,6 @@ begin
     begin
       Facbr.NotasFiscais[0].nfe.Ide.tpEmis := teSVCRS;
       Facbr.Configuracoes.Geral.FormaEmissao := teSVCRS;
-
     end;
   end;
 end;
@@ -379,7 +371,6 @@ begin
     ocomp.WebServices.Consulta.NFeChave := ochave;
     Try
       ocomp.WebServices.Consulta.Executar;
-
       if ocomp.WebServices.Consulta.msg <> '' then
         sMsg := ocomp.WebServices.Consulta.msg;
       if pos(ansiUpperCase('Código numérico'), ansiUpperCase(sMsg)) > 0 then
@@ -401,7 +392,6 @@ begin
           end;
         end;
       end;
-
       FdadosConsulta.xmotivo := ocomp.WebServices.Consulta.xmotivo;
       FdadosConsulta.cstat := ocomp.WebServices.Consulta.cstat;
       Fnota.status := ocomp.WebServices.Consulta.cstat;
@@ -410,11 +400,9 @@ begin
         FAutorizado := true;
       if ocomp.WebServices.Consulta.protNFe.nProt <> '' then
       begin
-
         FdadosConsulta.nProt := ocomp.WebServices.Consulta.protNFe.nProt;
         FdadosConsulta.chave := ocomp.WebServices.Consulta.protNFe.chNFe;
         FdadosConsulta.versao := ocomp.WebServices.Consulta.protNFe.verAplic;
-
         FdadosConsulta.data := ocomp.WebServices.Consulta.protNFe.dhRecbto;
         mydebug('    [CONSULTA CHAVE] CONSULTA CHAVE ' +
           ocomp.WebServices.Consulta.protNFe.chNFe + '  DataRetornada ' +
@@ -425,7 +413,6 @@ begin
         FdadosConsulta.digito := ocomp.WebServices.Consulta.protNFe.digVal;
         FdadosConsulta.xml := ocomp.WebServices.Consulta.protNFe.XML_NFe;
       end;
-
       if (ocomp.WebServices.Consulta.procEventoNFe.Count > 0) and
         (ocomp.WebServices.Consulta.procEventoNFe[0]
         .RetEventoNFe.retEvento.Count > 0) then
@@ -465,13 +452,11 @@ begin
             ocomp.WebServices.Consulta.retCancNFe.nProt + ' - ' +
             ocomp.WebServices.Consulta.RetNFeDFe);
         sMsg := ocomp.WebServices.Consulta.retCancNFe.xmotivo;
-
       end;
       if (FnfeCancelada = false) and
         (pos('<tpEvento>110111</tpEvento>',
         ocomp.WebServices.Consulta.RetWS) > 0) then
       begin
-
         FnfeCancelada := true;
         FdadosConsulta.nProt := ocomp.WebServices.Consulta.protocolo;
         FdadosConsulta.chave := ocomp.WebServices.Consulta.NFeChave;
@@ -486,7 +471,6 @@ begin
             ocomp.WebServices.Consulta.retCancNFe.nProt);
         sMsg := ocomp.WebServices.Consulta.xmotivo;
       end;
-
       if (FnfeCancelada = false) and
         (ocomp.WebServices.Consulta.procEventoNFe.Count > 0) and
         (ocomp.WebServices.Consulta.procEventoNFe[0]
@@ -494,9 +478,7 @@ begin
       begin
         ievento := ocomp.WebServices.Consulta.procEventoNFe[0]
           .RetEventoNFe.retEvento[0].RetInfEvento;
-
         FnfeCancelada := TpEventoToStr(ievento.tpEvento) = '110111';
-
         FdadosConsulta.nProt := ievento.nProt;
         FdadosConsulta.chave := ievento.chNFe;
         FdadosConsulta.versao := ievento.verAplic;
@@ -508,14 +490,11 @@ begin
         if FnfeCancelada then
           mydebug('    [CONSULTA CHAVE 654] A NFCE ESTA CANCELADA PROTOCOLO  ' +
             ievento.nProt);
-
       end;
-
     except
       on e: exception do
       begin
         sMsg := e.Message;
-
       end;
     End;
   Finally

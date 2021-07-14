@@ -92,7 +92,7 @@ begin
   Fserver.OnCommandOther := FserverCommandOther;
   Fserver.OnCommandGet := FserverCommandGet;
   Fserver.Active := true;
-  setupWebtemplate();
+  setUpwebTemplate();
 end;
 
 { ------------------------------------------------------------------------------ }
@@ -184,8 +184,7 @@ begin
     end
     else
     begin
-      if (pos('{', ARequestInfo.Params.Text) > 0) and
-        (ARequestInfo.ContentType = 'application/json') then
+      if (pos('{', ARequestInfo.Params.Text) > 0) then
       begin
 
         FjValue := TJSONObject.ParseJSONValue(ARequestInfo.Params.Text)
@@ -217,6 +216,12 @@ begin
         AResponseInfo.CacheControl := 'private';
         AResponseInfo.Expires := Date + 10;
       end;
+      // O ARQUIVO DE CONFIGURAÇÃO NÃO DEVE MANTER CACHE
+      if UpperCase(aFilename) = 'nfe_app.js' then
+      begin
+        AResponseInfo.Expires := now;
+      end;
+
       if UpperCase(aFilename) = '.CSS' then
         AResponseInfo.ContentType := 'text/css';
 
@@ -330,51 +335,54 @@ begin
     ' ,"msg":"' + msg + '"}'
 
 end;
+
 function GetLocalIP: string;
 type
-  TaPInAddr = array [0..10] of PInAddr;
+  TaPInAddr = array [0 .. 10] of PInAddr;
   PaPInAddr = ^TaPInAddr;
 var
   phe: PHostEnt;
   pptr: PaPInAddr;
-  Buffer: array [0..63] of Ansichar;
-  i: Integer;
+  Buffer: array [0 .. 63] of Ansichar;
+  i: integer;
   GInitData: TWSADATA;
 begin
   WSAStartup($101, GInitData);
-  Result := '';
+  result := '';
   GetHostName(Buffer, SizeOf(Buffer));
   phe := GetHostByName(Buffer);
   if phe = nil then
-    Exit;
+    exit;
   pptr := PaPInAddr(phe^.h_addr_list);
   i := 0;
   while pptr^[i] <> nil do
   begin
-    Result := StrPas(inet_ntoa(pptr^[i]^));
+    result := StrPas(inet_ntoa(pptr^[i]^));
     Inc(i);
   end;
   WSACleanup;
 end;
+
 procedure THttpServerBase.setUpwebTemplate;
 var
-  ofile:string;
-  lst:TStringList;
-  vserver:string;
+  ofile: string;
+  lst: TStringList;
+  vserver: string;
 begin
-  ofile:=  ExtractFilePath(GetModuleName(HInstance)) + _SERVERROOT +
-          '\assets\js2\nfe_app.js';
-  if fileexists(ofile) then
+  ofile := ExtractFilePath(GetModuleName(HInstance)) + _SERVERROOT +
+    '\assets\js2\nfe_app.js';
+  if FileExists(ofile) then
   begin
-     lst:=TStringList.Create();
-     lst.LoadFromFile(ofile);
-     if pos ('{nodefined}', lst[0]) > 0  then
-     begin
-       vserver:='http://'+GetLocalIP;
-       lst[0]:='var _HOST = '+QuotedStr( vserver +':'+inttostr( _HTTP_PORT) )+ '  //{nodefined}';
-       lst.SaveToFile(ofile);
-       FreeAndNil(lst);
-     end;
+    lst := TStringList.create();
+    lst.LoadFromFile(ofile);
+    if pos('{nodefined}', lst[0]) > 0 then
+    begin
+      vserver := 'http://' + GetLocalIP;
+      lst[0] := 'var _HOST = ' + QuotedStr(vserver + ':' + IntToStr(_HTTP_PORT))
+        + '  //{nodefined}';
+      lst.SaveToFile(ofile);
+      FreeAndNil(lst);
+    end;
   end;
 
 end;

@@ -10,13 +10,13 @@
     <Transaction>2021/05/21 12:17:36.000.621,C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Unit18.dfm=D:\WORK\NfeServer\teste\utester.dfm</Transaction>
     <Transaction>2021/05/21 12:17:54.000.819,C:\Users\wilsom.luz\Documents\Embarcadero\Studio\Projects\Project16.dproj=D:\WORK\NfeServer\teste\teste_units.dproj</Transaction>
     <Transaction>2021/05/21 17:58:47.000.125,=D:\WORK\NfeServer\lib\defe.origin.return.pas</Transaction>
-    <Transaction>2021/05/21 17:59:06.000.838,=D:\WORK\NfeServer\lib\dfe.lib.normalize.pas</Transaction>
     <Transaction>2021/05/21 17:59:06.000.830,=D:\WORK\NfeServer\lib\dfe.lib.jsontoXml.pas</Transaction>
+    <Transaction>2021/05/21 17:59:06.000.838,=D:\WORK\NfeServer\lib\dfe.lib.normalize.pas</Transaction>
     <Transaction>2021/05/21 17:59:07.000.773,=D:\WORK\NfeServer\lib\dfe.lib.xmltoJson.pas</Transaction>
     <Transaction>2021/05/21 18:00:45.000.238,D:\WORK\NfeServer\lib\dfe.origin.return.pas=D:\WORK\NfeServer\lib\defe.origin.return.pas</Transaction>
     <Transaction>2021/05/21 18:01:07.000.893,D:\WORK\NfeServer\lib\dfe.lib.origin.return.pas=D:\WORK\NfeServer\lib\dfe.origin.return.pas</Transaction>
-    <Transaction>2021/06/06 11:10:52.000.451,D:\WORK\nfeserver\consumer\dfe.consumer.tester.dfm=D:\WORK\nfeserver\teste\utester.dfm</Transaction>
     <Transaction>2021/06/06 11:10:52.000.451,D:\WORK\nfeserver\consumer\dfe.consumer.tester.pas=D:\WORK\nfeserver\teste\utester.pas</Transaction>
+    <Transaction>2021/06/06 11:10:52.000.451,D:\WORK\nfeserver\consumer\dfe.consumer.tester.dfm=D:\WORK\nfeserver\teste\utester.dfm</Transaction>
     <Transaction>2021/06/06 11:11:24.000.732,D:\WORK\nfeserver\consumer\dfeconsumer.dproj=D:\WORK\nfeserver\teste\teste_units.dproj</Transaction>
     <Transaction>2021/06/06 12:45:52.000.539,=D:\WORK\nfeserver\model\dfe.model.restvalidar.pas</Transaction>
     <Transaction>2021/06/06 15:03:25.000.323,=D:\WORK\nfeserver\consumer\Unit1.pas</Transaction>
@@ -52,5 +52,7 @@
     <Transaction>2021/06/30 17:54:57.000.193,=C:\work\nfeserver\dao\dfe.dao.nfe.pas</Transaction>
     <Transaction>2021/06/30 17:55:45.000.082,C:\work\nfeserver\dao\dfe.dao.nfe.pas=</Transaction>
     <Transaction>2021/06/30 17:55:54.000.982,C:\work\nfeserver\model\dfe.model.nfe.pas=</Transaction>
+    <Transaction>2021/07/14 12:50:08.000.795,=C:\WORK\nfeserver\consumer\Unit1.pas</Transaction>
+    <Transaction>2021/07/14 12:50:35.000.498,C:\WORK\nfeserver\consumer\Unit1.pas=C:\WORK\nfeserver\consumer\model\consumer.model.nfe.pas</Transaction>
   </Transactions>
 </BorlandProject>

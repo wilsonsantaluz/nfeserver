@@ -26,6 +26,7 @@ Type
     FdataValidacao: Tdatetime;
     FdataProcessamento: Tdatetime;
     Fprotocolo: string;
+    Fdanfe:string;
     Fcancelada:Boolean;
 
   public
@@ -47,6 +48,9 @@ Type
     property protocolo: string read Fprotocolo write Fprotocolo;
     property digitoval: string read Fdigitoval write Fdigitoval;
     property cancelada: Boolean read Fcancelada write Fcancelada;
+    property danfe: string read Fdanfe write Fdanfe;
+
+
 
   end;
 

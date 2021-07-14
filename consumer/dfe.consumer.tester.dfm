@@ -381,7 +381,7 @@ object fconsumer: Tfconsumer
         Left = 544
         Top = 343
         Width = 377
-        Height = 193
+        Height = 274
         Caption = 'Consulta'
         TabOrder = 5
         object Label22: TLabel
@@ -391,23 +391,42 @@ object fconsumer: Tfconsumer
           Height = 13
           Caption = 'Chave'
         end
-        object edtconsulta: TEdit
+        object Label23: TLabel
+          Left = 2
+          Top = 123
+          Width = 373
+          Height = 13
+          Align = alBottom
+          Caption = 'Xml retornado'
+          ExplicitWidth = 67
+        end
+        object edtconsultaChave: TEdit
           Left = 16
           Top = 53
           Width = 321
           Height = 21
           Alignment = taCenter
           TabOrder = 0
-          Text = '41210605651966001184550060006762371639684850'
+          Text = 'NFe35210703075319000174550017141406231001119998'
         end
         object btconsultar: TButton
           Left = 16
-          Top = 104
+          Top = 80
           Width = 75
           Height = 25
           Caption = 'consultar'
           TabOrder = 1
           OnClick = btconsultarClick
+        end
+        object memoxmlRetornado: TMemo
+          Left = 2
+          Top = 136
+          Width = 373
+          Height = 136
+          Align = alBottom
+          Lines.Strings = (
+            'memoxmlRetornado')
+          TabOrder = 2
         end
       end
     end

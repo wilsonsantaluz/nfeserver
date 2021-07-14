@@ -300,7 +300,7 @@ procedure TNfeHttpHandler.processRequest;
 begin
   if assigned(RequestInfo) then
   begin
-    if   UpperCase(FfilterPath) =  UpperCase(RequestInfo.URI) then
+    if   UpperCase(FfilterPath) = copy( UpperCase(RequestInfo.URI),0,length(FfilterPath)) then
     begin
       case Command of
         vrget:

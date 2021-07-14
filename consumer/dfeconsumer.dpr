@@ -19,7 +19,8 @@ uses
   dfe.model.cartaCorrecaoRequest in '..\model\request\dfe.model.cartaCorrecaoRequest.pas',
   dfe.model.cartaCorrecao in '..\model\dfe.model.cartaCorrecao.pas',
   dfe.databinding.nfe_v400 in '..\databinding\dfe.databinding.nfe_v400.pas',
-  dfe.lib.util in '..\lib\dfe.lib.util.pas';
+  dfe.lib.util in '..\lib\dfe.lib.util.pas',
+  consumer.model.nfe in 'model\consumer.model.nfe.pas';
 
 {$R *.res}
 

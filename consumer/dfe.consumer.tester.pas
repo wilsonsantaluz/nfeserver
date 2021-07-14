@@ -124,9 +124,11 @@ type
     Label21: TLabel;
     edtanoinu: TEdit;
     GroupBox4: TGroupBox;
-    edtconsulta: TEdit;
+    edtconsultaChave: TEdit;
     Label22: TLabel;
     btconsultar: TButton;
+    memoxmlRetornado: TMemo;
+    Label23: TLabel;
     procedure bt_xmltojsonClick(Sender: TObject);
     procedure bt_jsontoxmlClick(Sender: TObject);
     procedure cboperacaoChange(Sender: TObject);
@@ -138,7 +140,10 @@ type
 
   private
     { Private declarations }
-    FdanfeBase64: string;
+    // VARIAVEIS QUE SERÃO USADAS PARA RETORNO NA THREAD DE CONSULTA
+
+    FxmlNotaConsulta: string;
+
     procedure processarRetorno(Sender: TObject);
     procedure processarRetornoConsulta(Sender: TObject);
 
@@ -158,43 +163,26 @@ implementation
 
 uses
 
-  dfe.lib.XmltoJson, dfe.lib.jsontoXml;
+  dfe.lib.XmltoJson,
+  consumer.model.nfe,
+  dfe.lib.jsontoXml;
 {$R *.dfm}
 
 procedure Tfconsumer.getXmlDanfe(chave: string);
 var
-  outfile: TFileStream;
-  strfile: TStringStream;
-  sfile: string;
-  astrean: TStringStream;
-  danfeBase64: string;
   Client: ThttpClient;
 begin
-  FdanfeBase64 := '';
+  // REALIZA A CONSULTA EM FORMA DE THREAD
+
   Client := ThttpClient.Create(true);
   Client.host := edtendereco.Text;
   Client.Param := '{"chave":"' + chave + '"}';
   Client.TipoRequest := vget;
   Client.Paht := '/dfeapi/nfe';
   Client.OnTerminate := processarRetornoConsulta;
-  Client.FreeOnTerminate := true;
+  Client.FreeOnTerminate := false;
   Client.resume;
   edtnumeronota.Text := '';
-
-  if FdanfeBase64 <> '' then
-  begin
-    sfile := ExtractFilePath(GetModuleName(HInstance)) + name;
-    astrean := TStringStream.Create(danfeBase64);
-    outfile := TFileStream.Create(sfile, fmCreate or fmOpenRead);
-    try
-      TNetEncoding.base64.Decode(astrean, outfile);
-      FreeAndNil(outfile);
-      ShellExecute(Handle, nil, PChar(sfile), nil, nil, SW_SHOWNORMAL);
-    finally
-      FreeAndNil(outfile);
-      FreeAndNil(astrean);
-    end;
-  end;
 
 end;
 
@@ -231,7 +219,7 @@ begin
     raise Exception.Create('Serie da nota deve ser informado');
   if soNumeros(edtCodNumerico.Text) = '' then
     raise Exception.Create('Código numerico da nota deve ser informado');
-   //SAO PAULO
+  // SAO PAULO
   schave := MontaChaveAcessoNFe(35, dataEmiss, edtcnpj.Text, 55,
     strtoint(edtserienota.Text), strtoint(edtnumeronota.Text),
     strtoint(edtCodNumerico.Text), 2);
@@ -247,7 +235,7 @@ begin
   nota.InfNFe.Versao := '4.00';
   with nota.InfNFe.Ide do
   begin
-    cUF := '35';
+    cUF := '41';
     cNF := edtCodNumerico.Text;
     natOp := 'VENDA PRODUTO';
     Mod_ := '55';
@@ -257,7 +245,7 @@ begin
     dhSaiEnt := DateToISO8601(dataEmiss, false);
     tpNF := '1';
     idDest := '1';
-    cMunFG := '3505708';
+    cMunFG := '4104808';
     tpImp := '1';
     tpEmis := '1'; // NORMAL
     cDV := '0';
@@ -271,15 +259,15 @@ begin
   with nota.InfNFe.Emit do
   begin
     CNPJ := edtcnpj.Text;
-    xNome := 'WILSON RODRIGUES DA LUZ';
-    xFant := 'WS INFORMATICA';
-    enderEmit.xLgr := 'R JOSE CARLOS MUFATTO, 2560';
-    enderEmit.nro := '2560';
-    enderEmit.xBairro := 'JD RIVIERA';
-    enderEmit.cMun := '4103701';
-    enderEmit.xMun := 'CAMBE';
-    enderEmit.UF := 'SP';
-    enderEmit.CEP := '3505708';
+    xNome := 'EMPARE - EMPRESA PAULISTA DE REFRIGERANTES LTDA';
+    xFant := 'EMPARE MATRIZ';
+    enderEmit.xLgr := 'AV ANDROMEDA';
+    enderEmit.nro := '885';
+    enderEmit.xBairro := 'GREEN VALLEY ALPHAVILLE';
+    enderEmit.cMun := '4104808';
+    enderEmit.xMun := 'CASCAVEL';
+    enderEmit.UF := 'PR';
+    enderEmit.CEP := '85801040';
     enderEmit.cPais := '1058';
     enderEmit.xPais := 'BRASIL';
     IE := edtie.Text;
@@ -289,20 +277,20 @@ begin
   end;
   with nota.InfNFe.Dest do
   begin
-    CNPJ := '12044700001724';
-    xNome := 'destinatariox';
-    enderDest.xLgr := 'UNKNOW STREET';
-    enderDest.nro := '780';
-    enderDest.xBairro := 'BIGORRILHO';
-    enderDest.cMun := '3505708';
-    enderDest.xMun := 'SAO PAULO';
-    enderDest.UF := 'SP';
-    enderDest.CEP := '80730402';
+    CNPJ := '09085717/0012-00';
+    xNome := 'FILIAL 2 FLACER';
+    enderDest.xLgr := 'AV LUIS STAMATIS';
+    enderDest.nro := '41';
+    enderDest.xBairro := 'VILA CONSTANCIA';
+    enderDest.cMun := '4104808';
+    enderDest.xMun := 'PARANA';
+    enderDest.UF := 'PR';
+    enderDest.CEP := '02260000';
     enderDest.cPais := '1058';
     enderDest.xPais := 'BRASIL';
     indIEDest := '1';
-    IE := '9084192942';
-    email := 'destinatario@mail.com';
+    IE := '9075777598';
+    email := '';
   end;
   // ADOCIONAR OS PRODUTOS
   with nota.InfNFe.Det.Add do
@@ -571,23 +559,59 @@ end;
 
 procedure Tfconsumer.processarRetornoConsulta(Sender: TObject);
 var
-  sresult: string;
+  Fnotas: Tnotas;
   Fclient: ThttpClient;
+  outfile: TFileStream;
+  strfile: TStringStream;
+  sfile: string;
+  astrean: TStringStream;
 
 begin
-  Fclient := ThttpClient(Sender);
-  if assigned(Fclient) then
-  begin
-    sresult := Fclient.response;
-    FdanfeBase64 := sresult;
+  try
+    Fclient := ThttpClient(Sender);
+    if assigned(Fclient) then
+    begin
+      FxmlNotaConsulta := '';
+      //SERIALIZAR A CLASSE DE NOTAS
+      Fnotas := Tjson.JsonToObject<Tnotas>(Fclient.response);
+      if Fnotas.Count > 0 then
+      begin
+
+        FxmlNotaConsulta := Fnotas.Items[0].Xml;
+        memoxmlRetornado.Lines.Text:=FxmlNotaConsulta;
+        if Fnotas.Items[0].danfe <> '' then
+        begin
+          sfile := ExtractFilePath(GetModuleName(HInstance)) + Fnotas.Items[0]
+            .chave + '.pdf';
+          astrean := TStringStream.Create(Fnotas.Items[0].danfe);
+          outfile := TFileStream.Create(sfile, fmCreate or fmOpenRead);
+          try
+            TNetEncoding.base64.Decode(astrean, outfile);
+            FreeAndNil(outfile);
+            ShellExecute(Handle, nil, PChar(sfile), nil, nil, SW_SHOWNORMAL);
+          finally
+            FreeAndNil(outfile);
+            FreeAndNil(astrean);
+          end;
+        end
+        else
+          ShowMessage('nota sem danfe armazenado !');
+      end
+      else
+        ShowMessage('nota não localizada  !');
+    end;
+  except
+    { TODO }
+
   end;
+
 end;
 
 { ------------------------------------------------------------------------------ }
 procedure Tfconsumer.btconsultarClick(Sender: TObject);
 begin
-
-  getXmlDanfe(edtChave.Text)
+  memoxmlRetornado.lines.Clear;
+  getXmlDanfe(edtconsultaChave.Text)
 end;
 
 procedure Tfconsumer.btenviarClick(Sender: TObject);

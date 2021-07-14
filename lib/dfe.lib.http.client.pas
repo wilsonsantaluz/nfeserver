@@ -113,7 +113,8 @@ var
     if TstringStream(aresponse).DataString <> '' then
     begin
       try
-        aresponse := decompress(aresponse)
+        if Length( TstringStream(aresponse).DataString) > 1000 then
+          aresponse := decompress(aresponse)
       except
       end;
       Fresponse := TstringStream(aresponse).DataString;
@@ -137,7 +138,7 @@ begin
         vget:
           begin
 
-            myHttpCom.Get(Fhost + FPath + Fparam, aresponse);
+            myHttpCom.Get(Fhost + FPath + '?' + Fparam, aresponse);
             setresponse();
 
           end;

@@ -54,10 +54,13 @@ begin
       raise Exception.Create('Senha do arquivo de certificado não informada');
     if empresa.uf = '' then
       raise Exception.Create('A uf da empresa não foi informada');
-    emissor.Configuracoes.WebServices.IntervaloTentativas := 8 * 1000; //
-    emissor.Configuracoes.WebServices.AguardarConsultaRet := 8 * 1000;
-    ilatencia :=60 * 1000;
-    emissor.Configuracoes.WebServices.Tentativas := 10;
+
+    emissor.Configuracoes.WebServices.IntervaloTentativas := 500; //
+    emissor.Configuracoes.WebServices.AguardarConsultaRet := 500;
+    //AJUSTAR AQUI SE ESTIVER MUITO LENTO O RETORNO DA SEFAZ
+    //DIMINUIR O TEMPO DE ESPERA
+    ilatencia :=30 * 1000;
+    emissor.Configuracoes.WebServices.Tentativas := 5;
     emissor.Configuracoes.WebServices.TimeOut := ilatencia;
     emissor.Configuracoes.Geral.IdentarXML := false;
     emissor.Configuracoes.Geral.RetirarAcentos := True;
