@@ -75,7 +75,7 @@ begin
       Fdanfe.MostraStatus := false;
       Fdanfe.MostraSetup := false;
       Fdanfe.PathPDF := path;
-      Facbr.ImprimirEventoPDF;
+      Facbr.ImprimirInutilizacaoPDF;
 
       try
         strfile := TStringStream.create;
@@ -110,7 +110,6 @@ end;
 procedure TServiceInutilizar.inutilizar();
 var
   duplicidade: boolean;
-
   dao: TDaoInutilizacao;
 begin
   FcStat := 5001;
@@ -128,6 +127,11 @@ begin
       FInutilizacao.xmlEvento :=
         UTF8Encode(Facbr.WebServices.inutilizacao.RetornoWS);
       FcStat := Facbr.WebServices.inutilizacao.cStat;
+      if Facbr.InutNFe.ID = '' then
+      begin
+        Facbr.InutNFe.LerXMLFromString(FInutilizacao.xmlEvento);
+        Facbr.InutNFe.ID:=Facbr.WebServices.inutilizacao.ID;
+      end;
       if (FcStat = 102) or (FcStat = 563) then
       begin
         FInutilizacao.protocolo := Facbr.WebServices.inutilizacao.protocolo;

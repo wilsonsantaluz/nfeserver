@@ -103,7 +103,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 0
-          Text = '03075319000174'
+          Text = '10302127000119'
         end
         object edtCodNumerico: TEdit
           Left = 112
@@ -328,7 +328,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 0
-          Text = '669'
+          Text = '1'
         end
         object edtnunfinal: TEdit
           Tag = 700
@@ -338,7 +338,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 1
-          Text = '700'
+          Text = '1'
         end
         object edtjustinu: TEdit
           Left = 16
@@ -356,7 +356,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 3
-          Text = '1'
+          Text = '777'
         end
         object edtanoinu: TEdit
           Left = 88
@@ -365,7 +365,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 4
-          Text = '2020'
+          Text = '2021'
         end
       end
       object Edit1: TEdit

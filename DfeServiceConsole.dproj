@@ -161,12 +161,13 @@
         <DCC_ExeOutput>.\bin</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>2021</VerInfo_MajorVer>
-        <VerInfo_MinorVer>6</VerInfo_MinorVer>
-        <VerInfo_Release>1</VerInfo_Release>
+        <VerInfo_MinorVer>9</VerInfo_MinorVer>
+        <VerInfo_Release>23</VerInfo_Release>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Ws informatica;FileDescription=$(MSBuildProjectName);FileVersion=2021.6.1.0;InternalName=Nfe Service;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=Nfe Service;ProductName=$(MSBuildProjectName);ProductVersion=2021.6.1.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Ws informatica;FileDescription=$(MSBuildProjectName);FileVersion=2021.9.23.1000;InternalName=Nfe Service;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=Nfe Service;ProductName=$(MSBuildProjectName);ProductVersion=2021.9.23.1000;Comments=</VerInfo_Keys>
         <Manifest_File>(None)</Manifest_File>
         <DCC_UnitSearchPath>.\components\acbr\ACBrIntegrador;.\components\acbr\ACBrDFe\ACBrNFe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE\NFe\Fortes;.\components\acbr\ACBrDFe\ACBrNFe\PCNNFe;.\components\acbr\ACBrComum;.\components\acbr\ACBrOpenSSL;.\components\acbr\PCNComum;.\components\acbr\Terceiros;.\components\acbr\Terceiros\Ole;.\components\acbr\Terceiros\CodeGear;.\components\acbr\Terceiros\GZIPUtils;.\components\acbr\Terceiros\LibXmlSec;.\components\acbr\Terceiros\JsonDataObjects;.\components\acbr\Terceiros\JsonDataObjects\Source;.\components\acbr\Terceiros\ZLibExGZ;.\components\acbr\ACBrDFe;.\components\acbr\Terceiros\synalist;.\components\acbr\Terceiros\FastStringReplace;.\components\acbr\ACBrDiversos;.\components\acbr\ACBrTCP;.\components\acbr\ACBrIntegrador\pcnVFPe;.\components\acbr\ACBrDFe\ACBrNFe\DANFE;.\components\acbr\Terceiros\DelphiZXingQRCode;.\components\fortes\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_Build>1000</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>

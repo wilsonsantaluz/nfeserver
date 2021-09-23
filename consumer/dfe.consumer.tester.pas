@@ -524,11 +524,18 @@ begin
             // RETORNARA A CLASSE TInutilizacao
             responseInutilizacao := Tjson.JsonToObject<TInutilizacao>
               (Fclient.response);
-
-            memoviewxml.lines.Text := TNetEncoding.base64.Decode
-              (responseInutilizacao.xmlEvento);
+            try
+              memoviewxml.lines.Text := TNetEncoding.base64.Decode
+                (responseInutilizacao.xmlEvento);
+            except
+              memoviewxml.lines.Text := responseInutilizacao.xmlEvento;
+            end;
             ShowMessage(IntToStr(responseInutilizacao.cstat) + ' - ' +
               responseInutilizacao.xmotivo);
+
+            ImprimirDanfeRetornado(responseInutilizacao.danfe,
+              'Inutilizacao-' + IntToStr(responseInutilizacao.numeroInicial) +
+              '_' + IntToStr(responseInutilizacao.numeroFinal) + '.pdf');
           except
             on e: Exception do
               // TODO
@@ -572,13 +579,13 @@ begin
     if assigned(Fclient) then
     begin
       FxmlNotaConsulta := '';
-      //SERIALIZAR A CLASSE DE NOTAS
+      // SERIALIZAR A CLASSE DE NOTAS
       Fnotas := Tjson.JsonToObject<Tnotas>(Fclient.response);
       if Fnotas.Count > 0 then
       begin
 
         FxmlNotaConsulta := Fnotas.Items[0].Xml;
-        memoxmlRetornado.Lines.Text:=FxmlNotaConsulta;
+        memoxmlRetornado.lines.Text := FxmlNotaConsulta;
         if Fnotas.Items[0].danfe <> '' then
         begin
           sfile := ExtractFilePath(GetModuleName(HInstance)) + Fnotas.Items[0]
@@ -626,7 +633,6 @@ begin
   operacao := cboperacao.Text;
   Client := ThttpClient.Create(true);
   try
-
     Client.host := edtendereco.Text;
     Client.Param := memorequest.lines.Text;
     Client.TipoRequest := vpost;
@@ -701,7 +707,6 @@ begin
           reqInutilizar.modelo := 55;
           reqInutilizar.justificativa := edtjustinu.Text;
           reqInutilizar.ano := strtoint(edtanoinu.Text);
-
           memorequest.lines.Text := Tjson.ObjectToJsonString(reqInutilizar);
         finally
           FreeAndNil(reqInutilizar);

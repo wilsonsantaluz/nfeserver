@@ -219,7 +219,8 @@ begin
   finally
     if assigned(notas) then
       FreeAndNil(notas);
-    FreeAndNil(dao);
+    if assigned(dao) then
+      FreeAndNil(dao);
   end;
 end;
 
