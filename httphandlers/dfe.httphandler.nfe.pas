@@ -58,7 +58,7 @@ var
 begin
   controller := TNnfeController.create;
   try
-    ResponseInfo.ContentText :=controller.cartaCorrecao(jValue);
+    ResponseInfo.ContentText := controller.cartaCorrecao(jValue);
   finally
     FreeAndNil(controller);
   end;
@@ -67,12 +67,12 @@ end;
 
 constructor TNfeHttpHandler.create;
 begin
-  OnProcessRequest := processrequest;
+  OnProcessRequest := processRequest;
   FfilterPath := '/dfeapi/nfe';
 end;
 
 { ------------------------------------------------------------------------------ }
-procedure TNfeHttpHandler.getInfo ;
+procedure TNfeHttpHandler.getInfo;
 var
   controller: TNnfeController;
 begin
@@ -84,7 +84,7 @@ begin
       CoInitialize(nil);
 {$ENDIF MSWINDOWS}
       try
-         ResponseInfo.ContentText :=  controller.GetInfo;
+        ResponseInfo.ContentText := controller.getInfo;
       except
         on E: Exception do
         begin
@@ -92,7 +92,7 @@ begin
         end;
       end;
     finally
-      FreeAndNil(controller) ;
+      FreeAndNil(controller);
 {$IFDEF MSWINDOWS}
       CoUninitialize;
 {$ENDIF MSWINDOWS}
@@ -107,7 +107,7 @@ var
 begin
   controller := TNnfeController.create;
   try
-   ResponseInfo.ContentText := controller.cancelarNfe(jValue);
+    ResponseInfo.ContentText := controller.cancelarNfe(jValue);
   finally
     FreeAndNil(controller);
   end;
@@ -125,7 +125,7 @@ var
 begin
   controller := TNnfeController.create;
   try
-    ResponseInfo.ContentText :=controller.inutilizarNfe(jValue);
+    ResponseInfo.ContentText := controller.inutilizarNfe(jValue);
   finally
     FreeAndNil(controller);
   end;
@@ -207,6 +207,7 @@ begin
 {$ENDIF MSWINDOWS}
   end;
 end;
+
 procedure TNfeHttpHandler.listarNfe;
 var
   controller: TNnfeController;
@@ -243,7 +244,7 @@ begin
     CoInitialize(nil);
 {$ENDIF MSWINDOWS}
     try
-     ResponseInfo.ContentText := controller.validarNfe(jValue);
+      ResponseInfo.ContentText := controller.validarNfe(jValue);
     except
       on E: Exception do
       begin
@@ -263,10 +264,10 @@ procedure TNfeHttpHandler.handlePostRequest;
 
 var
   jv: TJSONValue;
-  s:string;
+  s: string;
 begin
-  s:=jValue.ToString;
-  s:='';
+  s := jValue.ToString;
+  s := '';
   try
     if (isjason) and (assigned(jValue)) and (assigned(jValue.Get('operacao')))
     then
@@ -278,16 +279,14 @@ begin
         cancelar
       else if jv.Value = 'inutilizacao' then
         inutilizar
-       else if jv.Value = 'cartacorrecao' then
+      else if jv.Value = 'cartacorrecao' then
         cartaCorrecao
       else if jv.Value = 'imprimir' then
         imprimir
       else
         raise Exception.create('operacao desconhecida ' + jv.Value);
 
-    end
-    else
-      raise Exception.create('Parametros de operação não informados');
+    end;
   except
     on E: Exception do
     begin
@@ -296,11 +295,13 @@ begin
 
   end;
 end;
+
 procedure TNfeHttpHandler.processRequest;
 begin
   if assigned(RequestInfo) then
   begin
-    if   UpperCase(FfilterPath) = copy( UpperCase(RequestInfo.URI),0,length(FfilterPath)) then
+    if UpperCase(FfilterPath) = copy(UpperCase(RequestInfo.URI), 0,
+      length(FfilterPath)) then
     begin
       case Command of
         vrget:
@@ -311,11 +312,10 @@ begin
           begin
             handlePostRequest();
           end;
-       vrPost:
+        vrPost:
           begin
             handlePostRequest();
           end;
-
 
       end;
     end;

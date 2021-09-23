@@ -22,6 +22,7 @@ Type
     FxmlEvento: string;
     Fxmotivo:string;
     Fcstat:integer;
+    Fdanfe:string;
   public
 
   published
@@ -36,6 +37,7 @@ Type
     property xmotivo: string read Fxmotivo write Fxmotivo;
     property cstat: integer read Fcstat write Fcstat;
     property xmlEvento: string read FxmlEvento write FxmlEvento;
+    property danfe: string read Fdanfe write Fdanfe;
   end;
 type
   TInutilizacoes = TObjectList<TInutilizacao>;

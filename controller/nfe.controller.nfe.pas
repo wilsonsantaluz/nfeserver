@@ -179,6 +179,7 @@ var
     response.cstat := inutilizacao.cstat;
     response.xmotivo := inutilizacao.xmotivo;
     response.protocolo := inutilizacao.protocolo;
+    response.danfe := inutilizacao.danfe;
   end;
 
 begin
@@ -234,7 +235,7 @@ begin
       cartas := dao.listCartaCorrecaos(pjson)
     else
       cartas := dao.listCartaCorrecaos(Nil);
-    result := tjson.ObjectToJsonString(cartas );
+    result := tjson.ObjectToJsonString(cartas);
   finally
     if assigned(cartas) then
       FreeAndNil(cartas);
@@ -253,7 +254,7 @@ begin
     if assigned(pjson) then
       inutilizacoes := dao.listInutilizacaos(pjson)
     else
-     inutilizacoes := dao.listInutilizacaos(Nil);
+      inutilizacoes := dao.listInutilizacaos(Nil);
     result := tjson.ObjectToJsonString(inutilizacoes);
   finally
     if assigned(inutilizacoes) then
@@ -265,13 +266,13 @@ end;
 { ----------------------------------------------------------------------------- }
 function TNnfeController.listarCancelamentos(pjson: TJSONObject): string;
 var
-  dao:TDaoCancelamento;
+  dao: TDaoCancelamento;
   cancelamentos: Tcancelamentos;
 begin
   dao := TDaoCancelamento.create;
   try
     if assigned(pjson) then
-      cancelamentos := dao.listCancelamentos (pjson)
+      cancelamentos := dao.listCancelamentos(pjson)
     else
       cancelamentos := dao.listCancelamentos(Nil);
     result := tjson.ObjectToJsonString(cancelamentos);

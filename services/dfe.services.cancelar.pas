@@ -43,8 +43,8 @@ type
   private
     Facbr: TACBrNFe;
     FdanfeBase64: string;
-    FcStat: integer;
     Fdanfe: TACBrNFeDANFeRL;
+    FcStat: integer;
     Fempresa: TEmpresa;
     Fcancelamento: Tcancelamento;
     Fmotivo: string;
