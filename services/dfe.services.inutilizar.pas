@@ -63,6 +63,8 @@ begin
   try
     Fdanfe := TACBrNFeDANFeRL.create(Nil);
     Facbr.DANFE := Fdanfe;
+    Fdanfe.Sistema := '® Nfe-Server © 2021-2022';
+
     try
       path := ExtractFilePath(GetModuleName(HInstance)) + 'reports\';
       ForceDirectories(path);
@@ -130,11 +132,20 @@ begin
       if Facbr.InutNFe.ID = '' then
       begin
         Facbr.InutNFe.LerXMLFromString(FInutilizacao.xmlEvento);
-        Facbr.InutNFe.ID:=Facbr.WebServices.inutilizacao.ID;
+        Facbr.InutNFe.ID := Facbr.WebServices.inutilizacao.ID;
       end;
       if (FcStat = 102) or (FcStat = 563) then
       begin
         FInutilizacao.protocolo := Facbr.WebServices.inutilizacao.protocolo;
+        // FORÇAR PREENCHIMENTO DOS DADOS NA INUTILIZAÇÃO
+        Facbr.InutNFe.RetInutNFe.nProt := FInutilizacao.protocolo;
+        Facbr.InutNFe.RetInutNFe.dhRecbto :=
+          Facbr.WebServices.inutilizacao.dhRecbto;
+        Facbr.InutNFe.RetInutNFe.versao :=
+          Facbr.WebServices.inutilizacao.versao;
+        Facbr.InutNFe.RetInutNFe.tpAmb := Facbr.WebServices.inutilizacao.tpAmb;
+        Facbr.InutNFe.RetInutNFe.xJust := FInutilizacao.justificativa;
+        Facbr.InutNFe.RetInutNFe.modelo := FInutilizacao.modelo;
         FdanfeBase64 := gerarDanfeBase64;
         FInutilizacao.DANFE := FdanfeBase64;
 

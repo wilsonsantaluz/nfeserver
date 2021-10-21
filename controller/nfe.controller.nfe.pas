@@ -180,6 +180,7 @@ var
     response.xmotivo := inutilizacao.xmotivo;
     response.protocolo := inutilizacao.protocolo;
     response.danfe := inutilizacao.danfe;
+    response.modelo:=request.modelo;
   end;
 
 begin
