@@ -210,7 +210,7 @@ begin
   dataEmiss := Now;
   if (edtnumeronota.Text = '') or (edtnumeronota.Text = '0') then
   begin
-    edtnumeronota.Text := FormatDateTime('MMDDHHmmss', Now)
+    edtnumeronota.Text := FormatDateTime('DDHHmmss', Now)
   end;
 
   if soNumeros(edtcnpj.Text) = '' then
@@ -626,7 +626,7 @@ var
   operacao: string;
   Client: ThttpClient;
 begin
-
+  //ALTERADO PARA REALIZAR O ENVIO DE FORMA SINCRONA
   if memorequest.lines.Text = '' then
     raise Exception.Create('request não informado');
 
@@ -637,9 +637,11 @@ begin
     Client.Param := memorequest.lines.Text;
     Client.TipoRequest := vpost;
     Client.Paht := '/dfeapi/nfe';
-    Client.OnTerminate := processarRetorno;
+    //Client.OnTerminate := processarRetorno;
     Client.FreeOnTerminate := true;
-    Client.resume;
+    //CHAMAR O EXECUTE PARA PROCESSAMENTO SINCRONO
+    Client.Execute;
+    processarRetorno(Client);
     edtnumeronota.Text := '';
   finally
     { todo }

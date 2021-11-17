@@ -103,7 +103,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 0
-          Text = '10302127000119'
+          Text = '11395536000170'
         end
         object edtCodNumerico: TEdit
           Left = 112
@@ -375,7 +375,7 @@ object fconsumer: Tfconsumer
         Height = 21
         Alignment = taRightJustify
         TabOrder = 4
-        Text = '03075319000174'
+        Text = '11395536000170'
       end
       object GroupBox4: TGroupBox
         Left = 544
