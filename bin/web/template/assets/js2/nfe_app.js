@@ -1,4 +1,4 @@
-var _HOST = 'http://192.168.56.1:4475'  //{nodefined}
+var _HOST = 'http://192.168.0.104:4475'  //{nodefined}
 var _CT_SERVER_NFSE_WEBSOCK = 'http://localhost:30086';//NÃO ALTERAR ESTA LINHA
 var _CT_SERVER_NFE          =  _HOST + '/dfeapi/nfe';
 var _CT_SERVER_INU          =  _HOST + '/dfeapi/inutilizacoes';
