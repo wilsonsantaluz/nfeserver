@@ -18,6 +18,7 @@ Type
     Fmodelo: integer;
     Fano: integer;
     Fjustificativa: string;
+    FdhRecbto:TDateTime;
     Fprotocolo: string;
     FxmlEvento: string;
     Fxmotivo:string;
@@ -38,6 +39,7 @@ Type
     property cstat: integer read Fcstat write Fcstat;
     property xmlEvento: string read FxmlEvento write FxmlEvento;
     property danfe: string read Fdanfe write Fdanfe;
+    property dhRecbto: TDateTime read FdhRecbto write FdhRecbto;
   end;
 type
   TInutilizacoes = TObjectList<TInutilizacao>;

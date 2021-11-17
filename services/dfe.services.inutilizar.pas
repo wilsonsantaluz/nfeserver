@@ -141,6 +141,7 @@ begin
         Facbr.InutNFe.RetInutNFe.nProt := FInutilizacao.protocolo;
         Facbr.InutNFe.RetInutNFe.dhRecbto :=
           Facbr.WebServices.inutilizacao.dhRecbto;
+        FInutilizacao.dhRecbto:=Facbr.WebServices.inutilizacao.dhRecbto;
         Facbr.InutNFe.RetInutNFe.versao :=
           Facbr.WebServices.inutilizacao.versao;
         Facbr.InutNFe.RetInutNFe.tpAmb := Facbr.WebServices.inutilizacao.tpAmb;

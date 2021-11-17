@@ -181,6 +181,7 @@ var
     response.protocolo := inutilizacao.protocolo;
     response.danfe := inutilizacao.danfe;
     response.modelo:=request.modelo;
+    response.dhRecbto:=inutilizacao.dhRecbto;
   end;
 
 begin
@@ -190,6 +191,7 @@ begin
     inutilizacao.Cnpj := request.Cnpj;
     inutilizacao.numeroInicial := request.numeroInicial;
     inutilizacao.numeroFinal := request.numeroFinal;
+
     inutilizacao.Serie := request.Serie;
     inutilizacao.ano := request.ano;
     inutilizacao.modelo := request.modelo;

@@ -121,7 +121,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 2
-          Text = '0'
+          Text = '1'
         end
         object edtserienota: TEdit
           Left = 112
@@ -157,7 +157,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taRightJustify
           TabOrder = 6
-          Text = '5460200'
+          Text = '2739348'
         end
       end
       object GroupBox2: TGroupBox
@@ -245,11 +245,12 @@ object fconsumer: Tfconsumer
         end
         object edtProtocolocancelamento: TEdit
           Left = 112
-          Top = 117
+          Top = 120
           Width = 121
           Height = 21
           Alignment = taRightJustify
           TabOrder = 3
+          Text = '342210177972306'
         end
         object edtJustificativa: TEdit
           Left = 112
@@ -407,7 +408,7 @@ object fconsumer: Tfconsumer
           Height = 21
           Alignment = taCenter
           TabOrder = 0
-          Text = 'NFe35210703075319000174550017141406231001119998'
+          Text = '42210931447793000115550010000378221679769450'
         end
         object btconsultar: TButton
           Left = 16
@@ -484,22 +485,40 @@ object fconsumer: Tfconsumer
           Align = alBottom
           TabOrder = 1
           object btenviar: TButton
-            Left = 102
-            Top = 6
-            Width = 75
-            Height = 25
-            Caption = 'Enviar'
+            Left = 214
+            Top = 3
+            Width = 116
+            Height = 30
+            Caption = 'Enviar NFE'
             TabOrder = 0
             OnClick = btenviarClick
           end
-          object btgerarJson: TButton
-            Left = 21
-            Top = 6
-            Width = 75
-            Height = 25
-            Caption = 'Gerar'
+          object btCancelamento: TButton
+            Left = 334
+            Top = 3
+            Width = 116
+            Height = 30
+            Caption = 'Enviar Cancelamento'
             TabOrder = 1
-            OnClick = btgerarJsonClick
+            OnClick = btCancelamentoClick
+          end
+          object btCarta: TButton
+            Left = 456
+            Top = 3
+            Width = 116
+            Height = 30
+            Caption = 'Enviar Carta Core'#231#227'o'
+            TabOrder = 2
+            OnClick = btCartaClick
+          end
+          object btInutilizar: TButton
+            Left = 576
+            Top = 3
+            Width = 116
+            Height = 30
+            Caption = 'Enviar Inutiliza'#231#227'o'
+            TabOrder = 3
+            OnClick = btInutilizarClick
           end
         end
         object memoviewxml: TMemo
@@ -532,6 +551,20 @@ object fconsumer: Tfconsumer
             Width = 69
             Height = 13
             Caption = 'opera'#231#227'o post'
+          end
+          object Label24: TLabel
+            Left = 312
+            Top = 8
+            Width = 106
+            Height = 18
+            Caption = 'Data Hora Inutilizacao'
+          end
+          object lblDataHoraInut: TLabel
+            Left = 432
+            Top = 8
+            Width = 24
+            Height = 13
+            Caption = '0000'
           end
           object cboperacao: TComboBox
             Left = 93
@@ -576,7 +609,7 @@ object fconsumer: Tfconsumer
         Align = alTop
         TabOrder = 1
         object Label1: TLabel
-          Left = 16
+          Left = 96
           Top = 16
           Width = 45
           Height = 13
