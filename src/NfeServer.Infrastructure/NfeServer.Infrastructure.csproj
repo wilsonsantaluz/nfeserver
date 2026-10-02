@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NfeServer.UnitTests" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="MongoDB.Driver" Version="3.12.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+    <PackageReference Include="Zeus.Net.NFe.Danfe.PdfClown" Version="2026.9.24.1416" />
+    <PackageReference Include="Zeus.Net.NFe.Danfe.QuestPdf" Version="2026.9.24.1416" />
+    <PackageReference Include="Zeus.Net.NFe.NFCe" Version="2026.9.24.1416" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NfeServer.Application\NfeServer.Application.csproj" />
+  </ItemGroup>
+
+</Project>
