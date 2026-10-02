@@ -1,1 +1,0 @@
-c:\lazarus\tools\lazres.exe ACBrNF3eServicos.res ACBrNF3eServicos.ini
